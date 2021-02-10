@@ -25,20 +25,17 @@ class Conversation
 
     /**
      * @var Collection<Participant>
-     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation", nullable=false)
+     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation")
      */
     private Collection $participants;
 
     /**
      * @ORM\OneToOne(targetEntity="Message")
-     * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id")
      */
-    private Message $lastMessage;
+    private ?Message $lastMessage = null;
 
-    /**
-     * @var Collection<Message>
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="conversation", nullable=false)
-     */
+    /** @ORM\OneToMany(targetEntity="Message", mappedBy="conversation") */
     private Collection $messages;
 
     public function __construct()

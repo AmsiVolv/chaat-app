@@ -43,7 +43,7 @@ class SampleCommand extends Command
         $this->io->title(self::DESCRIPTION);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         return 0;
     }

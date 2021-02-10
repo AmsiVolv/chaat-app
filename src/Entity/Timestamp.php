@@ -23,7 +23,7 @@ trait Timestamp
     /**
      * @ORM\PrePersist()
      */
-    public function prePersist()
+    public function prePersist(): void
     {
         $this->createdAt = new DateTime();
     }

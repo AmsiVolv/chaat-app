@@ -28,13 +28,13 @@ class User implements UserInterface
 
     /**
      * @var Collection<Participant>
-     * @ORM\OneToMany(targetEntity="Participant", mappedBy="user", nullable=false)
+     * @ORM\OneToMany(targetEntity="Participant", mappedBy="user")
      */
     private Collection $participants;
 
     /**
      * @var Collection<Message>
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="user", nullable=false)
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="user")
      */
     private Collection $messages;
 
@@ -43,6 +43,9 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private string $password;
+
+    /** @ORM\Column(type="string", nullable=true) */
+    private ?string $salt;
 
     public function __construct()
     {
@@ -55,14 +58,9 @@ class User implements UserInterface
         return $this->id;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return $this->username;
     }
 
     public function setUsername(string $username): self
@@ -91,12 +89,9 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -109,15 +104,16 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
+        return $this->salt;
+//        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

@@ -22,10 +22,10 @@ use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 /**
- * Class AppAuthenticatorAuthenticator
+ * Class AppAuthentificatorAuthenticator
  * @package App\Security
  */
-class AppAuthenticatorAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
+class AppAuthentificatorAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
@@ -69,7 +69,7 @@ class AppAuthenticatorAuthenticator extends AbstractFormLoginAuthenticator imple
         return $credentials;
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider): Object
+    public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
@@ -78,7 +78,7 @@ class AppAuthenticatorAuthenticator extends AbstractFormLoginAuthenticator imple
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
-        if (!$user) {
+        if ($user !== null) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
@@ -105,7 +105,7 @@ class AppAuthenticatorAuthenticator extends AbstractFormLoginAuthenticator imple
         string $providerKey
     ): RedirectResponse {
         $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
-        if ($targetPath) {
+        if ($targetPath !== null) {
             return new RedirectResponse($targetPath);
         }
 

@@ -25,11 +25,11 @@ class Message
     /** @ORM\Column(type="text") */
     private string $content;
 
-    /** @ORM\ManyToOne(targetEntity="User", inversedBy="messages", nullable=false) */
-    private User $user;
+    /** @ORM\ManyToOne(targetEntity="User", inversedBy="messages") */
+    private ?User $user = null;
 
-    /** @ORM\ManyToOne(targetEntity="Conversation", inversedBy="messages", nullable=false ) */
-    private Conversation $conversation;
+    /** @ORM\ManyToOne(targetEntity="Conversation", inversedBy="messages" ) */
+    private ?Conversation $conversation = null;
 
     public function getId(): int
     {
@@ -41,18 +41,27 @@ class Message
         return $this->content;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function getConversation(): Conversation
+    public function getConversation(): ?Conversation
     {
         return $this->conversation;
     }
 
-    public function setConversation(Conversation $conversation): self
+    public function setConversation(?Conversation $conversation): self
     {
         $this->conversation = $conversation;
+
+        return $this;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
