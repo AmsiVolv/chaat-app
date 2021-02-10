@@ -1,20 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Trait Timestamp
+ * @package App\Entity
+ */
 trait Timestamp
 {
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
+    /** @ORM\Column(type="datetime") */
+    private DateTime $createdAt;
 
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
@@ -24,6 +25,6 @@ trait Timestamp
      */
     public function prePersist()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 }

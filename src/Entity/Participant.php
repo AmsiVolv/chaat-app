@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Class Participant
+ * @package App\Entity
  * @ORM\Entity(repositoryClass="App\Repository\ParticipantRepository")
  */
 class Participant
@@ -14,17 +17,13 @@ class Participant
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="participants")
-     */
-    private $user;
+    /** @ORM\ManyToOne(targetEntity="User", inversedBy="participants", nulable=false) */
+    private User $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Conversation", inversedBy="participants")
-     */
-    private $conversation;
+    /** @ORM\ManyToOne(targetEntity="Conversation", inversedBy="participants", nulable=false) */
+    private Conversation $conversation;
 
     public function getId(): ?int
     {
@@ -36,19 +35,19 @@ class Participant
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getConversation(): ?Conversation
+    public function getConversation(): Conversation
     {
         return $this->conversation;
     }
 
-    public function setConversation(?Conversation $conversation): self
+    public function setConversation(Conversation $conversation): self
     {
         $this->conversation = $conversation;
 

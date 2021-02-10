@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -17,33 +18,31 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
+
+    /** @ORM\Column(type="string", length=180, unique=true, nullable=false) */
+    private string $username;
+
+    /** @ORM\Column(type="json") */
+    private array $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @var Collection<Participant>
+     * @ORM\OneToMany(targetEntity="Participant", mappedBy="user", nullable=false)
      */
-    private $username;
+    private Collection $participants;
 
     /**
-     * @ORM\Column(type="json")
+     * @var Collection<Message>
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="user", nullable=false)
      */
-    private $roles = [];
-
-    /**
-     * @ORM\OneToMany(targetEntity="Participant", mappedBy="user")
-     */
-    private $participants;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="user")
-     */
-    private $messages;
+    private Collection $messages;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     public function __construct()
     {
@@ -125,7 +124,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Participant[]
+     * @return Collection<Participant>
      */
     public function getParticipants(): Collection
     {
@@ -156,7 +155,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Message[]
+     * @return Collection<Message>
      */
     public function getMessages(): Collection
     {

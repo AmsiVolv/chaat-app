@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -8,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 
 /**
+ * Class Conversation
+ * @package App\Entity
  * @ORM\Entity(repositoryClass="App\Repository\ConversationRepository")
  * @ORM\Table(indexes={@Index(name="last_message_id_index", columns={"last_message_id"})})
  */
@@ -18,23 +21,25 @@ class Conversation
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation")
+     * @var Collection<Participant>
+     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation", nullable=false)
      */
-    private $participants;
+    private Collection $participants;
 
     /**
      * @ORM\OneToOne(targetEntity="Message")
-     * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id", nullable=false)
      */
-    private $lastMessage;
+    private Message $lastMessage;
 
     /**
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="conversation")
+     * @var Collection<Message>
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="conversation", nullable=false)
      */
-    private $messages;
+    private Collection $messages;
 
     public function __construct()
     {
@@ -42,13 +47,13 @@ class Conversation
         $this->messages = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @return Collection|Participant[]
+     * @return Collection<Participant>
      */
     public function getParticipants(): Collection
     {
@@ -83,7 +88,7 @@ class Conversation
         return $this->lastMessage;
     }
 
-    public function setLastMessage(?Message $lastMessage): self
+    public function setLastMessage(Message $lastMessage): self
     {
         $this->lastMessage = $lastMessage;
 
@@ -91,7 +96,7 @@ class Conversation
     }
 
     /**
-     * @return Collection|Message[]
+     * @return Collection<Message>
      */
     public function getMessages(): Collection
     {

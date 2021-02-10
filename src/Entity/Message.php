@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -19,80 +20,39 @@ class Message
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $content;
+    /** @ORM\Column(type="text") */
+    private string $content;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="messages")
-     */
-    private $user;
+    /** @ORM\ManyToOne(targetEntity="User", inversedBy="messages", nullable=false) */
+    private User $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Conversation", inversedBy="messages")
-     */
-    private $conversation;
+    /** @ORM\ManyToOne(targetEntity="Conversation", inversedBy="messages", nullable=false ) */
+    private Conversation $conversation;
 
-    private $mine;
-
-
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getContent(): ?string
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getConversation(): ?Conversation
+    public function getConversation(): Conversation
     {
         return $this->conversation;
     }
 
-    public function setConversation(?Conversation $conversation): self
+    public function setConversation(Conversation $conversation): self
     {
         $this->conversation = $conversation;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMine()
-    {
-        return $this->mine;
-    }
-
-    /**
-     * @param mixed $mine
-     */
-    public function setMine($mine): void
-    {
-        $this->mine = $mine;
     }
 }
