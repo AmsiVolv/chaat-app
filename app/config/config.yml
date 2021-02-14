@@ -1,0 +1,7 @@
+imports:
+  - { resource: parameters.yml }
+  - { resource: security.yml }
+  - { resource: services.yml }
+  - { resource: rabbitmq.yml }
+  - { resource: webpack_encore.yml }
+  - { resource: services_test.yml }
