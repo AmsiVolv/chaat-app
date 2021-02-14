@@ -4,6 +4,17 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    #DTO
+    chat-app.userdto.salt:
+        class: '%kernel.project_dir%/src/DTO/UserDto'
+        arguments:
+            $salt: 'neco'
+
+    #ENTITY
+    chat-app.user.salt:
+        class: App\src\Entity\User
+        arguments:
+            $salt: 'neco'
 
 services:
     # default configuration for services in *this* file

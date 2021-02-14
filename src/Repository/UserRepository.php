@@ -5,6 +5,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -65,4 +67,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+
+    /**
+     * @param User $user
+     * @return User
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function store(User $user)
+    {
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush($user);
+
+        return $user;
+    }
 }

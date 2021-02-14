@@ -6,10 +6,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface
 {
@@ -22,6 +24,11 @@ class User implements UserInterface
 
     /** @ORM\Column(type="string", length=180, unique=true, nullable=false) */
     private string $username;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private string $email;
 
     /** @ORM\Column(type="json") */
     private array $roles = [];
@@ -47,8 +54,21 @@ class User implements UserInterface
     /** @ORM\Column(type="string", nullable=true) */
     private ?string $salt;
 
-    public function __construct()
-    {
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isVerified = false;
+
+    public function __construct(
+      string $username,
+      string $email,
+      string $password,
+    ) {
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = $password;
+        $this->roles = ['ROLE_USER'];
+
         $this->participants = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
@@ -168,6 +188,11 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
     public function removeMessage(Message $message): self
     {
         if ($this->messages->contains($message)) {
@@ -177,6 +202,18 @@ class User implements UserInterface
                 $message->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

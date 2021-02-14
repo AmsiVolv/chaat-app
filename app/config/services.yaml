@@ -27,5 +27,17 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    #DTO
+    chat-app.userdto.salt:
+        class: App\src\DTO\UserDtp
+        arguments:
+            $salt: 'neco'
+
+    #ENTITY
+    chat-app.user.salt:
+        class: App\src\Entity\User
+        arguments:
+            $salt: 'neco's
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
