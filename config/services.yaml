@@ -12,7 +12,7 @@ parameters:
 
     #ENTITY
     chat-app.user.salt:
-        class: App\src\Entity\User
+        class: '%kernel.project_dir%/src/Entity/User'
         arguments:
             $salt: 'neco'
 

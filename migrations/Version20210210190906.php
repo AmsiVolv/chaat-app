@@ -46,4 +46,9 @@ final class Version20210210190906 extends AbstractMigration
         $this->addSql('ALTER TABLE `user` CHANGE username email VARCHAR(180) CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_unicode_ci`');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON `user` (email)');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

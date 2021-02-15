@@ -52,7 +52,7 @@ class User implements UserInterface
     private string $password;
 
     /** @ORM\Column(type="string", nullable=true) */
-    private ?string $salt;
+    private ?string $salt = 'neco';
 
     /**
      * @ORM\Column(type="boolean")

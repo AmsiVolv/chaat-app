@@ -30,4 +30,9 @@ final class Version20210213175952 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74 ON user');
         $this->addSql('ALTER TABLE user DROP email');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
