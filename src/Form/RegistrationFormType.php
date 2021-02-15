@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -46,16 +47,22 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add(self::EMAIL_FIELD, TextType::class,
+            ->add(
+                self::EMAIL_FIELD,
+                TextType::class,
                 array(
                     'data_class' => null,
                     'mapped' => false,
-                ))
-            ->add(self::USERNAME_FIELD, TextType::class,
+                )
+            )
+            ->add(
+                self::USERNAME_FIELD,
+                TextType::class,
                 array(
                     'data_class' => null,
                     'mapped' => false,
-                ))
+                )
+            )
         ;
     }
 

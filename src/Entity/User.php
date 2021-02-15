@@ -25,9 +25,7 @@ class User implements UserInterface
     /** @ORM\Column(type="string", length=180, unique=true, nullable=false) */
     private string $username;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
+    /** @ORM\Column(type="string", length=180, unique=true) */
     private string $email;
 
     /** @ORM\Column(type="json") */
@@ -54,15 +52,13 @@ class User implements UserInterface
     /** @ORM\Column(type="string", nullable=true) */
     private ?string $salt = 'neco';
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    /** @ORM\Column(type="boolean") */
     private bool $isVerified = false;
 
     public function __construct(
-      string $username,
-      string $email,
-      string $password,
+        string $username,
+        string $email,
+        string $password,
     ) {
         $this->username = $username;
         $this->email = $email;
