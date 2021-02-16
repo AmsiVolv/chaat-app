@@ -16,6 +16,8 @@ parameters:
         arguments:
             $salt: 'neco'
 
+    mercure_secret_key: '%mercure_secret_key_p%'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -37,6 +39,17 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Controller\ConversationController:
+        class: App\Controller\ConversationController
+        arguments:
+            $mercureDefaultHub: '%mercure.default_hub%'
+
+    App\Controller\IndexController:
+        class: App\Controller\IndexController
+        arguments:
+            $jwtToken: '%mercure_jwt_token%'
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -5,3 +5,6 @@ parameters:
     database_user:     root
     database_password: ~
     database_server_version: mariadb-10.1.33
+    mercure_publish_url: http://chat-app:3000/.well-known/mercure
+    mercure_jwt_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.5MI2HTNojCvMrZF_Hhii1tPpPSIoCrqapqCFDy1-Tuo
+    mercure_secret_key_p: chat-app

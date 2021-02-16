@@ -26,3 +26,10 @@ doctrine-migrations/2018/10/Version20181010100408.php
 web/uploads/frontend/*
 /web/tv/
 /.php_cs.cache
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
