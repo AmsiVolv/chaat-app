@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use DateTime;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\WebLink\Link;
 
 /**
  * Class IndexController
@@ -33,21 +32,29 @@ class IndexController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $hubUrl = $this->getParameter('mercure.default_hub');
-        $this->addLink($request, new Link('mercure', $hubUrl));
+        $username = $this->getUser()->getUsername();
 
-        $key = InMemory::plainText($this->jwtToken);
-        $configuration = Configuration::forSymmetricSigner(new Sha256(), $key);
-dd($key);
+        $key = InMemory::plainText('chat-app'); // don't forget to set this parameter! Test value: !ChangeMe!
+        $configuration = Configuration::forSymmetricSigner(new \Lcobucci\JWT\Signer\Hmac\Sha256(), $key);
+
         $token = $configuration->builder()
-            ->withClaim('mercure', ['subscribe' => ["http://example.com/books/1"]]) // can also be a URI template, or *
+            ->withClaim('mercure', ['subscribe' => [sprintf('%s', $username)]]) // can also be a URI template, or *
             ->getToken($configuration->signer(), $configuration->signingKey())
             ->toString();
 
-        dd($token);
+        $response = $this->json(['Done!']);
+        $cookie = Cookie::create('mercureAuthorization')
+            ->withValue($token)
+            ->withExpires((new DateTime())->add(
+                new \DateInterval('PT2H')
+            ))
+            ->withPath('/.well-known/mercure')
+            ->withSecure(true)
+            ->withHttpOnly(true)
+            ->withSameSite('strict');
 
-        return $this->render('index/index.html.twig', [
-            'controller_name' => 'IndexController',
-        ]);
+        $response->headers->setCookie($cookie);
+
+        return $response;
     }
 }

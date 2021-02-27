@@ -70,6 +70,7 @@
         "symfony/web-profiler-bundle": "^5.2"
     },
     "config": {
+        "platform-check": false,
         "optimize-autoloader": true,
         "preferred-install": {
             "*": "dist"

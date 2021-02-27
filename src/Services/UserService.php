@@ -23,6 +23,11 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
+    public function findByUserId(int $id): User
+    {
+        return $this->userRepository->find(['id' => 2]);
+    }
+
     /**
      * @param UserDto $userDto
      * @return User

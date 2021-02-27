@@ -77,7 +77,7 @@ class ConversationRepository extends ServiceEntityRepository
 //        return $qb->getQuery()->getResult();
 //    }
 //
-    public function findConversationsByUser(int $userId)
+    public function findConversationsByUser(int $userId): Conversation
     {
         $qb = $this->createQueryBuilder('c');
         $qb->
