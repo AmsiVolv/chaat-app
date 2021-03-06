@@ -7,7 +7,7 @@ use App\Assembler\UserDtoAssembler;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
-use App\Security\AppAuthentificatorAuthenticator;
+use App\Security\AppAuthenticatorAuthenticator;
 use App\Services\UserService;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,10 +39,10 @@ class RegistrationController extends AbstractController
      * @Route("/registration", name="registration")
      * @param Request $request
      * @param GuardAuthenticatorHandler $guardHandler
-     * @param AppAuthentificatorAuthenticator $authenticator
+     * @param AppAuthenticatorAuthenticator $authenticator
      * @return Response
      */
-    public function registrationAction(Request $request, GuardAuthenticatorHandler $guardHandler, AppAuthentificatorAuthenticator $authenticator): Response
+    public function registrationAction(Request $request, GuardAuthenticatorHandler $guardHandler, AppAuthenticatorAuthenticator $authenticator): Response
     {
         $form = $this->createForm(RegistrationFormType::class);
         $form->handleRequest($request);

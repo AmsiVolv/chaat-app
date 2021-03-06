@@ -6,6 +6,6 @@ parameters:
     database_user: cc_secure
     database_password: pass
     database_server_version: 10.4.17-MariaDB
-    mercure_publish_url: http://localhost:3000/.well-known/mercure
+    mercure_publish_url: 'http://localhost:3000/.well-known/mercure'
     mercure_jwt_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.xFbKCAtAZNSzCKcWLkCZZxpvkZ1cJhPNQrTmH151yKM
     mercure_secret_key_p: chat-app

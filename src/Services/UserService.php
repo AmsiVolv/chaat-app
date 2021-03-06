@@ -9,6 +9,7 @@ use App\Factory\UserFactory;
 use App\Repository\UserRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Throwable;
 
 /**
  * Class UserService
@@ -26,6 +27,16 @@ class UserService
     public function findByUserId(int $id): User
     {
         return $this->userRepository->find(['id' => 2]);
+    }
+
+    /**
+     * @param string $email
+     * @return User
+     * @throws Throwable
+     */
+    public function findByEmail(string $email): User
+    {
+        return $this->userRepository->getUserByEmail($email);
     }
 
     /**

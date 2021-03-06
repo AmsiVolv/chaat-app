@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Throwable;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -67,6 +69,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+
+    /**
+     * @param string $email
+     * @return User
+     * @throws Throwable
+     */
+    public function getUserByEmail(string $email): User
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb->
+            where($qb->expr()->eq('u.email', ':email'))
+            ->setParameter('email', $email);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 
     /**
      * @param User $user
