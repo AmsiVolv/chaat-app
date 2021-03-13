@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Conversation;
+use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use Throwable;
 
 /**
  * @method Conversation|null find($id, $lockMode = null, $lockVersion = null)
@@ -49,35 +51,34 @@ class ConversationRepository extends ServiceEntityRepository
         ;
     }
     */
-//    public function findConversationByParticipants(int $otherUserId, int $myId)
-//    {
-//        $qb = $this->createQueryBuilder('c');
-//        $qb
-//            ->select($qb->expr()->count('p.conversation'))
-//            ->innerJoin('c.participants', 'p')
-//            ->where(
-//                $qb->expr()->orX(
-//                    $qb->expr()->eq('p.user', ':me'),
-//                    $qb->expr()->eq('p.user', ':otherUser')
-//                )
-//            )
-//            ->groupBy('p.conversation')
-//            ->having(
-//                $qb->expr()->eq(
-//                    $qb->expr()->count('p.conversation'),
-//                    2
-//                )
-//            )
-//            ->setParameters([
-//                'me' => $myId,
-//                'otherUser' => $otherUserId,
-//            ])
-//        ;
-//
-//        return $qb->getQuery()->getResult();
-//    }
-//
-    public function findConversationsByUser(int $userId): Conversation
+    public function findConversationByParticipants(int $otherUserId, int $myId)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb
+            ->select($qb->expr()->count('p.conversation'))
+            ->innerJoin('c.participants', 'p')
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('p.user', ':me'),
+                    $qb->expr()->eq('p.user', ':otherUser')
+                )
+            )
+            ->groupBy('p.conversation')
+            ->having(
+                $qb->expr()->eq(
+                    $qb->expr()->count('p.conversation'),
+                    2
+                )
+            )
+            ->setParameters([
+                'me' => $myId,
+                'otherUser' => $otherUserId,
+            ])
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+    public function findConversationsByUser(int $userId): array
     {
         $qb = $this->createQueryBuilder('c');
         $qb->
@@ -94,7 +95,6 @@ class ConversationRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-//
 //    public function checkIfUserisParticipant(int $conversationId, int $userId)
 //    {
 //        $qb = $this->createQueryBuilder('c');
@@ -112,4 +112,32 @@ class ConversationRepository extends ServiceEntityRepository
 //
 //        return $qb->getQuery()->getOneOrNullResult();
 //    }
+
+    /**
+     * @param int $conversationId
+     * @return Conversation|null
+     * @throws Throwable
+     */
+    public function getById(int $conversationId): ?Conversation
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->where($qb->expr()->eq('c.id', ':id'))
+            ->setParameter('id', $conversationId);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param Conversation $conversation
+     * @return Conversation
+     * @throws Throwable
+     */
+    public function store(Conversation $conversation): Conversation
+    {
+        $this->getEntityManager()->persist($conversation);
+        $this->getEntityManager()->flush($conversation);
+
+        return $conversation;
+    }
 }

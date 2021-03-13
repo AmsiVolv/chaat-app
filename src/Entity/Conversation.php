@@ -38,6 +38,8 @@ class Conversation
     /** @ORM\OneToMany(targetEntity="Message", mappedBy="conversation") */
     private Collection $messages;
 
+    use Timestamp;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();

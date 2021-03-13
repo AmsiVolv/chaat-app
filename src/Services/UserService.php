@@ -9,6 +9,8 @@ use App\Factory\UserFactory;
 use App\Repository\UserRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
 /**
@@ -50,5 +52,16 @@ class UserService
         $user = UserFactory::createUserFromDto($userDto);
 
         return $this->userRepository->store($user);
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getUsernameFromRequest(Request $request): array
+    {
+        $username = $request->get('username');
+
+        return $this->userRepository->findUsersByUsername($username);
     }
 }

@@ -13,31 +13,8 @@
 
     This friendly message is coming from:
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/chaat-app/src/Controller/ConversationController.php'|file_link(0) }}">src/Controller/ConversationController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/chaat-app/templates/conversation/index.html.twig'|file_link(0) }}">templates/conversation/index.html.twig</a></code></li>
+        <li>Your controller at <code><a href="{{ '/home/konshensx/Desktop/tutorial/ChatApp/src/Controller/ConversationController.php'|file_link(0) }}">src/Controller/ConversationController.php</a></code></li>
+        <li>Your template at <code><a href="{{ '/home/konshensx/Desktop/tutorial/ChatApp/templates/conversation/index.html.twig'|file_link(0) }}">templates/conversation/index.html.twig</a></code></li>
     </ul>
 </div>
-{% endblock %}
-{% block javascripts %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-
-            fetch('discover')
-                .then(response => {
-                    // Extract the hub URL from the Link header
-                    const hubUrl = response.headers.get('Link').match(/<([^>]+)>;\s+rel=(?:mercure|"[^"]*mercure[^"]*")/)[1];
-
-                    // Append the topic(s) to subscribe as query parameter
-                    const url = new URL(hubUrl);
-                    url.searchParams.append('topic', '/chat')
-
-                    const eventSource = new EventSource(url);
-                    eventSource.onmessage = event => {
-                        // Will be called every time an update is published by the server
-                        console.log(JSON.parse(event.data));
-                    }
-                    eventSource.onmessage = event => console.log(event.data);
-                });
-        })
-    </script>
 {% endblock %}

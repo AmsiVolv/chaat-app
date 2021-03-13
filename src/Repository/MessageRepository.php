@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Throwable;
 
 /**
  * @method Message|null find($id, $lockMode = null, $lockVersion = null)
@@ -57,4 +58,26 @@ class MessageRepository extends ServiceEntityRepository
 //
 //        return $qb->getQuery()->getResult();
 //    }
+    public function findMessageByConversationId(int $conversationId): array
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb->where('m.conversation = :conversationId')
+            ->setParameter('conversationId', $conversationId)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Message $message
+     * @return Message
+     * @throws Throwable
+     */
+    public function store(Message $message): Message
+    {
+        $this->getEntityManager()->persist($message);
+        $this->getEntityManager()->flush($message);
+
+        return $message;
+    }
 }

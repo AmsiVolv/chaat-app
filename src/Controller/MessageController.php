@@ -3,65 +3,118 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Message;
-use App\Services\ConversationService;
+use App\Entity\Conversation;
+use App\Repository\UserRepository;
+use App\Services\MessageService;
 use App\Services\ParticipantService;
-use App\Services\UserService;
+use FOS\RestBundle\Controller\Annotations\Route;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\PublisherInterface;
-use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Throwable;
 
 /**
+ * @Route("/messages", name="messages")
  * Class MessageController
  * @package App\Controller
  */
 class MessageController extends AbstractController
 {
-    private ConversationService $conversationService;
+    private const ATTRIBUTES_TO_SERIALIZE = ['id', 'content', 'createdAt', 'recipientUser' => ['username']];
+
+    private MessageService $messageService;
+    private UserRepository $userRepository;
     private ParticipantService $participantService;
-    private UserService $userService;
+    private PublisherInterface $publisher;
+    private LoggerInterface $logger;
 
     public function __construct(
-        ConversationService $conversationService,
+        MessageService $messageService,
+        UserRepository $userRepository,
         ParticipantService $participantService,
-        UserService $userService
+        PublisherInterface $publisher,
+        LoggerInterface $logger
     ) {
-        $this->conversationService = $conversationService;
+        $this->messageService = $messageService;
+        $this->userRepository = $userRepository;
         $this->participantService = $participantService;
-        $this->userService = $userService;
+        $this->publisher = $publisher;
+        $this->logger = $logger;
     }
 
     /**
-     * @Post("newMassage/{id}", name="newMassage")
+     * @Route("/{id}", name="getMessages", methods={"GET"})
      * @param Request $request
-     * @param PublisherInterface $publisher
+     * @param Conversation $conversation
      * @return Response
      */
-    public function newMessageAction(Request $request, PublisherInterface $publisher): Response
+    public function index(Request $request, Conversation $conversation): Response
     {
-        $message = new Message();
+//        $this->denyAccessUnlessGranted('view', $conversation);
 
-        $user = $this->userService->findByUserId(2);
+        $messages = $this->messageService->findMessageByConversationId(
+            $conversation->getId()
+        );
 
-//        $user = $this->getUser();
-        $conversation = $this->conversationService->findByUserId($user->getId());
+        return $this->json($messages, Response::HTTP_OK, [], [
+            'attributes' => self::ATTRIBUTES_TO_SERIALIZE,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="newMessage", methods={"POST"})
+     * @param Request $request
+     * @param Conversation $conversation
+     * @param SerializerInterface $serializer
+     * @param MessageBusInterface $bus
+     * @return JsonResponse
+     */
+    public function newMessage(
+        Request $request,
+        Conversation $conversation,
+        SerializerInterface $serializer,
+        MessageBusInterface $bus,
+    ): JsonResponse {
+        $user = $this->getUser();
+        $message = null;
+
         $recipient = $this->participantService->findParticipantByConversationIdAndUserId(
             $conversation->getId(),
             $user->getId()
         );
 
+        try {
+            $message = $this->messageService->createMessageFromRequest(
+                $request,
+                $user->getId(),
+                $recipient->getUser()->getId(),
+                $conversation->getId()
+            );
+        } catch (Throwable $e) {
+            $this->logger->critical($e->getMessage(), $e->getTrace());
+        }
+
+        $messageSerialized = $serializer->serialize($message, 'json', [
+            'attributes' => ['id', 'content', 'createdAt', 'recipientUser' => ['username'], 'conversation' => ['id']],
+        ]);
+
         $update = new Update(
             [
-                sprintf('/conversations/%s', $conversation->getId()),
-                sprintf('/conversations/%s', $recipient->getUser()->getId()),
-            ]
+                sprintf("/conversations/%s", $conversation->getId()),
+                sprintf("/conversations/%s", $recipient->getUser()->getUsername()),
+            ],
+            $messageSerialized
         );
 
-        $publisher($update);
-
-        return $this->json(1);
+        $bus->dispatch($update);
+        return $this->json($message, Response::HTTP_CREATED, [], [
+            'attributes' => self::ATTRIBUTES_TO_SERIALIZE,
+        ]);
     }
 }

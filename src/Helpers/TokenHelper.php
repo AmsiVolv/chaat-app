@@ -15,6 +15,5 @@ class TokenHelper
 {
     public static function createToken()
     {
-
     }
 }

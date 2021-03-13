@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -72,10 +73,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * @param string $email
-     * @return User
+     * @return User|null
      * @throws Throwable
      */
-    public function getUserByEmail(string $email): User
+    public function getUserByEmail(string $email): ?User
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -87,16 +88,42 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
+     * @param int $id
+     * @return User|null
+     * @throws Throwable
+     */
+    public function getUserById(int $id): ?User
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb->where($qb->expr()->eq('u.id', ':id'))
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
      * @param User $user
      * @return User
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function store(User $user)
+    public function store(User $user): User
     {
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush($user);
 
         return $user;
+    }
+
+    public function findUsersByUsername(string $username): array
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb->where($qb->expr()->like('u.username', ':username'))
+            ->setParameter('username', sprintf('%%%s%%', $username))
+            ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
     }
 }

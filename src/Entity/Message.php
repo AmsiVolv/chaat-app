@@ -28,6 +28,9 @@ class Message
     /** @ORM\ManyToOne(targetEntity="User", inversedBy="messages") */
     private ?User $user = null;
 
+    /** @ORM\ManyToOne(targetEntity="User", inversedBy="recipientMessages") */
+    private ?User $recipientUser = null;
+
     /** @ORM\ManyToOne(targetEntity="Conversation", inversedBy="messages" ) */
     private ?Conversation $conversation = null;
 
@@ -61,6 +64,25 @@ class Message
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function setContent(mixed $content): self
+    {
+        $this->content = $content;
+        
+        return $this;
+    }
+
+    public function getRecipientUser(): ?User
+    {
+        return $this->recipientUser;
+    }
+
+    public function setRecipientUser(?User $recipientUser): self
+    {
+        $this->recipientUser = $recipientUser;
 
         return $this;
     }

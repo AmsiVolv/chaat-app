@@ -29,7 +29,9 @@ class ParticipantService
 
     public function findParticipantByConversationIdAndUserId(int $conversationId, int $userId): Participant
     {
-        return $this->participantRepository->find(['id' => 1]);
-//        return $this->participantRepository->findParticipantByConversationIdAndUserId($conversationId, $userId);
+        return $this->participantRepository->findParticipantByConverstionIdAndUserId(
+            $conversationId,
+            $userId
+        );
     }
 }

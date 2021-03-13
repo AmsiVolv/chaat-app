@@ -11,6 +11,7 @@ use App\Repository\ConversationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ConversationService
@@ -29,5 +30,9 @@ class ConversationService
     {
         return $this->conversationRepository->find(['id' => 2]);
 //        return $this->conversationRepository->findConversationsByUser($userId);
+    }
+
+    public function createFromRequest(Request $request)
+    {
     }
 }

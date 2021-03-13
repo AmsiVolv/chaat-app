@@ -42,7 +42,10 @@ class IndexController extends AbstractController
             ->getToken($configuration->signer(), $configuration->signingKey())
             ->toString();
 
-        $response = $this->json(['Done!']);
+        $response =  $this->render('index/index.html.twig', [
+            'controller_name' => 'IndexController',
+        ]);
+
         $cookie = Cookie::create('mercureAuthorization')
             ->withValue($token)
             ->withExpires((new DateTime())->add(

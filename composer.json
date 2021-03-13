@@ -34,6 +34,7 @@
         "symfony/mailer": "5.2.*",
         "symfony/mercure": "^0.4.1",
         "symfony/mercure-bundle": "^0.2.6",
+        "symfony/messenger": "5.2.*",
         "symfony/mime": "5.2.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/notifier": "5.2.*",
@@ -147,5 +148,7 @@
         "incenteev-parameters": {
             "file": "config/packages/parameters.yml"
         }
-    }
+    },
+    "name": "",
+    "description": ""
 }
