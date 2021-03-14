@@ -14,6 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mercure\Update;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\WebLink\Link;
 
 /**
@@ -30,18 +33,28 @@ class ConversationController extends AbstractController
     private ConversationRepository $conversationRepository;
     private ConversationService $conversationService;
 
+    private MessageController $messageController;
+    private SerializerInterface $serializer;
+    private MessageBusInterface $bus;
+
     public function __construct(
         string $mercureDefaultHub,
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
         ConversationRepository $conversationRepository,
-        ConversationService $conversationService
+        ConversationService $conversationService,
+        MessageController $messageController,
+        SerializerInterface $serializer,
+        MessageBusInterface $bus,
     ) {
         $this->mercureDefaultHub = $mercureDefaultHub;
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->conversationRepository = $conversationRepository;
         $this->conversationService = $conversationService;
+        $this->messageController = $messageController;
+        $this->serializer = $serializer;
+        $this->bus = $bus;
     }
 
     /**
@@ -80,7 +93,6 @@ class ConversationController extends AbstractController
         $participant->setUser($this->getUser());
         $participant->setConversation($conversation);
 
-
         $otherParticipant = new Participant();
         $otherParticipant->setUser($otherUser);
         $otherParticipant->setConversation($conversation);
@@ -98,6 +110,7 @@ class ConversationController extends AbstractController
             throw $e;
         }
 
+        $this->messageController->newMessage($request, $conversation);
 
         return $this->json([
             'id' => $conversation->getId(),

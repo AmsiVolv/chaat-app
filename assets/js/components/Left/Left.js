@@ -3,19 +3,18 @@ import Conversation from "./Conversation";
 import {connect} from 'react-redux'
 import * as actionCreators from '../../actions/conversation'
 import Search from "./Search";
+import SideBar from "./SideBar";
 
 const mapStateToProps = (state) => {
     return state;
 };
 
 class Left extends React.Component {
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
     }
 
-    componentWillMount()
-    {
+    componentWillMount() {
         const _t = this;
         this.props.fetchConversations()
             .then(() => {
@@ -32,13 +31,14 @@ class Left extends React.Component {
             });
     }
 
-    render()
-    {
+    render() {
         return (
-            <div className="col-5 px-0">
-                <div className="bg-white">
+            <div className="col-5 px-0" id='left-side'>
+                <SideBar pageWrapId={"page-wrap"} outerContainerId={"left-side"} />
+
+                <div className="bg-white" id="page-wrap">
                     <div className="bg-gray px-4 py-2 bg-light">
-                        <p className="h5 mb-0 py-1">Recent</p>
+                        <p className="h5 mb-0 py-1  text-center">Recent</p>
                     </div>
                     <div className="messages-box">
                         <div>

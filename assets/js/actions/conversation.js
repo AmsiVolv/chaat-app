@@ -138,7 +138,6 @@ export const userSearch = (username) => dispatch => {
 };
 
 export const createConversation = (userId) => dispatch => {
-    console.log(userId)
     let formData = new FormData();
     formData.append('userId', userId);
     return fetch('/conversations/create', {

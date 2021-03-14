@@ -22,8 +22,6 @@ class SearchResultItem extends React.Component {
         this.props.createConversation(this.props.user.id).then(() => {
             this.props.fetchConversations()
         });
-
-
     }
 
     render()

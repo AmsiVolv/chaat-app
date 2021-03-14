@@ -34,18 +34,25 @@ class MessageController extends AbstractController
     private PublisherInterface $publisher;
     private LoggerInterface $logger;
 
+    private SerializerInterface $serializer;
+    private MessageBusInterface $bus;
+
     public function __construct(
         MessageService $messageService,
         UserRepository $userRepository,
         ParticipantService $participantService,
         PublisherInterface $publisher,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        SerializerInterface $serializer,
+        MessageBusInterface $bus,
     ) {
         $this->messageService = $messageService;
         $this->userRepository = $userRepository;
         $this->participantService = $participantService;
         $this->publisher = $publisher;
         $this->logger = $logger;
+        $this->serializer = $serializer;
+        $this->bus = $bus;
     }
 
     /**
@@ -71,15 +78,11 @@ class MessageController extends AbstractController
      * @Route("/{id}", name="newMessage", methods={"POST"})
      * @param Request $request
      * @param Conversation $conversation
-     * @param SerializerInterface $serializer
-     * @param MessageBusInterface $bus
      * @return JsonResponse
      */
     public function newMessage(
         Request $request,
-        Conversation $conversation,
-        SerializerInterface $serializer,
-        MessageBusInterface $bus,
+        Conversation $conversation
     ): JsonResponse {
         $user = $this->getUser();
         $message = null;
@@ -100,7 +103,7 @@ class MessageController extends AbstractController
             $this->logger->critical($e->getMessage(), $e->getTrace());
         }
 
-        $messageSerialized = $serializer->serialize($message, 'json', [
+        $messageSerialized = $this->serializer->serialize($message, 'json', [
             'attributes' => ['id', 'content', 'createdAt', 'recipientUser' => ['username'], 'conversation' => ['id']],
         ]);
 
@@ -112,7 +115,7 @@ class MessageController extends AbstractController
             $messageSerialized
         );
 
-        $bus->dispatch($update);
+        $this->bus->dispatch($update);
         return $this->json($message, Response::HTTP_CREATED, [], [
             'attributes' => self::ATTRIBUTES_TO_SERIALIZE,
         ]);

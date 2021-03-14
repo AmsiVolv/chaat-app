@@ -76,6 +76,7 @@ class User implements UserInterface
 
         $this->participants = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->createdAt = new DateTime();
     }
 
     public function getId(): ?int

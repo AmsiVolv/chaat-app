@@ -2,7 +2,7 @@ import {
     GET_CONVERSATIONS, RECIEVE_CONVERSATIONS,
     GET_MESSAGES, RECIEVE_MESSAGES,
     POST_MESSAGE, ADD_MESSAGE, SET_HUBURL, SET_USERNAME,
-    SET_LAST_MESSAGE
+    SET_LAST_MESSAGE, SET_CONVERSATION_ID
 } from "../constants/actionTypes";
 
 export default (state = {
@@ -91,6 +91,11 @@ export default (state = {
                 ...state,
                 username: action.username
         };
+        case SET_CONVERSATION_ID:
+            return {
+                ...state,
+                showMSearchResults: false
+        }
         default:
             return state;
     }
