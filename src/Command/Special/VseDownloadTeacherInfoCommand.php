@@ -12,6 +12,7 @@ use App\Repository\CourseShedulingRepository;
 use App\Repository\FacultyRepository;
 use App\Repository\ReadingRepository;
 use App\Repository\TeacherRepository;
+use DOMElement;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -33,13 +34,16 @@ class VseDownloadTeacherInfoCommand extends Command
     private const QUERY_STRING = ';odkud=;zobrazit_sklad=0;zobrazit_obdobi=0;obdobi=;predmet=160494;typ=1;jazyk=1;vystup=1';
 
     /** @var string */
-    protected static $defaultName = 'vse:download:subjectInfo';
+    protected static $defaultName = 'vse:download:teachers';
     private SymfonyStyle $io;
     private LoggerInterface $logger;
     private Client $client;
     private TeacherRepository $teacherRepository;
 
     private array $keysToSearch = [
+        'Office phone number' => 'phoneNumber',
+        'Office number' => 'officeNumber',
+        'E-mail' => 'email',
     ];
 
     public function __construct(
@@ -90,13 +94,32 @@ class VseDownloadTeacherInfoCommand extends Command
             $currentUrl = $teacher->getTeacherUri();
 
             if ($currentUrl) {
+                $currentUrl = str_replace('/lide/', '/auth/lide/', $currentUrl);
                 $response = $this->client->get(sprintf('%s%s', $currentUrl, self::QUERY_STRING));
                 $htmlResponse = $response->getBody()->getContents();
 
                 try {
                     $crawler = new Crawler($htmlResponse, $currentUrl, self::BASE_URI);
 
+                    $infoNode = $crawler->filter('table')->getNode(3);
+
+                    foreach ($infoNode->childNodes as $nodeItem) {
+                        /** @var DOMElement $childNode */
+                        foreach ($nodeItem->childNodes as $childNode) {
+                            $this->processNode($childNode, $teacher);
+                        }
+                    }
+
+                    $teacher = $this->prepareTeacherForStore($teacher);
+                    $this->teacherRepository->store($teacher);
                     $teachersUpdated++;
+                    $this->io->success(
+                        sprintf(
+                            'Teacher [%d] was updated, remain [%d]',
+                            $teacher->getId(),
+                            count($teachers) - $teachersUpdated
+                        )
+                    );
                 } catch (Throwable $e) {
                     $this->io->warning(sprintf('Course [%d] was not updated', $teacher->getId()));
                     $this->logger->error($e->getMessage(), $e->getTrace());
@@ -107,5 +130,47 @@ class VseDownloadTeacherInfoCommand extends Command
         $this->io->success(sprintf('Download was completed! Courses [%d] were updated', $teachersUpdated));
 
         return 0;
+    }
+
+    private function processNode(DOMElement $element, Teacher $teacher): Teacher
+    {
+        $stringsArray = explode(':', $element->textContent);
+        $readyForSet = false;
+
+        foreach ($stringsArray as $key => $item) {
+            if ($key === 0) {
+                $readyForSet = $this->nodeValueInArray($item);
+            }
+
+            if ($key === 1 && $readyForSet && $item) {
+                $setter = $this->keysToSearch[$stringsArray[0]];
+                $setter = sprintf('set%s', ucfirst($setter));
+                $teacher->$setter($item);
+            }
+        }
+
+        return $teacher;
+    }
+
+    private function prepareTeacherForStore(Teacher $teacher): Teacher
+    {
+        if ($teacher->getEmail()) {
+            $teacher->setEmail(
+                str_replace(' [at] ', '@', $teacher->getEmail())
+            );
+        }
+
+        if ($teacher->getTeacherUri()) {
+            $teacher->setExternalId(
+                str_replace('https://insis.vse.cz/lide/clovek.pl?id=', '', $teacher->getTeacherUri())
+            );
+        }
+
+        return $teacher;
+    }
+
+    private function nodeValueInArray(string $value): bool
+    {
+        return array_key_exists($value, $this->keysToSearch);
     }
 }

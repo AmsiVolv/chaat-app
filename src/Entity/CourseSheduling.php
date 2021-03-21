@@ -101,10 +101,10 @@ class CourseSheduling
         return $this;
     }
 
-    public function getCourse(): ?Course
-    {
-        return $this->course;
-    }
+//    public function getCourse(): ?Course
+//    {
+//        return $this->course;
+//    }
 
     public function setCourse(?Course $course): self
     {

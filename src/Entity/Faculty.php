@@ -135,13 +135,13 @@ class Faculty
         return $this;
     }
 
-    /**
-     * @return Collection|Course[]
-     */
-    public function getCourses(): Collection
-    {
-        return $this->courses;
-    }
+//    /**
+//     * @return Collection|Course[]
+//     */
+//    public function getCourses(): Collection
+//    {
+//        return $this->courses;
+//    }
 
     public function addCourse(Course $course): self
     {

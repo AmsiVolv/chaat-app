@@ -108,13 +108,13 @@ class Reading
         return $this;
     }
 
-    /**
-     * @return Collection|Course[]
-     */
-    public function getCurse(): Collection
-    {
-        return $this->course;
-    }
+//    /**
+//     * @return Collection|Course[]
+//     */
+//    public function getCurse(): Collection
+//    {
+//        return $this->course;
+//    }
 
     public function addCurse(Course $course): self
     {
