@@ -8,6 +8,7 @@ use App\Entity\CourseSheduling;
 use App\Entity\Reading;
 use App\Entity\Teacher;
 use App\Repository\CourseRepository;
+use JetBrains\PhpStorm\Pure;
 use stdClass;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -20,6 +21,11 @@ use Throwable;
  */
 class CourseService
 {
+
+    public const IS_GET_ALL = 'isGetAll';
+    public const IS_GET_BY = 'isGetBy';
+    public const SEARCHED_PARAMS = 'searchedParams';
+
     private CourseRepository $courseRepository;
 
     public function __construct(
@@ -106,5 +112,40 @@ class CourseService
         }
 
         return $dataTorReturn;
+    }
+
+    public function getAllCursesCodes(): array
+    {
+        return $this->courseRepository->getAllCursesCodes();
+    }
+
+    public function getAllCourseByParam(stdClass $data): array
+    {
+        $returnData = [];
+
+        if (array_key_exists(self::IS_GET_ALL, $data->getAll) && $data->getAll[self::IS_GET_ALL]) {
+            if ($this->checkRequestForGelAllByParam($data->getAll, CourseRepository::FACULTY)) {
+                $returnData = $this->courseRepository->getAllCourseByFaculty($data->getAll[CourseRepository::FACULTY]);
+            }
+            if ($this->checkRequestForGelAllByParam($data->getAll, CourseRepository::READING)) {
+                $returnData = $this->courseRepository->getAllCourseByReading($data->getAll[CourseRepository::READING]);
+            }
+            if ($this->checkRequestForGelAllByParam($data->getAll, CourseRepository::TEACHER)) {
+                $returnData = $this->courseRepository->getAllCourseByTeacher($data->getAll[CourseRepository::TEACHER]);
+            }
+        }
+
+        return $returnData;
+    }
+
+    private function checkRequestForGelAllByParam(array $data, string $property): bool
+    {
+        $gettingBy = sprintf('%s%s', self::IS_GET_BY, ucfirst($property));
+
+        return array_key_exists($property, $data)
+                && array_key_exists(self::SEARCHED_PARAMS, $data[$property])
+                && $data[$property][self::SEARCHED_PARAMS] !== []
+                && $data[$property] !== []
+                && $data[$property][$gettingBy];
     }
 }

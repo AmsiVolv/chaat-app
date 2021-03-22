@@ -7,11 +7,13 @@ use App\Entity\Course;
 use App\Entity\CourseSheduling;
 use App\Entity\Reading;
 use App\Entity\Teacher;
+use App\Services\CourseService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use JetBrains\PhpStorm\Pure;
 use stdClass;
 use Throwable;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Course|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,11 +24,13 @@ use Throwable;
 class CourseRepository extends ServiceEntityRepository
 {
     public const COURSE = 'course';
+    public const FACULTY = 'faculty';
     public const TEACHER = 'teacher';
     public const COURSE_SCHEDULING = 'courseScheduling';
     public const READING = 'reading';
 
     private const COURSE_ALIAS = 'c';
+    private const FACULTY_ALIAS = 'f';
     private const TEACHER_ALIAS = 't';
     private const COURSE_SCHEDULING_ALIAS = 'cs';
     private const READING_ALIAS = 'r';
@@ -199,5 +203,86 @@ class CourseRepository extends ServiceEntityRepository
     private function checkProperty(string $key, string $item): bool
     {
         return property_exists(self::OBJECT_PROPERTY_ARRAY[$key], $item);
+    }
+
+    public function getAllCursesCodes(): array
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->select('c.id as id, c.subjectCode as subjectCode');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getAllCourseByFaculty(array $data): array
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->join('c.faculty', 'f');
+        if (count($data[CourseService::SEARCHED_PARAMS]) === 2) {
+            $qb->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('f.facultyName', ':facultyName'),
+                    $qb->expr()->eq('f.abbreviation', ':abbreviation'),
+                )
+            )
+                ->setParameter('facultyName', $data[CourseService::SEARCHED_PARAMS]['facultyName'])
+                ->setParameter('abbreviation', $data[CourseService::SEARCHED_PARAMS]['abbreviation']);
+        } else {
+            foreach ($data[CourseService::SEARCHED_PARAMS] as $key => $searchedPram) {
+                $qb->where($qb->expr()->like(sprintf('%s.%s', self::FACULTY_ALIAS, $key), sprintf(':%s', $key)))
+                   ->setParameter($key, $searchedPram);
+            }
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getAllCourseByReading(array $data): array
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->join('c.readings', 'r');
+        if (count($data[CourseService::SEARCHED_PARAMS]) === 2) {
+            $qb->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('r.ISBN', ':ISBN'),
+                    $qb->expr()->eq('r.author', ':author'),
+                )
+            )
+                ->setParameter('ISBN', $data[CourseService::SEARCHED_PARAMS]['ISBN'])
+                ->setParameter('author', $data[CourseService::SEARCHED_PARAMS]['author']);
+        } else {
+            foreach ($data[CourseService::SEARCHED_PARAMS] as $key => $searchedPram) {
+                $qb->where($qb->expr()->like(sprintf('%s.%s', self::READING_ALIAS, $key), sprintf(':%s', $key)))
+                    ->setParameter($key, $searchedPram);
+            }
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getAllCourseByTeacher(array $data): array
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->join('c.teacher', 't');
+        if (count($data[CourseService::SEARCHED_PARAMS]) === 2) {
+            $qb->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('t.name', ':name'),
+                    $qb->expr()->eq('t.email', ':email'),
+                )
+            )
+                ->setParameter('name', $data[CourseService::SEARCHED_PARAMS]['name'])
+                ->setParameter('email', $data[CourseService::SEARCHED_PARAMS]['email']);
+        } else {
+            foreach ($data[CourseService::SEARCHED_PARAMS] as $key => $searchedPram) {
+                $qb->where($qb->expr()->like(sprintf('%s.%s', self::TEACHER_ALIAS, $key), sprintf(':%s', $key)))
+                    ->setParameter($key, $searchedPram);
+            }
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }
