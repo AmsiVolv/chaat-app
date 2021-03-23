@@ -1,8 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import * as actionCreators from '../../actions/conversation'
-import SearchResultItem from "./SearchResultList";
-import {MDBBox, MDBCol, MDBInput} from "mdbreact";
+// import SearchResultItem from "./SearchResultList";
+// import {MDBBox, MDBCol, MDBInput} from "mdbreact";
 
 
 const mapStateToProps = (state) => {
@@ -44,19 +44,21 @@ class Search extends React.Component {
 
     render() {
         return (
-            <MDBCol md="12">
-                <MDBInput hint="Search for a user..." type="text" containerClass="active-pink active-pink-2 mt-0 mb-3"
-                          onChange={this.handleChange} value={this.state.searchQuery}/>
-                <MDBBox md="6" id="search-results">
-                    {this.state.data.map(
-                        user => {
-                            return (
-                                <SearchResultItem user={user} key={user.id}/>
-                            )
-                        }
-                    )}
-                </MDBBox>
-            </MDBCol>
+            <>
+                </>
+            // <MDBCol md="12">
+            //     <MDBInput hint="Search for a user..." type="text" containerClass="active-pink active-pink-2 mt-0 mb-3"
+            //               onChange={this.handleChange} value={this.state.searchQuery}/>
+            //     <MDBBox md="6" id="search-results">
+            //         {this.state.data.map(
+            //             user => {
+            //                 return (
+            //                     <SearchResultItem user={user} key={user.id}/>
+            //                 )
+            //             }
+            //         )}
+            //     </MDBBox>
+            // </MDBCol>
         )
     }
 }

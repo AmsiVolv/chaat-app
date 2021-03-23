@@ -15,10 +15,6 @@
                     <img src="{{ asset('build/icons/logo_transparent.png') }}" alt="IMG">
                 </div>
 
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
-
                 {% if app.user %}
                     <div class="mb-3">
                         You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
@@ -29,7 +25,9 @@
 					<span class="login100-form-title">
 						Member Login
 					</span>
-
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
                     <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                         <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="input100"
                                placeholder="Email" required autofocus>

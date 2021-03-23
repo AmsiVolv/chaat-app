@@ -3,7 +3,6 @@ import store from "../../store";
 
 
 class Message extends React.Component {
-
     componentDidMount()
     {
 

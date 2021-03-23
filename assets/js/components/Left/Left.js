@@ -3,7 +3,6 @@ import Conversation from "./Conversation";
 import {connect} from 'react-redux'
 import * as actionCreators from '../../actions/conversation'
 import Search from "./Search";
-import SideBar from "./SideBar";
 
 const mapStateToProps = (state) => {
     return state;
@@ -33,9 +32,7 @@ class Left extends React.Component {
 
     render() {
         return (
-            <div className="col-5 px-0" id='left-side'>
-                <SideBar pageWrapId={"page-wrap"} outerContainerId={"left-side"} />
-
+            <div className="col-5 px-0 h-100" id='left-side'>
                 <div className="bg-white" id="page-wrap">
                     <div className="bg-gray px-4 py-2 bg-light">
                         <p className="h5 mb-0 py-1  text-center">Recent</p>

@@ -35,13 +35,22 @@ class CourseController extends AbstractController
      * @Route("/get", name="get-course", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
-     * @throws Throwable
      */
     public function getCourse(Request $request): Response
     {
-        $data = $this->checkData([], ['course', 'filerParams'], $request);
+        try {
+            $data = $this->checkData([], ['course', 'filerParams'], $request);
 
-        $course = $this->courseService->getCourseInfo($data);
+            $course = $this->courseService->getCourseInfo($data);
+        } catch (InvalidArgumentException $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Bad request'], Response::HTTP_BAD_REQUEST);
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Response error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         return $this->json($course);
     }
@@ -50,11 +59,16 @@ class CourseController extends AbstractController
      * @Route("/getAll", name="get-all", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
-     * @throws Throwable
      */
     public function getAllCourse(Request $request): Response
     {
-        $courses = $this->courseService->getAllCursesCodes();
+        try {
+            $courses = $this->courseService->getAllCursesCodes();
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Response error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         return $this->json($courses);
     }
@@ -63,7 +77,6 @@ class CourseController extends AbstractController
      * @Route("/getAllByParam", name="get-all-by-param", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
-     * @throws Throwable
      */
     public function getAllCourseByParam(Request $request): Response
     {
@@ -77,10 +90,34 @@ class CourseController extends AbstractController
             return new JsonResponse(['status' => 'Bad request'], Response::HTTP_BAD_REQUEST);
         } catch (Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
-            dd($e);
+
             return new JsonResponse(['status' => 'Response error'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $this->json($courses);
+    }
+
+    /**
+         * @Route("/getCourseByName", name="get-course-by-name", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getCourseByRequest(Request $request): Response
+    {
+        try {
+            $data = $this->checkData([], ['course'], $request);
+
+            $course = $this->courseService->getCourseByRequest($data);
+        } catch (InvalidArgumentException $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Bad request'], Response::HTTP_BAD_REQUEST);
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Response error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->json($course);
     }
 }

@@ -148,4 +148,9 @@ class CourseService
                 && $data[$property] !== []
                 && $data[$property][$gettingBy];
     }
+
+    public function getCourseByRequest(stdClass $data): array
+    {
+        return $this->courseRepository->getCourseByRequest($data->course);
+    }
 }

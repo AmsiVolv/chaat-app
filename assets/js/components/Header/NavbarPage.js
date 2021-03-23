@@ -1,71 +1,31 @@
 import React, { Component } from "react";
-import {
-    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon
-} from "mdbreact";
-import {BrowserRouter as Router, NavLink} from 'react-router-dom';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import {Link} from "react-router-dom";
 
 class NavbarPage extends Component {
-    state = {
-        isOpen: false
-    };
-
-    toggleCollapse = () => {
-        this.setState({ isOpen: !this.state.isOpen });
-    }
 
     render() {
         return (
-            <Router>
-                <MDBNavbar color="default-color" dark expand="md">
-                    <MDBNavbarBrand>
-                        <strong className="white-text">Navbar</strong>
-                    </MDBNavbarBrand>
-                    <MDBNavbarToggler onClick={this.toggleCollapse} />
-                    <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-                        <MDBNavbarNav left className='d-flex justify-content-around col-md-4'>
-                            <MDBNavItem active className="white-text my-auto">
-                                <NavLink to="/faq" className="white-text">
-                                    Home
-                                </NavLink>
-                            </MDBNavItem>
-                            <MDBNavItem className="white-text my-auto">
-                                <NavLink to="/faq" className="white-text">
-                                    Features
-                                </NavLink>
-                            </MDBNavItem>
-                            <MDBNavItem className="white-text my-auto">
-                                <MDBDropdown>
-                                    <MDBDropdownToggle nav caret>
-                                        <div className="d-none d-md-inline">Dropdown</div>
-                                    </MDBDropdownToggle>
-                                    <MDBDropdownMenu className="dropdown-default">
-                                        <MDBDropdownItem href="#!">Action</MDBDropdownItem>
-                                        <MDBDropdownItem href="#!">Another Action</MDBDropdownItem>
-                                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                                    </MDBDropdownMenu>
-                                </MDBDropdown>
-                            </MDBNavItem>
-                        </MDBNavbarNav>
-                        <MDBNavbarNav right className='col-md-8 d-flex justify-content-end'>
-                            <MDBNavItem>
-                                <MDBDropdown>
-                                    <MDBDropdownToggle nav caret>
-                                        <MDBIcon icon="user" />
-                                    </MDBDropdownToggle>
-                                    <MDBDropdownMenu className="dropdown-default">
-                                        <MDBDropdownItem href="#!">Action</MDBDropdownItem>
-                                        <MDBDropdownItem href="#!">Another Action</MDBDropdownItem>
-                                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                                    </MDBDropdownMenu>
-                                </MDBDropdown>
-                            </MDBNavItem>
-                        </MDBNavbarNav>
-                    </MDBCollapse>
-                </MDBNavbar>
-            </Router>
+                <Navbar expand="lg" bg="light" variant="light">
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="mr-auto">
+                            <Nav.Link href="/">Messenger</Nav.Link>
+                            <Nav.Link  as={Link} to="/bot">Bot</Nav.Link>
+                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                                <NavDropdown.Item as={Link} to="/bot">Bot</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                    <Navbar.Collapse className="justify-content-end">
+                        <Navbar.Text>
+                            <a href="/logout">Log out</a>
+                        </Navbar.Text>
+                    </Navbar.Collapse>
+                </Navbar>
         );
     }
 }

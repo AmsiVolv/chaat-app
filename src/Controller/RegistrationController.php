@@ -4,21 +4,21 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Assembler\UserDtoAssembler;
-use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Security\AppAuthenticatorAuthenticator;
 use App\Services\UserService;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+/**
+ * Class RegistrationController
+ * @package App\Controller
+ */
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
@@ -42,8 +42,11 @@ class RegistrationController extends AbstractController
      * @param AppAuthenticatorAuthenticator $authenticator
      * @return Response
      */
-    public function registrationAction(Request $request, GuardAuthenticatorHandler $guardHandler, AppAuthenticatorAuthenticator $authenticator): Response
-    {
+    public function registrationAction(
+        Request $request,
+        GuardAuthenticatorHandler $guardHandler,
+        AppAuthenticatorAuthenticator $authenticator
+    ): Response {
         $form = $this->createForm(RegistrationFormType::class);
         $form->handleRequest($request);
 
