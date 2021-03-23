@@ -1,14 +1,15 @@
 import React from "react";
 
-import {createChatBotMessage} from "react-chatbot-kit";
+import { createChatBotMessage } from "react-chatbot-kit";
 import QuestionOptions from "../widgets/QuestionOptions";
-import LinkList from "../widgets/LinkList";
-
+import CourseSelectInfoWidget from "../widgets/CourseWidgets/CourseSelectInfoWidget";
+import CourseShowInfoWidget from "../widgets/CourseWidgets/CourseShowInfoWidget";
+import Courses from "../widgets/Courses";
 
 const config = {
     botName: "In-VSE Bot",
     initialMessages: [
-        createChatBotMessage("Hi, I'm here to help. What do you want to find?"),
+        createChatBotMessage("I'm here to help. What do you want to find?"),
         createChatBotMessage(
             "Here's a quick overview over what I need to function. ask me about the different parts to dive deeper.",
             {
@@ -27,38 +28,31 @@ const config = {
         },
     },
     state: {
-        gist: "",
+        initChoice: "",
+        courses: [],
+        courseInfo: {},
+        course: ''
     },
     widgets: [
         {
             widgetName: "QuestionOptions",
             widgetFunc: (props) => <QuestionOptions {...props}/>,
-            mapStateToProps: ["gist"],
+            mapStateToProps: ["initChoice"],
         },
         {
-            widgetName: "javascriptLinks",
-            widgetFunc: (props) => <LinkList {...props} />,
-            props: {
-                options: [
-                    {
-                        text: "Introduction to JS",
-                        url:
-                            "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/",
-                        id: 1,
-                    },
-                    {
-                        text: "Mozilla JS Guide",
-                        url:
-                            "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
-                        id: 2,
-                    },
-                    {
-                        text: "Frontend Masters",
-                        url: "https://frontendmasters.com",
-                        id: 3,
-                    },
-                ],
-            },
+            widgetName: 'courseChoice',
+            widgetFunc: (props) => <Courses {...props} />,
+            mapStateToProps: ['courses', 'course'],
+        },
+        {
+            widgetName: 'CourseSelectInfoWidget',
+            widgetFunc: (props) => <CourseSelectInfoWidget {...props} />,
+            mapStateToProps: ['course', 'courseInfo'],
+        },
+        {
+            widgetName: 'CourseShowInfoWidget',
+            widgetFunc: (props) => <CourseShowInfoWidget {...props} />,
+            mapStateToProps: ['course', 'courseInfo'],
         }
     ],
 }

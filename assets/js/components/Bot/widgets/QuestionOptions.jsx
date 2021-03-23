@@ -3,14 +3,16 @@ import React from "react";
 const QuestionOptions = (props) => {
     const options = [
         {
-            text: "Javascript",
-            handler: props.actionProvider.handleJavascriptList,
+            text: "Course info",
+            handler: props.actionProvider.handleCourseList,
             id: 1,
         },
-        { text: "Data visualization", handler: () => {}, id: 2 },
-        { text: "APIs", handler: () => {}, id: 3 },
-        { text: "Security", handler: () => {}, id: 4 },
-        { text: "Interview prep", handler: () => {}, id: 5 },
+        { text: "Teacher info", handler: () => {}, id: 2 },
+        { text: "Reading info", handler: () => {}, id: 3 },
+        { text: "Faculty info", handler: () => {}, id: 4 },
+        { text: "VŠE news", handler: () => {}, id: 5 },
+        { text: "Pro absolventy", handler: () => {}, id: 6 },
+        { text: "Pro uchazeče", handler: () => {}, id: 7 },
     ];
 
     const optionsMarkup = options.map((option) => (

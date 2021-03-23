@@ -290,7 +290,7 @@ class CourseRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c');
 
-        $qb->select('c.subjectCode, c.courseTitle')
+        $qb->select('c.subjectCode, c.courseTitle, c.id')
             ->where($qb->expr()->orX(
                 $qb->expr()->like('c.subjectCode', ':subjectCode'),
                 $qb->expr()->like('c.courseTitle', ':courseTitle')
