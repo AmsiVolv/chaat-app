@@ -39,7 +39,7 @@ class CourseController extends AbstractController
     public function getCourse(Request $request): Response
     {
         try {
-            $data = $this->checkData([], ['course', 'filerParams'], $request);
+            $data = $this->checkData(['course'], [], $request);
 
             $course = $this->courseService->getCourseInfo($data);
         } catch (InvalidArgumentException $e) {
