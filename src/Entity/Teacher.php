@@ -7,6 +7,8 @@ use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * @ORM\Entity(repositoryClass=TeacherRepository::class)
@@ -150,5 +152,19 @@ class Teacher
         }
 
         return $this;
+    }
+
+    /**
+     * @return ReflectionProperty[]
+     */
+    public function getKeys(): array
+    {
+        return [
+            'name',
+            'email',
+            'officeNumber',
+            'phoneNumber',
+            'teacherUri'
+        ];
     }
 }

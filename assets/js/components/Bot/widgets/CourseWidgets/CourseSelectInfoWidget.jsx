@@ -10,9 +10,14 @@ const CourseSelectInfoWidget = (props) => {
       id: 1,
     },
     {
+      text: "Get only information interesting for you",
+      handler: props.actionProvider.handleFilterCourseInfo,
+      id: 2,
+    },
+    {
       text: "All information",
       handler: fetchCourseInfo,
-      id: 2,
+      id: 3,
     },
   ];
 

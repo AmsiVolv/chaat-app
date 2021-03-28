@@ -5,6 +5,7 @@ import QuestionOptions from "../widgets/QuestionOptions";
 import CourseSelectInfoWidget from "../widgets/CourseWidgets/CourseSelectInfoWidget";
 import CourseShowInfoWidget from "../widgets/CourseWidgets/CourseShowInfoWidget";
 import Courses from "../widgets/Courses";
+import CourseInfoChoice from "../widgets/CourseWidgets/CourseInfoChoice";
 
 const config = {
   botName: "In-VSE Bot",
@@ -31,6 +32,9 @@ const config = {
     initChoice: "",
     courses: [],
     courseInfo: {},
+    courseFilterOptions: [],
+    courseSelectedFilters: [],
+    isFetchingCourseSelect: true,
     course: "",
   },
   widgets: [
@@ -53,6 +57,17 @@ const config = {
       widgetName: "CourseShowInfoWidget",
       widgetFunc: (props) => <CourseShowInfoWidget {...props} />,
       mapStateToProps: ["course", "courseInfo"],
+    },
+    {
+      widgetName: "courseInfoChoice",
+      widgetFunc: (props) => <CourseInfoChoice {...props} />,
+      mapStateToProps: [
+        "course",
+        "courseInfo",
+        "courseFilterOptions",
+        "isFetchingCourseSelect",
+        "courseSelectedFilters",
+      ],
     },
   ],
 };

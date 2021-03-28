@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use App\Repository\CourseShedulingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * @ORM\Entity(repositoryClass=CourseShedulingRepository::class)
@@ -16,22 +18,22 @@ class CourseSheduling
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /** @ORM\Column(type="string", length=255) */
-    private $day;
+    private string $day;
 
     /** @ORM\Column(type="string", length=255) */
-    private $time;
+    private string $time;
 
     /** @ORM\Column(type="string", length=255) */
-    private $room;
+    private string $room;
 
     /** @ORM\Column(type="string", length=255) */
-    private $eventType;
+    private string $eventType;
 
     /** @ORM\Column(type="integer") */
-    private $capacity;
+    private int $capacity;
 
     /** @ORM\ManyToOne(targetEntity=Course::class, inversedBy="courseShedulings") */
     private $course;
@@ -111,5 +113,19 @@ class CourseSheduling
         $this->course = $course;
 
         return $this;
+    }
+
+    /**
+     * @return ReflectionProperty[]
+     */
+    public function getKeys(): array
+    {
+        return [
+            'day',
+            'time',
+            'room',
+            'eventType',
+            'capacity',
+        ];
     }
 }

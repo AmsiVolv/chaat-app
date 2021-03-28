@@ -29,7 +29,7 @@ const Courses = (props) => {
     fetchCourse("");
   }
 
-  const createAirportOptions = () => {
+  const createCourseOptions = () => {
     return props.courses.map((item) => {
       return (
         <Option key={item.id} value={item.subjectCode}>
@@ -50,14 +50,12 @@ const Courses = (props) => {
         placeholder="Select a course"
         optionFilterProp="children"
         onChange={onChange}
-        // onFocus={onFocus}
-        // onBlur={onBlur}
         onSearch={onSearch}
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        {createAirportOptions()}
+        {createCourseOptions()}
       </Select>
     </div>
   );

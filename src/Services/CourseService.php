@@ -8,11 +8,7 @@ use App\Entity\CourseSheduling;
 use App\Entity\Reading;
 use App\Entity\Teacher;
 use App\Repository\CourseRepository;
-use JetBrains\PhpStorm\Pure;
 use stdClass;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Throwable;
 
 /**
@@ -43,12 +39,18 @@ class CourseService
     {
         $data = [];
 
-        if (property_exists($request, 'filerParams') && $request->filerParams) {
+        if (property_exists($request, 'filterParams') && $request->filterParams) {
             $results = $this->courseRepository->getCourseInfoWithParams($request);
 
             foreach ($results as $result) {
                 $data = array_merge_recursive($data, $result);
             }
+
+            // Check if only one filter if yes return data
+            if (count($request->filterParams) === 1 || count($data) === 1) {
+                return $data;
+            }
+
             foreach ($data as $key => $item) {
                 $data[$key] = array_values(array_unique($item));
             }
@@ -58,6 +60,62 @@ class CourseService
         }
 
         return $data;
+    }
+
+    /**
+     * @param stdClass $request
+     * @return Course|null
+     * @throws Throwable
+     */
+    public function getFilterOptions(stdClass $request): ?array
+    {
+        $returnData = [];
+        $data = $this->courseRepository->getCourseInfo($request->course);
+
+        if ($data !== []) {
+            /** @var Course $course */
+            $course = $data[0];
+            foreach ($course->getKeys() as $item) {
+                if ($item !== 'readings' && $item !== 'courseScheduling' && $item !== 'teacher') {
+                    $returnData[CourseRepository::COURSE][] = $item;
+                }
+                if ($item === 'readings') {
+                    /** @var Reading $reading */
+                    if ($course->getReadings() !== []) {
+                        $reading = $course->getReadings()[0];
+                        if ($reading) {
+                            foreach ($reading->getKeys() as $readingItem) {
+                                $returnData[CourseRepository::READING][] = $readingItem;
+                            }
+                        }
+                    }
+                }
+                if ($item === 'courseScheduling') {
+                    /** @var CourseSheduling $courseScheduling */
+                    if ($course->getCourseScheduling() !== []) {
+                        $courseScheduling = $course->getCourseScheduling()[0];
+                        if ($courseScheduling) {
+                            foreach ($courseScheduling->getKeys() as $courseSchedulingItem) {
+                                $returnData[CourseRepository::COURSE_SCHEDULING][] = $courseSchedulingItem;
+                            }
+                        }
+                    }
+                }
+                if ($item === 'teacher') {
+                    /** @var Teacher $teacher */
+                    if ($course->getTeacher() !== []) {
+                        $teacher = $course->getTeacher()[0];
+                        if ($teacher) {
+                            foreach ($teacher->getKeys() as $teacherItem) {
+                                $returnData[CourseRepository::TEACHER][] = $teacherItem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $returnData;
     }
 
     private function checkProperty(array $data): array

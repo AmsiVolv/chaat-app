@@ -42,6 +42,31 @@ class CourseController extends AbstractController
             $data = $this->checkData(['course'], [], $request);
 
             $course = $this->courseService->getCourseInfo($data);
+
+        } catch (InvalidArgumentException $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Bad request'], Response::HTTP_BAD_REQUEST);
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Response error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->json($course);
+    }
+
+    /**
+     * @Route("/getFilterParams", name="get-filter-params", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getFilterParams(Request $request): Response
+    {
+        try {
+            $data = $this->checkData(['course'], [], $request);
+
+            $course = $this->courseService->getFilterOptions($data);
         } catch (InvalidArgumentException $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
 
@@ -98,7 +123,7 @@ class CourseController extends AbstractController
     }
 
     /**
-         * @Route("/getCourseByName", name="get-course-by-name", methods={"POST"})
+     * @Route("/getCourseByName", name="get-course-by-name", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
      */

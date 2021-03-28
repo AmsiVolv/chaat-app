@@ -22,6 +22,18 @@ class ActionProvider {
     this.updateChatbotState(message);
   };
 
+  handleFilterCourseInfo = () => {
+    const message = this.createChatBotMessage(
+      "Please select information, for print",
+      {
+        withAvatar: true,
+        widget: "courseInfoChoice",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+
   handleCourseSelect = (val) => {
     const messageClient = this.createClientMessage(
       "Show me info about course: " + val
@@ -41,7 +53,7 @@ class ActionProvider {
 
   handleGetAllCourseInfo = () => {
     const messageClient = this.createClientMessage(
-      "I want to get all information about this course"
+      "I want to get this information about this course"
     );
     this.updateChatbotState(messageClient);
 

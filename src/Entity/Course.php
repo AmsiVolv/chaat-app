@@ -7,6 +7,8 @@ use App\Repository\CourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * @ORM\Entity(repositoryClass=CourseRepository::class)
@@ -276,5 +278,26 @@ class Course
         $this->courseUrl = $courseUrl;
 
         return $this;
+    }
+
+    /**
+     * @return ReflectionProperty[]
+     */
+    public function getKeys(): array
+    {
+        return  [
+            'subjectCode',
+            'courseTitle',
+            'creditCount',
+            'courseLanguage',
+            'courseLevelAndYearOfStudy',
+            'courseRecommendation',
+            'courseContent',
+            'courseAims',
+            'courseUrl',
+            'readings',
+            'courseScheduling',
+            'teacher',
+        ];
     }
 }

@@ -7,6 +7,8 @@ use App\Repository\ReadingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * @ORM\Entity(repositoryClass=ReadingRepository::class)
@@ -21,19 +23,19 @@ class Reading
     private $id;
 
     /** @ORM\Column(type="string", length=255) */
-    private $readingType;
+    private string $readingType;
 
     /** @ORM\Column(type="text", nullable=true) */
-    private $Author;
+    private string $Author;
 
     /** @ORM\Column(type="text", nullable=true) */
-    private $title;
+    private string $title;
 
     /** @ORM\Column(type="string", length=255) */
-    private $ISBN;
+    private string $ISBN;
 
     /** @ORM\Column(type="string", length=255) */
-    private $libraryLink;
+    private string $libraryLink;
 
     /** @ORM\ManyToMany(targetEntity=Course::class, inversedBy="readings") */
     private $course;
@@ -43,7 +45,7 @@ class Reading
         $this->course = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -130,5 +132,19 @@ class Reading
         $this->course->removeElement($course);
 
         return $this;
+    }
+
+    /**
+     * @return ReflectionProperty[]
+     */
+    public function getKeys(): array
+    {
+        return [
+            'readingType',
+            'Author',
+            'title',
+            'ISBN',
+            'libraryLink',
+        ];
     }
 }

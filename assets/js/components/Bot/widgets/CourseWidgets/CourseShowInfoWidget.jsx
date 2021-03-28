@@ -1,4 +1,5 @@
 import React from "react";
+import { element } from "prop-types";
 
 const CourseShowInfoWidget = (props) => {
   const { setState, actionProvider } = props;

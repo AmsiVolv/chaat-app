@@ -24,6 +24,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@ant-design/icons": "^4.6.2",
         "@babel/preset-react": "^7.10.4",
         "@fortawesome/fontawesome-free": "^5.15.3",
         "@popperjs/core": "^2.9.1",

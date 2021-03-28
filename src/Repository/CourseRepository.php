@@ -170,7 +170,7 @@ class CourseRepository extends ServiceEntityRepository
     {
         $selectQuery = '';
 
-        foreach ($request->filerParams as $key => $filter) {
+        foreach ($request->filterParams as $key => $filter) {
             if ($this->checkKeyInArray($key)) {
                 foreach ($filter as $item) {
                     if ($this->checkProperty($key, $item)) {
