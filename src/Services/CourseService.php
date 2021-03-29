@@ -52,8 +52,13 @@ class CourseService
             }
 
             foreach ($data as $key => $item) {
-                $data[$key] = array_values(array_unique($item));
+                if (is_array($item)) {
+                    $data[$key] = array_values(array_unique($item));
+                } else {
+                    $data[$key] = $item;
+                }
             }
+
             $data = $this->checkProperty($data);
         } else {
             $data = $this->courseRepository->getCourseInfo($request->course);
@@ -146,10 +151,10 @@ class CourseService
         return array_merge($returnData, $this->sortResultArray($returnData));
     }
 
-    private function checkLengthAndReturnPropertyValue(array $itemForCheck): string|array
+    private function checkLengthAndReturnPropertyValue(string|array $itemForCheck): string|array
     {
-        if (count($itemForCheck) === 1) {
-            $itemForCheck = trim((string) $itemForCheck[0]);
+        if (!is_array($itemForCheck)) {
+            $itemForCheck = (string) $itemForCheck;
         }
 
         return $itemForCheck;

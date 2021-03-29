@@ -61,7 +61,18 @@ class ActionProvider {
       withAvatar: true,
       widget: "CourseShowInfoWidget",
     });
+
+    const secondMessageBot = this.createChatBotMessage(
+      "Do you need some additional help?",
+      {
+        withAvatar: true,
+        delay: 1000,
+        widget: "QuestionOptions",
+      }
+    );
+
     this.updateChatbotState(messageBot);
+    this.updateChatbotState(secondMessageBot);
   };
 
   updateChatbotState(message) {

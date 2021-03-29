@@ -42,7 +42,6 @@ class CourseController extends AbstractController
             $data = $this->checkData(['course'], [], $request);
 
             $course = $this->courseService->getCourseInfo($data);
-
         } catch (InvalidArgumentException $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
 

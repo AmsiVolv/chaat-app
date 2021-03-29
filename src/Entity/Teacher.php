@@ -164,7 +164,7 @@ class Teacher
             'email',
             'officeNumber',
             'phoneNumber',
-            'teacherUri'
+            'teacherUri',
         ];
     }
 }

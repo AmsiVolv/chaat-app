@@ -35,6 +35,7 @@ const config = {
     courseFilterOptions: [],
     courseSelectedFilters: [],
     isFetchingCourseSelect: true,
+    isFetchingCourseInfo: true,
     course: "",
   },
   widgets: [
@@ -56,7 +57,7 @@ const config = {
     {
       widgetName: "CourseShowInfoWidget",
       widgetFunc: (props) => <CourseShowInfoWidget {...props} />,
-      mapStateToProps: ["course", "courseInfo"],
+      mapStateToProps: ["course", "courseInfo", "isFetchingCourseInfo"],
     },
     {
       widgetName: "courseInfoChoice",
