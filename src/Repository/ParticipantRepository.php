@@ -5,6 +5,10 @@ namespace App\Repository;
 
 use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -82,5 +86,18 @@ class ParticipantRepository extends ServiceEntityRepository
             ]);
 
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param Collection<Participant> $participants
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function deleteParticipant(Collection $participants): void
+    {
+        foreach ($participants as $participant) {
+            $this->getEntityManager()->remove($participant);
+            $this->getEntityManager()->flush();
+        }
     }
 }

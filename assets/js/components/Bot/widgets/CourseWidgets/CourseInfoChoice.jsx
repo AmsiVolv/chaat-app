@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Select, Tooltip, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import translate from "../../../helpers/translate";
 
 const CourseInfoChoice = (props) => {
   const { setState, actionProvider } = props;
@@ -25,7 +26,7 @@ const CourseInfoChoice = (props) => {
     return array.map((item) => {
       return (
         <Select.Option key={item} value={item}>
-          {item}
+          {translate(item)}
         </Select.Option>
       );
     });
@@ -37,7 +38,7 @@ const CourseInfoChoice = (props) => {
       return Object.entries(props.courseFilterOptions).map(
         ([key, value], i) => {
           return (
-            <Select.OptGroup label={key} key={i}>
+            <Select.OptGroup label={translate(key)} key={i}>
               {returnSelect(value)}
             </Select.OptGroup>
           );

@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
-// import SearchResultItem from './SearchResultList'
-// import {MDBBox, MDBCol, MDBInput} from 'mdbreact'
+import { Select } from "antd";
 
 const mapStateToProps = (state) => {
   return state;
@@ -19,10 +18,10 @@ class Search extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.userSearch = this.userSearch.bind(this);
+    this.createConversation = this.createConversation.bind(this);
   }
 
-  userSearch(event) {
-    event.preventDefault();
+  userSearch() {
     this.props.userSearch(this.state.searchQuery).then((json) => {
       this.setState({
         data: json.user,
@@ -30,29 +29,36 @@ class Search extends React.Component {
     });
   }
 
-  handleChange(event) {
+  handleChange(value) {
     this.setState({
-      searchQuery: event.target.value,
+      searchQuery: value,
     });
-    this.userSearch(event);
+    this.userSearch(value);
   }
+
+  createConversation = (val) => {
+    this.props.createConversation(val).then(() => {
+      this.props.fetchConversations();
+    });
+  };
 
   render() {
     return (
-      <></>
-      // <MDBCol md='12'>
-      //     <MDBInput hint='Search for a user...' type='text' containerClass='active-pink active-pink-2 mt-0 mb-3'
-      //               onChange={this.handleChange} value={this.state.searchQuery}/>
-      //     <MDBBox md='6' id='search-results'>
-      //         {this.state.data.map(
-      //             user => {
-      //                 return (
-      //                     <SearchResultItem user={user} key={user.id}/>
-      //                 )
-      //             }
-      //         )}
-      //     </MDBBox>
-      // </MDBCol>
+      <Select
+        showSearch
+        style={{ width: "90%", margin: "5%" }}
+        placeholder="Search for new person..."
+        optionFilterProp="children"
+        onChange={this.createConversation}
+        onSearch={this.handleChange}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        {this.state.data.map((user) => {
+          return <Select.Option key={user.id}>{user.username}</Select.Option>;
+        })}
+      </Select>
     );
   }
 }

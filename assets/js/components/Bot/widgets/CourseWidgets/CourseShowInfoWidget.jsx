@@ -1,4 +1,5 @@
 import React from "react";
+import translate from "../../../helpers/translate";
 
 const CourseShowInfoWidget = (props) => {
   function prepareData(key, value, index) {
@@ -10,7 +11,9 @@ const CourseShowInfoWidget = (props) => {
       if (value instanceof Array && key !== "keys" && value.length !== 0) {
         return (
           <div className="com-md-12 mt-2 mb-2" key={key}>
-            <p className="text-center bg-info text-white w-100">{key}</p>
+            <p className="text-center bg-info text-white w-100">
+              {translate(key)}
+            </p>
             <table className="table table-bordered table-hover">
               {renderTableHead(value[0])}
               <tbody>{renderTableBody(value)}</tbody>
@@ -29,7 +32,7 @@ const CourseShowInfoWidget = (props) => {
     return (
       <div className="row" key={index}>
         <div className="col-md-3">
-          <p>{key}</p>
+          <p>{translate(key)}</p>
         </div>
         <div className="col-md-9">
           <p>{value}</p>
@@ -129,7 +132,7 @@ const CourseShowInfoWidget = (props) => {
             if (theadKey !== "keys") {
               return (
                 <th scope="col" key={theadKey}>
-                  {theadKey}
+                  {translate(theadKey)}
                 </th>
               );
             }

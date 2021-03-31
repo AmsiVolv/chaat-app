@@ -24,19 +24,18 @@ class Conversation
      */
     private int $id;
 
-    /**
-     * @var Collection<Participant>
-     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation")
+    /**     * @var Collection<Participant>
+     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation", cascade={"persist", "remove"})
      */
     private Collection $participants;
 
     /**
-     * @ORM\OneToOne(targetEntity="Message")
+     * @ORM\OneToOne(targetEntity="Message", cascade={"remove"})
      * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id")
      */
     private ?Message $lastMessage = null;
 
-    /** @ORM\OneToMany(targetEntity="Message", mappedBy="conversation") */
+    /** @ORM\OneToMany(targetEntity="Message", mappedBy="conversation"), cascade={"persist", "remove"} */
     private Collection $messages;
 
     use Timestamp;
@@ -92,6 +91,13 @@ class Conversation
     public function setLastMessage(Message $lastMessage): self
     {
         $this->lastMessage = $lastMessage;
+
+        return $this;
+    }
+
+    public function removeLastMessage(): self
+    {
+        $this->lastMessage = null;
 
         return $this;
     }

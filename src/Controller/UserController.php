@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Services\UserService;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -14,7 +15,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * Class UserController
  * @package App\Controller
  */
-class UserController
+class UserController extends AbstractController
 {
     private UserService $userService;
 
@@ -31,7 +32,7 @@ class UserController
      */
     public function getUsers(Request $request, SerializerInterface $serializer): Response
     {
-        $users =  $this->userService->getUsernameFromRequest($request);
+        $users =  $this->userService->getUsernameFromRequest($request, $this->getUser()->getId());
 
         $usersSerialized = $serializer->serialize($users, 'json', [
             'attributes' => ['id','username'],

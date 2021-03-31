@@ -5,6 +5,9 @@ namespace App\Repository;
 
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Throwable;
 
@@ -79,5 +82,25 @@ class MessageRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush($message);
 
         return $message;
+    }
+
+    /**
+     * @param Collection $messages
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function deleteMessages(Collection $messages): void
+    {
+        foreach ($messages as $message) {
+            $this->removeMessage($message);
+        }
+    }
+
+    public function removeMessage(?Message $lastMessage): void
+    {
+        if ($lastMessage) {
+            $this->getEntityManager()->remove($lastMessage);
+            $this->getEntityManager()->flush();
+        }
     }
 }

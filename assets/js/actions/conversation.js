@@ -153,3 +153,17 @@ export const createConversation = (userId) => (dispatch) => {
       return dispatch(setConversationId(json.id));
     });
 };
+
+export const clearConversation = (conversationId) => (dispatch) => {
+  fetch("/conversations/clear", {
+    method: "POST",
+    body: JSON.stringify({ conversationId: conversationId }),
+  });
+};
+
+export const deleteConversation = (conversationId) => (dispatch) => {
+  fetch("/conversations/delete", {
+    method: "POST",
+    body: JSON.stringify({ conversationId: conversationId }),
+  });
+};

@@ -4,6 +4,7 @@ import * as actionCreators from "../../actions/conversation";
 
 import Input from "./Input";
 import Message from "./Message";
+import RightMessageHelper from "./RightMessageHelper";
 
 const mapStateToProps = (state) => {
   return state;
@@ -80,16 +81,24 @@ class Right extends React.Component {
   render() {
     return (
       <div className="col-7 px-0">
-        <div className="px-4 py-5 chat-box bg-white" ref={this.bodyRef}>
-          {this.state._conversationIndex != -1 &&
-          this.props.items != undefined &&
-          this.props.items[this.state._conversationIndex].messages != undefined
-            ? this.props.items[this.state._conversationIndex].messages.map(
-                (message, index) => {
-                  return <Message message={message} key={index} />;
-                }
-              )
-            : ""}
+        <div className="px-4 chat-box bg-white" ref={this.bodyRef}>
+          <RightMessageHelper
+            conversationId={this.props.match.params.id}
+            history={this.props.history}
+            recepientUser = {this.props.items[this.state._conversationIndex]}
+          />
+          <div>
+            {this.state._conversationIndex != -1 &&
+            this.props.items != undefined &&
+            this.props.items[this.state._conversationIndex].messages !=
+              undefined
+              ? this.props.items[this.state._conversationIndex].messages.map(
+                  (message, index) => {
+                    return <Message message={message} key={index} />;
+                  }
+                )
+              : ""}
+          </div>
         </div>
 
         <Input id={this.props.match.params.id} />

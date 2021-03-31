@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use App\Services\ConversationService;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations\Route;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,7 @@ use Symfony\Component\Mercure\Update;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\WebLink\Link;
+use Throwable;
 
 /**
  * @Route("/conversations", name="conversations.")
@@ -36,6 +38,9 @@ class ConversationController extends AbstractController
     private MessageController $messageController;
     private SerializerInterface $serializer;
     private MessageBusInterface $bus;
+    private LoggerInterface $logger;
+
+    use CheckRequestDataTrait;
 
     public function __construct(
         string $mercureDefaultHub,
@@ -46,6 +51,7 @@ class ConversationController extends AbstractController
         MessageController $messageController,
         SerializerInterface $serializer,
         MessageBusInterface $bus,
+        LoggerInterface $logger
     ) {
         $this->mercureDefaultHub = $mercureDefaultHub;
         $this->userRepository = $userRepository;
@@ -55,13 +61,14 @@ class ConversationController extends AbstractController
         $this->messageController = $messageController;
         $this->serializer = $serializer;
         $this->bus = $bus;
+        $this->logger = $logger;
     }
 
     /**
      * @Route("/create", name="create", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function index(Request $request): JsonResponse
     {
@@ -105,7 +112,7 @@ class ConversationController extends AbstractController
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->entityManager->rollback();
             throw $e;
         }
@@ -130,5 +137,71 @@ class ConversationController extends AbstractController
         $this->addLink($request, new Link('mercure', $this->mercureDefaultHub));
 
         return $this->json($conversations);
+    }
+
+    /**
+     * @Route("/delete", name="deleteConversation", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteConversation(Request $request): JsonResponse
+    {
+        try {
+            $data = $this->checkData(['conversationId'], [], $request);
+            $conversationId = (int) $data->conversationId;
+            $conversationExist = $this->conversationService->checkIfConversationExist(
+                $this->getUser()->getId(),
+                $conversationId
+            );
+
+            try {
+                if ($conversationExist) {
+                    $this->conversationService->deleteConversation($conversationId);
+                }
+            } catch (Throwable $e) {
+                $this->logger->error($e->getMessage(), $e->getTrace());
+
+                return new JsonResponse(['status' => 'Server error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Bad request'], Response::HTTP_BAD_REQUEST);
+        }
+
+        return new JsonResponse(null, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/clear", name="clearConversation", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function clearConversation(Request $request): JsonResponse
+    {
+        try {
+            $data = $this->checkData(['conversationId'], [], $request);
+            $conversationId = (int) $data->conversationId;
+            $conversationExist = $this->conversationService->checkIfConversationExist(
+                $this->getUser()->getId(),
+                $conversationId
+            );
+
+            try {
+                if ($conversationExist) {
+                    $this->conversationService->clearConversation($conversationId);
+                }
+            } catch (Throwable $e) {
+                $this->logger->error($e->getMessage(), $e->getTrace());
+
+                return new JsonResponse(['status' => 'Server error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Bad request'], Response::HTTP_BAD_REQUEST);
+        }
+
+        return new JsonResponse(null, Response::HTTP_OK);
     }
 }

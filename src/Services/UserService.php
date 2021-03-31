@@ -58,10 +58,10 @@ class UserService
      * @param Request $request
      * @return array
      */
-    public function getUsernameFromRequest(Request $request): array
+    public function getUsernameFromRequest(Request $request, int $userId): array
     {
         $username = $request->get('username');
 
-        return $this->userRepository->findUsersByUsername($username);
+        return $this->userRepository->findUsersByUsername($username, $userId);
     }
 }

@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Request;
+use Throwable;
 
 /**
  * Class ConversationService
@@ -32,7 +33,34 @@ class ConversationService
 //        return $this->conversationRepository->findConversationsByUser($userId);
     }
 
-    public function createFromRequest(Request $request)
+    /**
+     * @param int $userId
+     * @param int $conversationId
+     * @return bool
+     */
+    public function checkIfConversationExist(int $userId, int $conversationId): bool
     {
+        return $this->conversationRepository->findConversationsByUserAndId($userId, $conversationId) !== [];
+    }
+
+    /**
+     * @param int $conversationId
+     * @throws ORMException
+     * @throws Throwable
+     */
+    public function deleteConversation(int $conversationId): void
+    {
+        $this->conversationRepository->deleteConversation($conversationId);
+    }
+
+    /**
+     * @param int $conversationId
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws Throwable
+     */
+    public function clearConversation(int $conversationId): void
+    {
+        $this->conversationRepository->clearConversation($conversationId);
     }
 }

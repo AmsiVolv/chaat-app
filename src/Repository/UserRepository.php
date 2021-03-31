@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -116,12 +117,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $user;
     }
 
-    public function findUsersByUsername(string $username): array
+    public function findUsersByUsername(string $username, int $userId): array
     {
         $qb = $this->createQueryBuilder('u');
 
-        $qb->where($qb->expr()->like('u.username', ':username'))
+        $qb
+            ->where($qb->expr()->like('u.username', ':username'))
+            ->andWhere($qb->expr()->neq('u.id', ':userId'))
             ->setParameter('username', sprintf('%%%s%%', $username))
+            ->setParameter('userId', $userId)
             ->setMaxResults(5);
 
         return $qb->getQuery()->getResult();
