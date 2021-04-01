@@ -6,6 +6,7 @@
     "require": {
         "php": ">=8.0",
         "ext-ctype": "*",
+        "ext-dom": "*",
         "ext-iconv": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
@@ -56,8 +57,7 @@
         "symfony/yaml": "5.2.*",
         "symfonycasts/verify-email-bundle": "^1.2",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-      "ext-dom": "*"
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.1",
@@ -118,8 +118,8 @@
             "@php bin/console cache:warmup --env=dev",
             "@phpstan-general"
         ],
-        "phpstan-general": "phpstan analyse -c phpstan.neon src --level 7",
-        "phpstan-tests": "phpstan analyse -c phpstan-tests.neon tests --level 7 --no-progress",
+        "phpstan-general": "phpstan analyse -c phpstan.neon src --level 6",
+        "phpstan-tests": "phpstan analyse -c phpstan-tests.neon tests --level 6 --no-progress",
         "check-coding-style": [
             "phpcs vendor/bin/phpcs --standard=ruleset.xml --extensions=php --colors --tab-width=4 -sp src"
         ],
@@ -152,6 +152,6 @@
             "file": "config/packages/parameters.yml"
         }
     },
-    "name": "in-vse",
-    "description": ""
+    "description": "In VSE",
+    "name": "root/invse"
 }
