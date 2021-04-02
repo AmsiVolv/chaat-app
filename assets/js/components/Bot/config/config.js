@@ -40,9 +40,11 @@ const config = {
     courseFilterOptions: [],
     courseSelectedFilters: [],
     openDays: [],
+    preparatoryCourses: [],
     isFetchingCourseSelect: true,
     isFetchingCourseInfo: true,
     isFetchingOpenDays: true,
+    isFetchingPreparatoryCourses: true,
     course: "",
     applicantsChoice: "",
   },
@@ -80,7 +82,7 @@ const config = {
     {
       widgetName: "preparatoryCourses",
       widgetFunc: (props) => <PreparatoryCourses {...props} />,
-      mapStateToProps: ["applicantsChoice"],
+      mapStateToProps: ["preparatoryCourses", 'isFetchingPreparatoryCourses'],
     },
     {
       widgetName: "CourseSelectInfoWidget",
