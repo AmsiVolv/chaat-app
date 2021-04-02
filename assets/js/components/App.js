@@ -30,19 +30,19 @@ class App extends React.Component {
         <div className="row">
           <NavbarPage />
         </div>
-          <div className="row overflow-hidden mt-4 w-75 mx-auto rounded">
-            {location !== "/bot" && <Left />}
-            <Switch>
-              <Route path="/" component={Blank} exact />
-              <Route
-                path="/conversation/:id"
-                render={(props) => (
-                  <Right {...props} key={props.match.params.id} />
-                )}
-              />
-              <Route path="/" component={Bot} />
-            </Switch>
-          </div>
+        <div className="row overflow-hidden mt-4 w-75 mx-auto rounded">
+          {location !== "/bot" && <Left />}
+          <Switch>
+            <Route path="/" component={Blank} exact />
+            <Route
+              path="/conversation/:id"
+              render={(props) => (
+                <Right {...props} key={props.match.params.id} />
+              )}
+            />
+            <Route path="/" component={Bot} />
+          </Switch>
+        </div>
       </>
     );
   }

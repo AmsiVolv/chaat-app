@@ -81,28 +81,28 @@ class Right extends React.Component {
   render() {
     return (
       <div className="col-7 px-0 h-100">
-              <div className="px-4 bg-white">
-                <div className="row sticky-top">
-                  <RightMessageHelper
-                      conversationId={this.props.match.params.id}
-                      history={this.props.history}
-                      recepientUser = {this.props.items[this.state._conversationIndex]}
-                  />
-                </div>
-                <div className="conversation-box"  ref={this.bodyRef}>
-                  {this.state._conversationIndex != -1 &&
-                  this.props.items != undefined &&
-                  this.props.items[this.state._conversationIndex].messages !=
-                  undefined
-                      ? this.props.items[this.state._conversationIndex].messages.map(
-                          (message, index) => {
-                            return <Message message={message} key={index} />;
-                          }
-                      )
-                      : ""}
-                </div>
-                <Input id={this.props.match.params.id} />
-              </div>
+        <div className="px-4 bg-white">
+          <div className="row sticky-top">
+            <RightMessageHelper
+              conversationId={this.props.match.params.id}
+              history={this.props.history}
+              recepientUser={this.props.items[this.state._conversationIndex]}
+            />
+          </div>
+          <div className="conversation-box" ref={this.bodyRef}>
+            {this.state._conversationIndex != -1 &&
+            this.props.items != undefined &&
+            this.props.items[this.state._conversationIndex].messages !=
+              undefined
+              ? this.props.items[this.state._conversationIndex].messages.map(
+                  (message, index) => {
+                    return <Message message={message} key={index} />;
+                  }
+                )
+              : ""}
+          </div>
+          <Input id={this.props.match.params.id} />
+        </div>
       </div>
     );
   }

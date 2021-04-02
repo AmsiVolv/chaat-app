@@ -6,6 +6,11 @@ import CourseSelectInfoWidget from "../widgets/CourseWidgets/CourseSelectInfoWid
 import CourseShowInfoWidget from "../widgets/CourseWidgets/CourseShowInfoWidget";
 import Courses from "../widgets/Courses";
 import CourseInfoChoice from "../widgets/CourseWidgets/CourseInfoChoice";
+import ApplicantsChoiceList from "../widgets/ApplicantsWidget/ApplicantsChoiceList";
+import StudyApplication from "../widgets/ApplicantsWidget/StudyApplication";
+import PreparatoryCourses from "../widgets/ApplicantsWidget/PreparatoryCourses";
+import StudyPrograms from "../widgets/ApplicantsWidget/StudyPrograms";
+import OpenDays from "../widgets/ApplicantsWidget/OpenDays";
 
 const config = {
   botName: "In-VSE Bot",
@@ -37,6 +42,7 @@ const config = {
     isFetchingCourseSelect: true,
     isFetchingCourseInfo: true,
     course: "",
+    applicantsChoice: "",
   },
   widgets: [
     {
@@ -48,6 +54,31 @@ const config = {
       widgetName: "courseChoice",
       widgetFunc: (props) => <Courses {...props} />,
       mapStateToProps: ["courses", "course"],
+    },
+    {
+      widgetName: "applicantsChoise",
+      widgetFunc: (props) => <ApplicantsChoiceList {...props} />,
+      mapStateToProps: ["applicantsChoice"],
+    },
+    {
+      widgetName: "studyPrograms",
+      widgetFunc: (props) => <StudyPrograms {...props} />,
+      mapStateToProps: ["applicantsChoice"],
+    },
+    {
+      widgetName: "openDays",
+      widgetFunc: (props) => <OpenDays {...props} />,
+      mapStateToProps: ["applicantsChoice"],
+    },
+    {
+      widgetName: "studyApplication",
+      widgetFunc: (props) => <StudyApplication {...props} />,
+      mapStateToProps: ["applicantsChoice"],
+    },
+    {
+      widgetName: "preparatoryCourses",
+      widgetFunc: (props) => <PreparatoryCourses {...props} />,
+      mapStateToProps: ["applicantsChoice"],
     },
     {
       widgetName: "CourseSelectInfoWidget",

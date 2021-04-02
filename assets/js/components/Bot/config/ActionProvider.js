@@ -22,6 +22,66 @@ class ActionProvider {
     this.updateChatbotState(message);
   };
 
+  handleApplicantsList = () => {
+    const message = this.createChatBotMessage(
+      "Vyberte pro vás zajímavou sekci",
+      {
+        withAvatar: true,
+        widget: "applicantsChoise",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+
+  handleStudyApplication = () => {
+    const message = this.createChatBotMessage(
+      "Vyberte pro vás zajímavou sekci",
+      {
+        withAvatar: true,
+        widget: "studyApplication",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+
+  handleStudyPrograms = () => {
+    const message = this.createChatBotMessage(
+      "Vyberte pro vás zajímavou sekci",
+      {
+        withAvatar: true,
+        widget: "studyPrograms",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+
+  handlePreparatoryCourses = () => {
+    const message = this.createChatBotMessage(
+      "Vyberte pro vás zajímavou sekci",
+      {
+        withAvatar: true,
+        widget: "preparatoryCourses",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+
+  handleOpenDays = () => {
+    const message = this.createChatBotMessage(
+      "Vyberte pro vás zajímavou sekci",
+      {
+        withAvatar: true,
+        widget: "openDays",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+
   handleFilterCourseInfo = () => {
     const message = this.createChatBotMessage(
       "Please select information, for print",
