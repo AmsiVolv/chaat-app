@@ -30,4 +30,7 @@ export const phrases = {
   teacherUri: "Odkáz",
   course: "Předmět",
   reading: "Literatura",
+  openDaysDescription: "Fakulta",
+  openDayDate: "Datum",
+  link: "Odkáz",
 };

@@ -39,8 +39,10 @@ const config = {
     courseInfo: {},
     courseFilterOptions: [],
     courseSelectedFilters: [],
+    openDays: [],
     isFetchingCourseSelect: true,
     isFetchingCourseInfo: true,
+    isFetchingOpenDays: true,
     course: "",
     applicantsChoice: "",
   },
@@ -68,7 +70,7 @@ const config = {
     {
       widgetName: "openDays",
       widgetFunc: (props) => <OpenDays {...props} />,
-      mapStateToProps: ["applicantsChoice"],
+      mapStateToProps: ["openDays", "isFetchingOpenDays"],
     },
     {
       widgetName: "studyApplication",
