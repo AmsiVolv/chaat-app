@@ -27,11 +27,10 @@ class App extends React.Component {
     const { location } = this.state;
     return (
       <>
-        <div className="container-xl">
+        <div className="row">
           <NavbarPage />
         </div>
-        <div className="container h-100 mt-lg-5">
-          <div className="row rounded-lg overflow-hidden">
+          <div className="row overflow-hidden mt-4 w-75 mx-auto rounded">
             {location !== "/bot" && <Left />}
             <Switch>
               <Route path="/" component={Blank} exact />
@@ -44,7 +43,6 @@ class App extends React.Component {
               <Route path="/" component={Bot} />
             </Switch>
           </div>
-        </div>
       </>
     );
   }

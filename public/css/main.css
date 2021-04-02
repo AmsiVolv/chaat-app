@@ -35,9 +35,18 @@ body {
     font-size: 0.9rem;
 }
 
-.messages-box,
+.messages-box {
+    height: 75vh;
+    overflow-y: scroll;
+}
+
+.conversation-box {
+    height: 66vh;
+    overflow-y: scroll;
+}
+
 .chat-box {
-    height: 510px;
+    height: 75%;
     overflow-y: scroll;
 }
 

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
 import { Button } from "antd";
 import { ClearOutlined, DeleteOutlined } from "@ant-design/icons";
+import {Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 const mapStateToProps = (state) => {
   return state;
@@ -39,27 +41,33 @@ class RightMessageHelper extends React.Component {
   render() {
     return (
         <>
-            <div className="col-12 py-3 d-flex justify-content-end">
-                <div className="mr-auto align-self-center"><p>{this.getRecepientUsername()}</p></div>
-                <Button
-                    title="Clear"
-                    size="large"
-                    shape="round"
-                    onClick={this.clearConversation}
-                >
-                    <ClearOutlined />
-                </Button>
-                <Button
-                    title="Delete"
-                    size="large"
-                    shape="round"
-                    type="primary"
-                    danger
-                    onClick={this.deleteConversation}
-                >
-                    <DeleteOutlined />
-                </Button>
-            </div>
+            <Navbar bg="white" variant="light">
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <p>{this.getRecepientUsername()}</p>
+                    </Nav>
+                </Navbar.Collapse>
+                <Navbar.Collapse className="justify-content-end">
+                    <Button
+                        title="Clear"
+                        size="large"
+                        shape="round"
+                        onClick={this.clearConversation}
+                    >
+                        <ClearOutlined />
+                    </Button>
+                    <Button
+                        title="Delete"
+                        size="large"
+                        shape="round"
+                        type="primary"
+                        danger
+                        onClick={this.deleteConversation}
+                    >
+                        <DeleteOutlined />
+                    </Button>
+                </Navbar.Collapse>
+            </Navbar>
         </>
     );
   }
