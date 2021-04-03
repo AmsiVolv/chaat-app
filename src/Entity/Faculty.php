@@ -41,6 +41,9 @@ class Faculty
     /** @ORM\OneToMany(targetEntity=Course::class, mappedBy="faculty") */
     private $courses;
 
+    /** @ORM\OneToMany(targetEntity=StudyProgram::class, mappedBy="faculty") */
+    private $studyPrograms;
+
     public function __construct(
         string $facultyName,
         string $logoLink,
@@ -56,6 +59,7 @@ class Faculty
         $this->period = $period;
         $this->abbreviation = $abbreviation;
         $this->courses = new ArrayCollection();
+        $this->studyPrograms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,6 +163,36 @@ class Faculty
             // set the owning side to null (unless already changed)
             if ($course->getFaculty() === $this) {
                 $course->setFaculty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StudyProgram[]
+     */
+    public function getStudyPrograms(): Collection
+    {
+        return $this->studyPrograms;
+    }
+
+    public function addStudyProgram(StudyProgram $studyProgram): self
+    {
+        if (!$this->studyPrograms->contains($studyProgram)) {
+            $this->studyPrograms[] = $studyProgram;
+            $studyProgram->setFaculty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudyProgram(StudyProgram $studyProgram): self
+    {
+        if ($this->studyPrograms->removeElement($studyProgram)) {
+            // set the owning side to null (unless already changed)
+            if ($studyProgram->getFaculty() === $this) {
+                $studyProgram->setFaculty(null);
             }
         }
 

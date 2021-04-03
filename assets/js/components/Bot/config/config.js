@@ -82,7 +82,7 @@ const config = {
     {
       widgetName: "preparatoryCourses",
       widgetFunc: (props) => <PreparatoryCourses {...props} />,
-      mapStateToProps: ["preparatoryCourses", 'isFetchingPreparatoryCourses'],
+      mapStateToProps: ["preparatoryCourses", "isFetchingPreparatoryCourses"],
     },
     {
       widgetName: "CourseSelectInfoWidget",
