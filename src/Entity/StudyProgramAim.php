@@ -49,13 +49,13 @@ class StudyProgramAim
         return $this;
     }
 
-    /**
-     * @return Collection|StudyProgram[]
-     */
-    public function getStudyPrograms(): Collection
-    {
-        return $this->studyPrograms;
-    }
+//    /**
+//     * @return Collection|StudyProgram[]
+//     */
+//    public function getStudyPrograms(): Collection
+//    {
+//        return $this->studyPrograms;
+//    }
 
     public function addStudyProgram(StudyProgram $studyProgram): self
     {

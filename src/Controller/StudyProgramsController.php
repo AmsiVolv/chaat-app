@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Services\OpenDaysService;
+use App\Services\StudyProgramAimService;
+use App\Services\StudyProgramFormTypeService;
+use App\Services\StudyProgramLanguageService;
 use App\Services\StudyProgramService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,8 +28,10 @@ class StudyProgramsController extends AbstractController
 
     use CheckRequestDataTrait;
 
-    public function __construct(StudyProgramService $studyProgramService, LoggerInterface $logger)
-    {
+    public function __construct(
+        StudyProgramService $studyProgramService,
+        LoggerInterface $logger
+    ) {
         $this->studyProgramService = $studyProgramService;
         $this->logger = $logger;
     }
@@ -36,10 +41,28 @@ class StudyProgramsController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getOpenDays(Request $request): Response
+    public function getStudyPrograms(Request $request): Response
     {
         try {
             $studyPrograms = $this->studyProgramService->getAll();
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Response error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->json($studyPrograms);
+    }
+
+    /**
+     * @Route("/getFilter", name="get-study-programs-filter", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getFilterOptions(Request $request): Response
+    {
+        try {
+            $studyPrograms = $this->studyProgramService->getFilterOptions();
         } catch (Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
 

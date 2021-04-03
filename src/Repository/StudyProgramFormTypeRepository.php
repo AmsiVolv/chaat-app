@@ -78,4 +78,14 @@ class StudyProgramFormTypeRepository extends ServiceEntityRepository
 
         return $studyInformationFormType;
     }
+
+    /**
+     * @return StudyProgramFormType[]
+     */
+    public function getAll(): array
+    {
+        $qb = $this->createQueryBuilder('sf');
+
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Throwable;
 use function Doctrine\ORM\QueryBuilder;
 
 /**
@@ -83,11 +84,21 @@ class StudyProgramRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return StudyProgram[]
+     * @throws Throwable
+     * @return array
      */
     public function getAll(): array
     {
         $qb = $this->createQueryBuilder('sp');
+
+        $qb->select('sp.id as studyProgramId, 
+                            sp.externalId, sp.studyProgramTitle, 
+                            f.id as facultyId, f.facultyName, 
+                            sl.id as studyProgramLanguageId, sl.language, 
+                            pf.id as studyProgramFormId, pf.form')
+            ->join('sp.faculty', 'f')
+            ->join('sp.studyProgramLanguage', 'sl')
+            ->join('sp.studyProgramForm', 'pf');
 
         return $qb->getQuery()->getResult();
     }

@@ -78,4 +78,14 @@ class StudyProgramLanguageRepository extends ServiceEntityRepository
 
         return $studyInformationLanguage;
     }
+
+    /**
+     * @return StudyProgramLanguage[]
+     */
+    public function getAll(): array
+    {
+        $qb = $this->createQueryBuilder('l');
+
+        return $qb->getQuery()->getResult();
+    }
 }

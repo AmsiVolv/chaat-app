@@ -78,4 +78,26 @@ class StudyProgramAimRepository extends ServiceEntityRepository
 
         return $programAim;
     }
+
+    /**
+     * @return StudyProgramAim[]
+     */
+    public function getAll(): array
+    {
+        $qb = $this->createQueryBuilder('pa');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getByStudyProgramId(int $studyProgramId): array
+    {
+        $qb = $this->createQueryBuilder('pa');
+
+        $qb->select('pa.id, pa.aim')
+            ->join('pa.studyPrograms', 'sp')
+            ->where($qb->expr()->eq('sp.id', ':studyProgramId'))
+            ->setParameter('studyProgramId', $studyProgramId);
+
+        return $qb->getQuery()->getResult();
+    }
 }
