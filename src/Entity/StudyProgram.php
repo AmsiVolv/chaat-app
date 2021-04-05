@@ -47,6 +47,9 @@ class StudyProgram
     /** @ORM\Column(type="string", length=255) */
     private $link;
 
+    /** @ORM\Column(type="integer", nullable=true) */
+    private ?int $studyProgramCapacity;
+
     public function __construct()
     {
         $this->aims = new ArrayCollection();
@@ -149,6 +152,18 @@ class StudyProgram
     public function setLink(string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getStudyProgramCapacity(): ?int
+    {
+        return $this->studyProgramCapacity;
+    }
+
+    public function setStudyProgramCapacity(?int $studyProgramCapacity): self
+    {
+        $this->studyProgramCapacity = $studyProgramCapacity;
 
         return $this;
     }

@@ -43,5 +43,8 @@ export const phrases = {
   studyProgramTitle: "Studijní program",
   facultyName: "Fakulta",
   language: "Jazyk studia",
+  studyProgramCapacity: "Předpokládaný počet přijímaných uchazečů",
+  studyAdmission: "Informace o přijímacím řizení",
+  studyAdmissionLink: "PDF",
   form: "Forma studia",
 };

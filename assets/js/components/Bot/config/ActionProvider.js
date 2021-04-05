@@ -57,25 +57,18 @@ class ActionProvider {
       "Mě zajímá informace pro přijímací řízení a přihláška ke studiu"
     );
 
-    const secondBotMessage = this.createChatBotMessage(
-      "Možná vás zajímá něco jiného?",
-      {
-        delay: 500,
-        withAvatar: true,
-        widget: "applicantsChoise",
-      }
-    );
-
     this.updateChatbotState(messageClient);
     this.updateChatbotState(message);
-    this.updateChatbotState(secondBotMessage);
   };
 
   handleStudyPrograms = () => {
-    const message = this.createChatBotMessage({
-      withAvatar: true,
-      widget: "studyPrograms",
-    });
+    const message = this.createChatBotMessage(
+      "Vyberte pro vás zajímavou sekci",
+      {
+        withAvatar: true,
+        widget: "studyPrograms",
+      }
+    );
 
     const messageClient = this.createClientMessage(
       "Mě zajímá informace pro studijní programy"
@@ -147,6 +140,37 @@ class ActionProvider {
     this.updateChatbotState(messageClient);
     this.updateChatbotState(message);
     this.updateChatbotState(secondBotMessage);
+  };
+
+  handleStudyAdmisions = () => {
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace o přimacím řizení"
+    );
+
+    const botMessage = this.createChatBotMessage("Už na tom pracují");
+
+    const secondBotMessage = this.createChatBotMessage(
+      "Vyberte fakultu, o kterou máte zájem",
+      {
+        delay: 500,
+        withAvatar: true,
+        widget: "studyAdmissions",
+      }
+    );
+
+    const thirdBotMessage = this.createChatBotMessage(
+      "Možná vás zajímá něco jiného?",
+      {
+        delay: 1000,
+        withAvatar: true,
+        widget: "applicantsChoise",
+      }
+    );
+
+    this.updateChatbotState(messageClient);
+    this.updateChatbotState(botMessage);
+    this.updateChatbotState(secondBotMessage);
+    this.updateChatbotState(thirdBotMessage);
   };
 
   handleFilterCourseInfo = () => {

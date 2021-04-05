@@ -93,6 +93,7 @@ class StudyProgramRepository extends ServiceEntityRepository
 
         $qb->select('sp.id as studyProgramId,
                             sp.link, 
+                            sp.studyProgramCapacity,
                             sp.externalId, sp.studyProgramTitle, 
                             f.id as facultyId, f.facultyName, f.webLink,
                             sl.id as studyProgramLanguageId, sl.language, 

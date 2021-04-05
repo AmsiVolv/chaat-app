@@ -1,6 +1,8 @@
 import translate from "./translate";
 import React from "react";
 import { getCitationUrl } from "./otherHelpers";
+import { DownloadOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 
 export const courseSchedulingColumns = [
   {
@@ -202,6 +204,11 @@ export const studyProgramsColumns = [
     onFilter: (value, data) => data.facultyName.indexOf(value) === 0,
   },
   {
+    title: translate("studyProgramCapacity"),
+    dataIndex: "studyProgramCapacity",
+    sorter: (a, b) => a.studyProgramCapacity - b.studyProgramCapacity,
+  },
+  {
     title: translate("language"),
     dataIndex: "language",
     filters: [
@@ -219,5 +226,40 @@ export const studyProgramsColumns = [
       { text: "kombinovaná", value: "kombinovaná" },
     ],
     onFilter: (value, data) => data.form.indexOf(value) === 0,
+  },
+];
+
+export const studyAdmissions = [
+  {
+    title: translate("facultyName"),
+    dataIndex: "facultyName",
+    render: (text, data) => (
+      <a
+        className="ant-anchor-link text-center"
+        target="_blank"
+        href={data.webLink}
+      >
+        {text}
+      </a>
+    ),
+  },
+  {
+    title: translate("studyAdmissionLink"),
+    dataIndex: "studyAdmissionLink",
+    render: (text, data) => (
+      <a
+        key={text}
+        className="ant-anchor-link text-center"
+        target="_blank"
+        href={text}
+      >
+        <Button
+          key={text}
+          type="primary"
+          shape="round"
+          icon={<DownloadOutlined />}
+        />
+      </a>
+    ),
   },
 ];

@@ -44,6 +44,9 @@ class Faculty
     /** @ORM\OneToMany(targetEntity=StudyProgram::class, mappedBy="faculty") */
     private $studyPrograms;
 
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private $studyAdmissionLink;
+
     public function __construct(
         string $facultyName,
         string $logoLink,
@@ -195,6 +198,18 @@ class Faculty
                 $studyProgram->setFaculty(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStudyAdmissionLink(): ?string
+    {
+        return $this->studyAdmissionLink;
+    }
+
+    public function setStudyAdmissionLink(?string $studyAdmissionLink): self
+    {
+        $this->studyAdmissionLink = $studyAdmissionLink;
 
         return $this;
     }

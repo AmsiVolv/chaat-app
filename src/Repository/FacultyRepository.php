@@ -70,4 +70,13 @@ class FacultyRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getAllStudyAdmission(): array
+    {
+        $qb = $this->createQueryBuilder('f');
+
+        $qb->select('f.id, f.studyAdmissionLink, f.webLink, f.facultyName')
+            ->where($qb->expr()->isNotNull('f.studyAdmissionLink'));
+
+        return $qb->getQuery()->getResult();
+    }
 }
