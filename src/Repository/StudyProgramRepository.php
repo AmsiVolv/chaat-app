@@ -91,9 +91,10 @@ class StudyProgramRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('sp');
 
-        $qb->select('sp.id as studyProgramId, 
+        $qb->select('sp.id as studyProgramId,
+                            sp.link, 
                             sp.externalId, sp.studyProgramTitle, 
-                            f.id as facultyId, f.facultyName, 
+                            f.id as facultyId, f.facultyName, f.webLink,
                             sl.id as studyProgramLanguageId, sl.language, 
                             pf.id as studyProgramFormId, pf.form')
             ->join('sp.faculty', 'f')

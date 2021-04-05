@@ -19,6 +19,11 @@ class ActionProvider {
       }
     );
 
+    const messageClient = this.createClientMessage(
+      "Please can you provide me info about course?"
+    );
+
+    this.updateChatbotState(messageClient);
     this.updateChatbotState(message);
   };
 
@@ -31,6 +36,11 @@ class ActionProvider {
       }
     );
 
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace pro uchazeče"
+    );
+
+    this.updateChatbotState(messageClient);
     this.updateChatbotState(message);
   };
 
@@ -43,19 +53,46 @@ class ActionProvider {
       }
     );
 
-    this.updateChatbotState(message);
-  };
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace pro přijímací řízení a přihláška ke studiu"
+    );
 
-  handleStudyPrograms = () => {
-    const message = this.createChatBotMessage(
-      "Vyberte pro vás zajímavou sekci",
+    const secondBotMessage = this.createChatBotMessage(
+      "Možná vás zajímá něco jiného?",
       {
+        delay: 500,
         withAvatar: true,
-        widget: "studyPrograms",
+        widget: "applicantsChoise",
       }
     );
 
+    this.updateChatbotState(messageClient);
     this.updateChatbotState(message);
+    this.updateChatbotState(secondBotMessage);
+  };
+
+  handleStudyPrograms = () => {
+    const message = this.createChatBotMessage({
+      withAvatar: true,
+      widget: "studyPrograms",
+    });
+
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace pro studijní programy"
+    );
+
+    const secondBotMessage = this.createChatBotMessage(
+      "Možná vás zajímá něco jiného?",
+      {
+        delay: 500,
+        withAvatar: true,
+        widget: "applicantsChoise",
+      }
+    );
+
+    this.updateChatbotState(messageClient);
+    this.updateChatbotState(message);
+    this.updateChatbotState(secondBotMessage);
   };
 
   handlePreparatoryCourses = () => {
@@ -67,7 +104,22 @@ class ActionProvider {
       }
     );
 
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace pro přípravné kurzy"
+    );
+
+    const secondBotMessage = this.createChatBotMessage(
+      "Možná vás zajímá něco jiného?",
+      {
+        delay: 500,
+        withAvatar: true,
+        widget: "applicantsChoise",
+      }
+    );
+
+    this.updateChatbotState(messageClient);
     this.updateChatbotState(message);
+    this.updateChatbotState(secondBotMessage);
   };
 
   handleOpenDays = () => {
@@ -79,7 +131,22 @@ class ActionProvider {
       }
     );
 
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace pro dny otevřených dveří"
+    );
+
+    const secondBotMessage = this.createChatBotMessage(
+      "Možná vás zajímá něco jiného?",
+      {
+        delay: 500,
+        withAvatar: true,
+        widget: "applicantsChoise",
+      }
+    );
+
+    this.updateChatbotState(messageClient);
     this.updateChatbotState(message);
+    this.updateChatbotState(secondBotMessage);
   };
 
   handleFilterCourseInfo = () => {

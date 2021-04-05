@@ -78,4 +78,29 @@ class ReadingRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function getAllByCourseId(string $courseId): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $selectString = $this->getSelectQueryForCourse();
+
+        $qb->select($selectString)
+            ->innerJoin('r.course', 'c')
+            ->where($qb->expr()->eq('c.id', ':courseId'))
+            ->setParameter('courseId', $courseId);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    private function getSelectQueryForCourse(): string
+    {
+        $selectString = '';
+        $readingKeys = Reading::getPrimaryKeys();
+
+        foreach ($readingKeys as $readingKey) {
+            $selectString .= sprintf(' %s.%s ', CourseRepository::READING_ALIAS, $readingKey);
+        }
+
+        return str_replace('  ', ', ', trim($selectString));
+    }
 }

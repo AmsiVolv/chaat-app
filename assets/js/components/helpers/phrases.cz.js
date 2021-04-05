@@ -40,4 +40,8 @@ export const phrases = {
   preparatoryCoursePrice: "Cena",
   preparatoryCourseContactPersonEmail: "E-mail kontaktní osoby",
   preparatoryCourseContactPersonName: "Kontaktní osoba",
+  studyProgramTitle: "Studijní program",
+  facultyName: "Fakulta",
+  language: "Jazyk studia",
+  form: "Forma studia",
 };

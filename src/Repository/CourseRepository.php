@@ -30,10 +30,10 @@ class CourseRepository extends ServiceEntityRepository
     public const READING = 'reading';
 
     private const COURSE_ALIAS = 'c';
-    private const FACULTY_ALIAS = 'f';
-    private const TEACHER_ALIAS = 't';
-    private const COURSE_SCHEDULING_ALIAS = 'cs';
-    private const READING_ALIAS = 'r';
+    public const FACULTY_ALIAS = 'f';
+    public const TEACHER_ALIAS = 't';
+    public const COURSE_SCHEDULING_ALIAS = 'cs';
+    public const READING_ALIAS = 'r';
 
     private const PROPERTY_ARRAY = [
         self::COURSE => self::COURSE_ALIAS,
@@ -300,5 +300,54 @@ class CourseRepository extends ServiceEntityRepository
             ->setMaxResults(5);
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function getAllByCourseId(string $courseId): ?array
+    {
+        $qb = $this->createQueryBuilder('c');
+        $selectString = $this->getSelectQueryForCourse();
+
+        $qb->select($selectString)
+        ->where(
+            $qb->expr()->eq('c.id', ':id')
+        )
+        ->setParameter('id', $courseId);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param string $course
+     * @return string
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getCourseIdByCourseName(string $course): string
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->select('c.id')
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('c.subjectCode', ':subjectCode'),
+                    $qb->expr()->eq('c.courseTitle', ':courseTitle'),
+                )
+            )
+            ->setParameter('subjectCode', $course)
+            ->setParameter('courseTitle', $course);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function getSelectQueryForCourse(): string
+    {
+        $selectString = '';
+        $courseKeys = Course::getPrimaryKeys();
+
+        foreach ($courseKeys as $courseKey) {
+            $selectString .= sprintf(' %s.%s ', self::COURSE_ALIAS, $courseKey);
+        }
+
+        return str_replace('  ', ', ', trim($selectString));
     }
 }

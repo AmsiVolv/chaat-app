@@ -68,7 +68,7 @@ class OpenDaysRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('od');
 
-        $qb->select('od.openDaysDescription, od.openDayDate, od.link')
+        $qb->select('od.id, od.openDaysDescription, od.openDayDate, od.link')
             ->where($qb->expr()->between('od.createdAt', ':openDayDateStart', ':openDayDateEnd'))
             ->setParameter('openDayDateStart', (new \DateTime('yesterday'))->format('Y-m-d h:m:i'))
             ->setParameter('openDayDateEnd', (new \DateTime('tomorrow'))->format('Y-m-d h:m:i'));

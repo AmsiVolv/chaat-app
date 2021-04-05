@@ -44,8 +44,12 @@ class StudyProgramService
         $data = $this->studyProgramRepository->getAll();
         foreach ($data as &$studyProgram) {
             if ($studyProgram) {
+                $aimString = '';
                 $aims = $this->studyProgramAimService->getByStudyProgramId($studyProgram['studyProgramId']);
-                $studyProgram['aims'] = $aims;
+                foreach ($aims as $aim) {
+                    $aimString .= sprintf(' %s ', $aim['aim']);
+                }
+                $studyProgram['aims'] = sprintf('%s: %s', 'Zaměření', str_replace('  ', ', ', trim($aimString)));
             }
         }
 

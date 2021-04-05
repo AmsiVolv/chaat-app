@@ -1,159 +1,131 @@
 import React from "react";
+import { Table, Row, Col, Divider, Descriptions } from "antd";
 import translate from "../../../helpers/translate";
+import {
+  courseSchedulingColumns,
+  readingColumns,
+  teacherColumns,
+} from "../../../helpers/columns";
+import Title from "antd/es/typography/Title";
 
-const CourseShowInfoWidget = (props) => {
-  function prepareData(key, value, index) {
-    if (
-      value instanceof Array ||
-      value instanceof Object ||
-      value === "undefined"
-    ) {
-      if (value instanceof Array && key !== "keys" && value.length !== 0) {
+class CourseShowInfoWidget extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  state = {
+    data: [],
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+    loading: false,
+  };
+
+  prepareData = (key, value) => {
+    if (value instanceof Array && value.length !== 0) {
+      if (
+        key === "reading" ||
+        key === "courseScheduling" ||
+        key === "teacher"
+      ) {
+        const { loading } = this.state;
+        const totalLength = value.length;
+        const data = value;
+        let columns = "";
+
+        if (key === "reading") {
+          columns = readingColumns;
+        }
+
+        if (key === "courseScheduling") {
+          columns = courseSchedulingColumns;
+        }
+
+        if (key === "teacher") {
+          columns = teacherColumns;
+        }
+
         return (
-          <div className="com-md-12 mt-2 mb-2" key={key}>
-            <p className="text-center bg-info text-white w-100">
-              {translate(key)}
-            </p>
-            <table className="table table-bordered table-hover">
-              {renderTableHead(value[0])}
-              <tbody>{renderTableBody(value)}</tbody>
-            </table>
+          <div key={key}>
+            <Divider key={key + " divider"} />
+            <Row
+              key={key + " row"}
+              align={"middle"}
+              justify={"center"}
+              style={{ marginTop: "3%" }}
+            >
+              <Col key={key + " col"} span={24} style={{ textAlign: "center" }}>
+                <Title key={key + " title"} level={3}>
+                  {translate(key)}
+                </Title>
+              </Col>
+            </Row>
+            <Table
+              bordered
+              key={key}
+              columns={columns}
+              rowKey={(data) => data.id}
+              dataSource={data}
+              pagination={{
+                pageSize: 5,
+                total: totalLength,
+                hideOnSinglePage: true,
+              }}
+              loading={loading}
+            />
+          </div>
+        );
+      } else {
+        return (
+          <div key={key}>
+            <Divider key={key + " divider"} />
+            <Row
+              key={key + " row"}
+              align={"middle"}
+              justify={"center"}
+              style={{ marginTop: "3%" }}
+            >
+              <Col key={key + " col"} span={24} style={{ textAlign: "center" }}>
+                <Title key={key + " title"} level={3}>
+                  {translate(key)}
+                </Title>
+              </Col>
+            </Row>
+            <Descriptions key={key} bordered column={1}>
+              {this.renderListItems(value[0])}
+            </Descriptions>
           </div>
         );
       }
-      if (value instanceof Object && key === "course") {
-        return Object.entries(value).map(([key, value], infoIndex) =>
-          prepareData(key, value, infoIndex)
-        );
-      }
-      return;
     }
+  };
 
-    return (
-      <div className="row" key={index}>
-        <div className="col-md-3">
-          <p>{translate(key)}</p>
-        </div>
-        <div className="col-md-9">
-          <p>{value}</p>
-        </div>
-      </div>
-    );
-  }
-
-  function isURL(str) {
-    const pattern = new RegExp(
-      "^(https?:\\/\\/)?" + // protocol
-        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-        "(\\#[-a-z\\d_]*)?$",
-      "i"
-    ); // fragment locator
-    return !!pattern.test(str);
-  }
-
-  function isLibraryUrl(str) {
-    const libraryBase = "library.vse.cz";
-
-    return str.includes(libraryBase);
-  }
-
-  function getCitationUrl(str) {
-    const bookID = str.substr(str.indexOf("?") + 1);
-
-    return `https://katalog.vse.cz/Record/${bookID}/Cite?layout=lightbox`;
-  }
-
-  function isEmail(email) {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
-
-  function renderTableBody(value) {
-    return value.map((element, index) => {
+  renderListItems = (listItemsArray) => {
+    return Object.entries(listItemsArray).map(([itemKey, itemValue]) => {
       return (
-        <tr key={index}>
-          {Object.entries(element).map(([key, value]) => {
-            if (key !== "keys") {
-              if (isURL(value)) {
-                if (isLibraryUrl(value)) {
-                  const citationUrl = getCitationUrl(value);
-                  return (
-                    <td key={value + key} className="text-center">
-                      <a className="badge badge-pill badge-info" href={value}>
-                        Link
-                      </a>
-                      <a
-                        target="_blank"
-                        className="badge badge-pill badge-primary"
-                        href={citationUrl}
-                      >
-                        Citation
-                      </a>
-                    </td>
-                  );
-                } else {
-                  return (
-                    <td key={value + key} className="text-center">
-                      <a className="badge badge-pill badge-info" href={value}>
-                        Link
-                      </a>
-                    </td>
-                  );
-                }
-              } else if (isEmail(value)) {
-                return (
-                  <td key={value + key} className="text-center">
-                    <a
-                      className="badge badge-pill badge-info"
-                      href={"mailto:" + value}
-                    >
-                      Write email
-                    </a>
-                  </td>
-                );
-              } else {
-                return <td key={value + key}>{value}</td>;
-              }
-            }
-          })}
-        </tr>
+        <Descriptions.Item key={itemKey} label={translate(itemKey)}>
+          {itemValue}
+        </Descriptions.Item>
       );
     });
+  };
+
+  componentDidMount() {
+    const { pagination } = this.state;
   }
 
-  function renderTableHead(value) {
+  render() {
+    const { data, pagination, loading } = this.state;
+
     return (
-      <thead>
-        <tr>
-          {Object.keys(value).map((theadKey) => {
-            if (theadKey !== "keys") {
-              return (
-                <th scope="col" key={theadKey}>
-                  {translate(theadKey)}
-                </th>
-              );
-            }
-          })}
-        </tr>
-      </thead>
+      <div className="col-md-12">
+        {Object.entries(this.props.courseInfo).map(([infoKey, infoValue]) =>
+          this.prepareData(infoKey, infoValue)
+        )}
+      </div>
     );
   }
-
-  return (
-    <div className="col-md-12">
-      <div className="bg-info text-white">
-        <div className="com-md-12">
-          <p className="text-center w-100">Course info</p>
-        </div>
-      </div>
-      {Object.entries(props.courseInfo).map(([infoKey, infoValue], infoIndex) =>
-        prepareData(infoKey, infoValue, infoIndex)
-      )}
-    </div>
-  );
-};
+}
 
 export default CourseShowInfoWidget;

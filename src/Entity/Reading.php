@@ -147,4 +147,16 @@ class Reading
             'libraryLink',
         ];
     }
+
+    public static function getPrimaryKeys(): array
+    {
+        return [
+            'id',
+            'readingType',
+            'Author',
+            'title',
+            'ISBN',
+            'libraryLink',
+        ];
+    }
 }

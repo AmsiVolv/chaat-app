@@ -62,4 +62,29 @@ class CourseShedulingRepository extends ServiceEntityRepository
 
         return $scheduling;
     }
+
+    public function getAllByCourseId(string $courseId): array
+    {
+        $qb = $this->createQueryBuilder('cs');
+        $selectString = $this->getSelectQueryForCourse();
+
+        $qb->select($selectString)
+            ->innerJoin('cs.course', 'c')
+            ->where($qb->expr()->eq('c.id', ':courseId'))
+            ->setParameter('courseId', $courseId);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    private function getSelectQueryForCourse(): string
+    {
+        $selectString = '';
+        $courseSchedulingKeys = CourseSheduling::getPrimaryKeys();
+
+        foreach ($courseSchedulingKeys as $courseSchedulingKey) {
+            $selectString .= sprintf(' %s.%s ', CourseRepository::COURSE_SCHEDULING_ALIAS, $courseSchedulingKey);
+        }
+
+        return str_replace('  ', ', ', trim($selectString));
+    }
 }

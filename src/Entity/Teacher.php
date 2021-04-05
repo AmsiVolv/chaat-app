@@ -167,4 +167,16 @@ class Teacher
             'teacherUri',
         ];
     }
+
+    public static function getPrimaryKeys(): array
+    {
+        return [
+            'id',
+            'name',
+            'email',
+            'officeNumber',
+            'phoneNumber',
+            'teacherUri',
+        ];
+    }
 }

@@ -8,6 +8,9 @@ use App\Entity\CourseSheduling;
 use App\Entity\Reading;
 use App\Entity\Teacher;
 use App\Repository\CourseRepository;
+use App\Repository\CourseShedulingRepository;
+use App\Repository\ReadingRepository;
+use App\Repository\TeacherRepository;
 use stdClass;
 use Throwable;
 
@@ -23,11 +26,20 @@ class CourseService
     public const SEARCHED_PARAMS = 'searchedParams';
 
     private CourseRepository $courseRepository;
+    private TeacherRepository $teacherRepository;
+    private CourseShedulingRepository $courseSchedulingRepository;
+    private ReadingRepository $readingRepository;
 
     public function __construct(
         CourseRepository $courseRepository,
+        TeacherRepository $teacherRepository,
+        CourseShedulingRepository $courseSchedulingRepository,
+        ReadingRepository $readingRepository
     ) {
         $this->courseRepository = $courseRepository;
+        $this->teacherRepository = $teacherRepository;
+        $this->courseSchedulingRepository = $courseSchedulingRepository;
+        $this->readingRepository = $readingRepository;
     }
 
     /**
@@ -48,7 +60,13 @@ class CourseService
 
             // Check if only one filter if yes return data
             if (count($request->filterParams) === 1 || count($data) === 1) {
-                return $data;
+                $dataToReturn = [];
+
+                foreach ($request->filterParams as $key => $filter) {
+                    $dataToReturn[$key] = $data;
+                }
+
+                return $dataToReturn;
             }
 
             foreach ($data as $key => $item) {
@@ -61,7 +79,14 @@ class CourseService
 
             $data = $this->checkProperty($data);
         } else {
-            $data = $this->courseRepository->getCourseInfo($request->course);
+            $courseId = $this->courseRepository->getCourseIdByCourseName($request->course);
+
+            if ($courseId) {
+                $data[CourseRepository::COURSE] = $this->courseRepository->getAllByCourseId($request->course);
+                $data[CourseRepository::READING] = $this->readingRepository->getAllByCourseId($request->course);
+                $data[CourseRepository::COURSE_SCHEDULING] = $this->courseSchedulingRepository->getAllByCourseId($request->course);
+                $data[CourseRepository::TEACHER] = $this->teacherRepository->getAllByCourseId($request->course);
+            }
         }
 
         return $data;

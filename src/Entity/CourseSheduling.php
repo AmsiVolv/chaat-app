@@ -128,4 +128,16 @@ class CourseSheduling
             'capacity',
         ];
     }
+
+    public static function getPrimaryKeys(): array
+    {
+        return [
+            'id',
+            'day',
+            'time',
+            'room',
+            'eventType',
+            'capacity',
+        ];
+    }
 }

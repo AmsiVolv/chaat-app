@@ -28,7 +28,7 @@ const CourseSelectInfoWidget = (props) => {
     })
       .then((r) => r.json())
       .then((data) => {
-        setState((state) => ({ ...state, courseInfo: data[0] }));
+        setState((state) => ({ ...state, courseInfo: data }));
       });
     props.actionProvider.handleGetAllCourseInfo(props.course);
   }

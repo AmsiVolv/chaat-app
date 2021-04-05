@@ -93,7 +93,7 @@ class StudyProgramAimRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('pa');
 
-        $qb->select('pa.id, pa.aim')
+        $qb->select('pa.aim')
             ->join('pa.studyPrograms', 'sp')
             ->where($qb->expr()->eq('sp.id', ':studyProgramId'))
             ->setParameter('studyProgramId', $studyProgramId);

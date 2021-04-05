@@ -280,12 +280,9 @@ class Course
         return $this;
     }
 
-    /**
-     * @return ReflectionProperty[]
-     */
-    public function getKeys(): array
+    public static function getKeys(): array
     {
-        return  [
+        return [
             'subjectCode',
             'courseTitle',
             'creditCount',
@@ -298,6 +295,22 @@ class Course
             'readings',
             'courseScheduling',
             'teacher',
+        ];
+    }
+
+    public static function getPrimaryKeys(): array
+    {
+        return [
+            'id',
+            'subjectCode',
+            'courseTitle',
+            'creditCount',
+            'courseLanguage',
+            'courseLevelAndYearOfStudy',
+            'courseRecommendation',
+            'courseContent',
+            'courseAims',
+            'courseUrl',
         ];
     }
 }

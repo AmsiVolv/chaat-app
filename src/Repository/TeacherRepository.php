@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\CourseSheduling;
 use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -88,5 +89,31 @@ class TeacherRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('t');
 
         return $qb->getQuery()->getResult();
+    }
+
+
+    public function getAllByCourseId(string $courseId): array
+    {
+        $qb = $this->createQueryBuilder('t');
+        $selectString = $this->getSelectQueryForCourse();
+
+        $qb->select($selectString)
+            ->innerJoin('t.courses', 'c')
+            ->where($qb->expr()->eq('c.id', ':courseId'))
+            ->setParameter('courseId', $courseId);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    private function getSelectQueryForCourse(): string
+    {
+        $selectString = '';
+        $courseSchedulingKeys = Teacher::getPrimaryKeys();
+
+        foreach ($courseSchedulingKeys as $courseSchedulingKey) {
+            $selectString .= sprintf(' %s.%s ', CourseRepository::TEACHER_ALIAS, $courseSchedulingKey);
+        }
+
+        return str_replace('  ', ', ', trim($selectString));
     }
 }

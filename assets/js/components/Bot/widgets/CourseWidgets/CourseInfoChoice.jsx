@@ -100,9 +100,15 @@ const CourseInfoChoice = (props) => {
         placeholder="Select a filter params"
         optionFilterProp="children"
         onChange={onChange}
-        filterOption={(input, option) =>
-          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        }
+        filterOption={(input, option) => {
+          if (option.children) {
+            return (
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            );
+          } else if (option.label) {
+            return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+          }
+        }}
       >
         {createSelectOptions()}
       </Select>
