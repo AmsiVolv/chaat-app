@@ -9,7 +9,7 @@ const StudyApplication = (props) => {
     },
     {
       text: "Vzoroé testy",
-      handler: props.actionProvider.handleStudyPrograms,
+      handler: props.actionProvider.handleTrialTests,
       id: 2,
     },
     {

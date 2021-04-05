@@ -263,3 +263,40 @@ export const studyAdmissions = [
     ),
   },
 ];
+
+export const trialTestsColumns = [
+  {
+    title: translate("trialTestTitle"),
+    dataIndex: "trialTestTitle",
+    filters: [
+      { text: "Angličtina", value: "Angličtina" },
+      { text: "Arts", value: "Arts" },
+      { text: "Francouzština", value: "Francouzština" },
+      { text: "Italština", value: "Italština" },
+      { text: "Němčina", value: "Němčina" },
+      { text: "Ruština", value: "Ruština" },
+      { text: "Španělština", value: "Španělština" },
+      { text: "Matematika", value: "Matematika" },
+    ],
+    onFilter: (value, data) => data.keyword.indexOf(value) === 0,
+  },
+  {
+    title: translate("trialTestLink"),
+    dataIndex: "trialTestLink",
+    render: (text, data) => (
+        <a
+            key={text}
+            className="ant-anchor-link text-center"
+            target="_blank"
+            href={text}
+        >
+          <Button
+              key={text}
+              type="primary"
+              shape="round"
+              icon={<DownloadOutlined />}
+          />
+        </a>
+    ),
+  },
+];

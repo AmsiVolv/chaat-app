@@ -173,6 +173,37 @@ class ActionProvider {
     this.updateChatbotState(thirdBotMessage);
   };
 
+    handleTrialTests = () => {
+        const messageClient = this.createClientMessage(
+            "Mě zajímá informace o vzorových testech"
+        );
+
+        const botMessage = this.createChatBotMessage("Už na tom pracují");
+
+        const secondBotMessage = this.createChatBotMessage(
+            "Našel jsem tuto informaci:",
+            {
+                delay: 500,
+                withAvatar: true,
+                widget: "trialTests",
+            }
+        );
+
+        const thirdBotMessage = this.createChatBotMessage(
+            "Možná vás zajímá něco jiného?",
+            {
+                delay: 1000,
+                withAvatar: true,
+                widget: "applicantsChoise",
+            }
+        );
+
+        this.updateChatbotState(messageClient);
+        this.updateChatbotState(botMessage);
+        this.updateChatbotState(secondBotMessage);
+        this.updateChatbotState(thirdBotMessage);
+    };
+
   handleFilterCourseInfo = () => {
     const message = this.createChatBotMessage(
       "Please select information, for print",
