@@ -1,7 +1,9 @@
 import React from "react";
-import { Table } from "antd";
+import { Col, Divider, Row, Table } from "antd";
 import reqwest from "reqwest";
 import { studyProgramsColumns } from "../../../helpers/columns";
+import Title from "antd/es/typography/Title";
+import translate from "../../../helpers/translate";
 
 class StudyPrograms extends React.Component {
   state = {
@@ -49,18 +51,43 @@ class StudyPrograms extends React.Component {
     const { data, pagination, loading } = this.state;
 
     return (
-      <Table
-        columns={studyProgramsColumns}
-        rowKey={(data) => data.studyProgramId}
-        expandable={{
-          expandedRowRender: (data) => <p style={{ margin: 0 }}>{data.aims}</p>,
-          rowExpandable: (data) => data.name !== "Not Expandable",
-        }}
-        dataSource={data}
-        pagination={pagination}
-        loading={loading}
-        onChange={this.handleTableChange}
-      />
+      <div>
+        <Divider key={"studyPrograms divider"} />
+        <Row
+          key={"studyPrograms row"}
+          align={"middle"}
+          justify={"center"}
+          style={{ marginTop: "3%" }}
+        >
+          <Col
+            key={"studyPrograms col"}
+            span={24}
+            style={{ textAlign: "center" }}
+          >
+            <Title key={"studyPrograms title"} level={3}>
+              {translate("studyPrograms")}
+            </Title>
+          </Col>
+        </Row>
+        <Table
+          columns={studyProgramsColumns}
+          rowKey={(data) => data.studyProgramId}
+          expandable={{
+            expandedRowRender: (data) => (
+              <p style={{ margin: 0 }}>{data.aims}</p>
+            ),
+            rowExpandable: (data) => data.name !== "Not Expandable",
+          }}
+          dataSource={data}
+          pagination={{
+            pageSize: 5,
+            total: pagination,
+            hideOnSinglePage: true,
+          }}
+          loading={loading}
+          onChange={this.handleTableChange}
+        />
+      </div>
     );
   }
 }

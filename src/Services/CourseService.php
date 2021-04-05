@@ -82,10 +82,10 @@ class CourseService
             $courseId = $this->courseRepository->getCourseIdByCourseName($request->course);
 
             if ($courseId) {
-                $data[CourseRepository::COURSE] = $this->courseRepository->getAllByCourseId($request->course);
-                $data[CourseRepository::READING] = $this->readingRepository->getAllByCourseId($request->course);
-                $data[CourseRepository::COURSE_SCHEDULING] = $this->courseSchedulingRepository->getAllByCourseId($request->course);
-                $data[CourseRepository::TEACHER] = $this->teacherRepository->getAllByCourseId($request->course);
+                $data[CourseRepository::COURSE] = $this->courseRepository->getAllByCourseId($courseId);
+                $data[CourseRepository::READING] = $this->readingRepository->getAllByCourseId($courseId);
+                $data[CourseRepository::COURSE_SCHEDULING] = $this->courseSchedulingRepository->getAllByCourseId($courseId);
+                $data[CourseRepository::TEACHER] = $this->teacherRepository->getAllByCourseId($courseId);
             }
         }
 

@@ -1,7 +1,9 @@
 import React from "react";
-import { Table } from "antd";
+import { Col, Divider, Row, Table } from "antd";
 import reqwest from "reqwest";
 import { preparatoryCourseColumns } from "../../../helpers/columns";
+import Title from "antd/es/typography/Title";
+import translate from "../../../helpers/translate";
 
 class PreparatoryCourses extends React.Component {
   state = {
@@ -49,15 +51,38 @@ class PreparatoryCourses extends React.Component {
     const { data, pagination, loading } = this.state;
 
     return (
-      <Table
-        columns={preparatoryCourseColumns}
-        hideOnSinglePage
-        rowKey={(data) => data.id}
-        dataSource={data}
-        pagination={pagination}
-        loading={loading}
-        onChange={this.handleTableChange}
-      />
+      <div>
+        <Divider key={"preparatoryCourses divider"} />
+        <Row
+          key={"preparatoryCourses row"}
+          align={"middle"}
+          justify={"center"}
+          style={{ marginTop: "3%" }}
+        >
+          <Col
+            key={"preparatoryCourses col"}
+            span={24}
+            style={{ textAlign: "center" }}
+          >
+            <Title key={"preparatoryCourses title"} level={3}>
+              {translate("preparatoryCourses")}
+            </Title>
+          </Col>
+        </Row>
+        <Table
+          columns={preparatoryCourseColumns}
+          hideOnSinglePage
+          rowKey={(data) => data.id}
+          dataSource={data}
+          pagination={{
+            pageSize: 5,
+            total: pagination,
+            hideOnSinglePage: true,
+          }}
+          loading={loading}
+          onChange={this.handleTableChange}
+        />
+      </div>
     );
   }
 }
