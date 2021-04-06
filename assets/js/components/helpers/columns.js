@@ -284,19 +284,19 @@ export const trialTestsColumns = [
     title: translate("trialTestLink"),
     dataIndex: "trialTestLink",
     render: (text, data) => (
-        <a
-            key={text}
-            className="ant-anchor-link text-center"
-            target="_blank"
-            href={text}
-        >
-          <Button
-              key={text}
-              type="primary"
-              shape="round"
-              icon={<DownloadOutlined />}
-          />
-        </a>
+      <a
+        key={text}
+        className="ant-anchor-link text-center"
+        target="_blank"
+        href={text}
+      >
+        <Button
+          key={text}
+          type="primary"
+          shape="round"
+          icon={<DownloadOutlined />}
+        />
+      </a>
     ),
   },
 ];

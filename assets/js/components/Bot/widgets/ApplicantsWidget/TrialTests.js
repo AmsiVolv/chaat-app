@@ -59,11 +59,7 @@ class TrialTests extends React.Component {
           justify={"center"}
           style={{ marginTop: "3%" }}
         >
-          <Col
-            key={"trialTest col"}
-            span={24}
-            style={{ textAlign: "center" }}
-          >
+          <Col key={"trialTest col"} span={24} style={{ textAlign: "center" }}>
             <Title key={"trialTest title"} level={3}>
               {translate("trialTest")}
             </Title>

@@ -22,6 +22,7 @@ const ApplicantsChoiceList = (props) => {
       handler: props.actionProvider.handlePreparatoryCourses,
       id: 4,
     },
+    { text: "Zpět", handler: props.actionProvider.handleInitlist, id: 5 },
   ];
 
   const optionsMarkup = options.map((option) => (

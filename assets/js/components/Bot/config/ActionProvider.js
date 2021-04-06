@@ -10,6 +10,27 @@ class ActionProvider {
     this.updateChatbotState(greetingMessage);
   }
 
+  handleInitlist = () => {
+    const message = this.createChatBotMessage("Kam půjdeme?", {
+      withAvatar: true,
+      widget: "QuestionOptions",
+    });
+
+    this.updateChatbotState(message);
+  };
+
+  handleStudentQuestionOptions = () => {
+    const message = this.createChatBotMessage(
+      "Vyberte pro vás zajímavou sekci",
+      {
+        withAvatar: true,
+        widget: "studentQuestionOptions",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+
   handleCourseList = () => {
     const message = this.createChatBotMessage(
       "Please can you provide some information about course?",
@@ -21,6 +42,20 @@ class ActionProvider {
 
     const messageClient = this.createClientMessage(
       "Please can you provide me info about course?"
+    );
+
+    this.updateChatbotState(messageClient);
+    this.updateChatbotState(message);
+  };
+
+  mealHandler = () => {
+    const message = this.createChatBotMessage("Kam půjdeme na jídlo?", {
+      withAvatar: true,
+      widget: "mealInfo",
+    });
+
+    const messageClient = this.createClientMessage(
+      "Chtěl bych se najíst ve škole =)"
     );
 
     this.updateChatbotState(messageClient);
@@ -173,36 +208,36 @@ class ActionProvider {
     this.updateChatbotState(thirdBotMessage);
   };
 
-    handleTrialTests = () => {
-        const messageClient = this.createClientMessage(
-            "Mě zajímá informace o vzorových testech"
-        );
+  handleTrialTests = () => {
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace o vzorových testech"
+    );
 
-        const botMessage = this.createChatBotMessage("Už na tom pracují");
+    const botMessage = this.createChatBotMessage("Už na tom pracují");
 
-        const secondBotMessage = this.createChatBotMessage(
-            "Našel jsem tuto informaci:",
-            {
-                delay: 500,
-                withAvatar: true,
-                widget: "trialTests",
-            }
-        );
+    const secondBotMessage = this.createChatBotMessage(
+      "Našel jsem tuto informaci:",
+      {
+        delay: 500,
+        withAvatar: true,
+        widget: "trialTests",
+      }
+    );
 
-        const thirdBotMessage = this.createChatBotMessage(
-            "Možná vás zajímá něco jiného?",
-            {
-                delay: 1000,
-                withAvatar: true,
-                widget: "applicantsChoise",
-            }
-        );
+    const thirdBotMessage = this.createChatBotMessage(
+      "Možná vás zajímá něco jiného?",
+      {
+        delay: 1000,
+        withAvatar: true,
+        widget: "applicantsChoise",
+      }
+    );
 
-        this.updateChatbotState(messageClient);
-        this.updateChatbotState(botMessage);
-        this.updateChatbotState(secondBotMessage);
-        this.updateChatbotState(thirdBotMessage);
-    };
+    this.updateChatbotState(messageClient);
+    this.updateChatbotState(botMessage);
+    this.updateChatbotState(secondBotMessage);
+    this.updateChatbotState(thirdBotMessage);
+  };
 
   handleFilterCourseInfo = () => {
     const message = this.createChatBotMessage(

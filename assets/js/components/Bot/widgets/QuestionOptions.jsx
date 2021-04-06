@@ -3,18 +3,14 @@ import React from "react";
 const QuestionOptions = (props) => {
   const options = [
     {
-      text: "Course info",
-      handler: props.actionProvider.handleCourseList,
+      text: "Pro studenty",
+      handler: props.actionProvider.handleStudentQuestionOptions,
       id: 1,
     },
-    { text: "Teacher info", handler: () => {}, id: 2 },
-    { text: "Reading info", handler: () => {}, id: 3 },
-    { text: "Faculty info", handler: () => {}, id: 4 },
-    { text: "VŠE news", handler: () => {}, id: 5 },
     {
       text: "Pro uchazeče",
       handler: props.actionProvider.handleApplicantsList,
-      id: 7,
+      id: 2,
     },
   ];
 

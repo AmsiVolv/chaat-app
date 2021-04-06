@@ -13,6 +13,8 @@ import StudyPrograms from "../widgets/ApplicantsWidget/StudyPrograms";
 import OpenDays from "../widgets/ApplicantsWidget/OpenDays";
 import StudyAdmisions from "../widgets/ApplicantsWidget/StudyAdmisions";
 import TrialTests from "../widgets/ApplicantsWidget/TrialTests";
+import StudentQuestionOptions from "../widgets/StudentQuestionOptions";
+import MealInfo from "../widgets/StudentsWidgets/MealInfo";
 
 const config = {
   botName: "In-VSE Bot",
@@ -82,9 +84,17 @@ const config = {
       mapStateToProps: ["openDays", "isFetchingOpenDays"],
     },
     {
+      widgetName: "studentQuestionOptions",
+      widgetFunc: (props) => <StudentQuestionOptions {...props} />,
+    },
+    {
+      widgetName: "mealInfo",
+      widgetFunc: (props) => <MealInfo {...props} />,
+    },
+    {
       widgetName: "trialTests",
-      widgetFunc: (props) => <TrialTests {...props} />
-      },
+      widgetFunc: (props) => <TrialTests {...props} />,
+    },
     {
       widgetName: "studyApplication",
       widgetFunc: (props) => <StudyApplication {...props} />,
