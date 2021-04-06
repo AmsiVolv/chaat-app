@@ -1,0 +1,9 @@
+imports:
+    - { resource: parameters.yml }
+
+mercure:
+    enable_profiler: '%kernel.debug%'
+    hubs:
+        default:
+            url: '%mercure_publish_url%'
+            jwt: '%mercure_jwt_token%'

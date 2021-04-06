@@ -1,0 +1,58 @@
+.learning-options-container {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.learning-option-button {
+    padding: 0.5rem;
+    border-radius: 25px;
+    background: transparent;
+    border: 1px solid green;
+    margin: 3px;
+}
+
+.link-list {
+    padding: 0;
+}
+
+.link-list-item {
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.link-list-item-url {
+    text-decoration: none;
+    margin: 6px;
+    display: block;
+    color: #1d1d1d;
+    background-color: #f1f1f1;
+    padding: 8px;
+    border-radius: 3px;
+    box-shadow: 2px 2px 4px rgba(150, 149, 149, 0.4);
+}
+
+.react-chatbot-kit-chat-container {
+    width: 100%!important;
+}
+
+.react-chatbot-kit-chat-message-container {
+    height: 90% !important;
+}
+
+.react-chatbot-kit-chat-inner-container {
+    height: 75vh !important;
+}
+
+.react-chatbot-kit-chat-bot-message {
+    margin-left: unset!important;
+    width: unset!important;
+}
+
+.react-chatbot-kit-chat-bot-avatar-letter {
+    margin: unset;
+}
+
+.select--option {
+    padding-left: 7%;
+}

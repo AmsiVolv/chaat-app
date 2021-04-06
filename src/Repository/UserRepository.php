@@ -5,10 +5,16 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Throwable;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -65,4 +71,63 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+
+    /**
+     * @param string $email
+     * @return User|null
+     * @throws Throwable
+     */
+    public function getUserByEmail(string $email): ?User
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb->
+            where($qb->expr()->eq('u.email', ':email'))
+            ->setParameter('email', $email);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $id
+     * @return User|null
+     * @throws Throwable
+     */
+    public function getUserById(int $id): ?User
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb->where($qb->expr()->eq('u.id', ':id'))
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function store(User $user): User
+    {
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush($user);
+
+        return $user;
+    }
+
+    public function findUsersByUsername(string $username, int $userId): array
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb
+            ->where($qb->expr()->like('u.username', ':username'))
+            ->andWhere($qb->expr()->neq('u.id', ':userId'))
+            ->setParameter('username', sprintf('%%%s%%', $username))
+            ->setParameter('userId', $userId)
+            ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
+    }
 }

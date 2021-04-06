@@ -17,27 +17,9 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
-            new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new CoolCredit\EmailBundle\CoolCreditEmailBundle(),
-            new CoolCredit\ModelBundle\CoolCreditModelBundle(),
-            new CoolCredit\InfrastructureBundle\CoolCreditInfrastructureBundle(),
-            new CoolCredit\ServiceBundle\CoolCreditServiceBundle(),
-            new CoolCredit\BusinessBundle\CoolCreditBusinessBundle(),
-            new BackOfficeBundle\BackOfficeBundle(),
-            new AppBundle\AppBundle(),
-            new BackOfficeApiBundle\BackOfficeApiBundle(),
-            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
-            new CmfRoutingBundle(),
-            new APY\DataGridBundle\APYDataGridBundle(),
-            new Ekino\NewRelicBundle\EkinoNewRelicBundle(),
-            new ShortUrlBundle\ShortUrlBundle(),
-            new FrontendBundle\FrontendBundle(),
-            new Symfony\WebpackEncoreBundle\WebpackEncoreBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

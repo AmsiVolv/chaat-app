@@ -28,4 +28,9 @@ final class Version20210209174448 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE `user` CHANGE roles roles LONGTEXT CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_bin`');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

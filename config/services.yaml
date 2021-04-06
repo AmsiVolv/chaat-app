@@ -4,6 +4,19 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    #DTO
+    chat-app.userdto.salt:
+        class: '%kernel.project_dir%/src/DTO/UserDto'
+        arguments:
+            $salt: 'neco'
+
+    #ENTITY
+    chat-app.user.salt:
+        class: '%kernel.project_dir%/src/Entity/User'
+        arguments:
+            $salt: 'neco'
+
+    mercure_secret_key: '%mercure_secret_key_p%'
 
 services:
     # default configuration for services in *this* file
@@ -26,6 +39,17 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Controller\ConversationController:
+        class: App\Controller\ConversationController
+        arguments:
+            $mercureDefaultHub: '%mercure.default_hub%'
+
+    App\Controller\IndexController:
+        class: App\Controller\IndexController
+        arguments:
+            $jwtToken: '%mercure_jwt_token%'
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
