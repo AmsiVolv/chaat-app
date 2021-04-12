@@ -5,6 +5,7 @@ class Message extends React.Component {
   componentDidMount() {}
 
   render() {
+
     let img = ``;
     let mine =
       this.props.message.recipientUser.username === store.getState().username;
@@ -20,7 +21,7 @@ class Message extends React.Component {
       );
     }
     return (
-      <div className={`media w-50 mb-3 ${!mine ? `ml-auto` : ``}`}>
+      <div className={`media w-50 mb-3 ${!mine ? `ms-auto` : ``}`}>
         {img}
         <div className="media-body ml-3">
           <div
