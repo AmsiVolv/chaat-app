@@ -75,8 +75,8 @@ class MealInfo extends React.Component {
             {this.renderListItems()}
           </Descriptions>
           <button
-              className="learning-option-button"
-              onClick={this.props.actionProvider.handleStudentQuestionOptions}
+            className="learning-option-button"
+            onClick={this.props.actionProvider.handleStudentQuestionOptions}
           >
             Zpět
           </button>

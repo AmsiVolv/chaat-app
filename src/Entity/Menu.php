@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -26,9 +27,7 @@ class Menu
      */
     private SchoolArea $schoolArea;
 
-    /**
-     * @ORM\OneToMany(targetEntity=MenuMeals::class, mappedBy="menu")
-     */
+    /** @ORM\OneToMany(targetEntity=MenuMeals::class, mappedBy="menu") */
     private $mealContent;
 
     public function __construct(SchoolArea $schoolArea)

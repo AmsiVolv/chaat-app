@@ -1,23 +1,35 @@
 import React from "react";
 import store from "../../store";
+import Avatar from "antd/es/avatar/avatar";
 
 class Message extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.getUserMedia = this.getUserMedia.bind(this);
+  }
+
   componentDidMount() {}
 
-  render() {
+  getUserMedia(username, iconColor) {
+    const capitalLetter = username.charAt(0).toUpperCase();
 
+    return (
+      <Avatar style={{ backgroundColor: "#" + iconColor }}>
+        {capitalLetter}
+      </Avatar>
+    );
+  }
+
+  render() {
     let img = ``;
     let mine =
       this.props.message.recipientUser.username === store.getState().username;
 
     if (mine) {
-      img = (
-        <img
-          src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg"
-          alt="user"
-          width="50"
-          className="rounded-circle"
-        />
+      img = this.getUserMedia(
+        this.props.message.recipientUser.username,
+        this.props.message.recipientUser.iconColor
       );
     }
     return (

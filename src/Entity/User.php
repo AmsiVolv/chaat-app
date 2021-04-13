@@ -62,16 +62,21 @@ class User implements UserInterface
     /** @ORM\Column(type="boolean") */
     private bool $isVerified = false;
 
+    /** @ORM\Column(type="string", length=255) */
+    private string $iconColor;
+
     use Timestamp;
 
     public function __construct(
         string $username,
         string $email,
-        string $password
+        string $password,
+        string $iconColor
     ) {
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
+        $this->iconColor = $iconColor;
         $this->roles = ['ROLE_USER'];
 
         $this->participants = new ArrayCollection();
@@ -220,6 +225,18 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getIconColor(): ?string
+    {
+        return $this->iconColor;
+    }
+
+    public function setIconColor(string $iconColor): self
+    {
+        $this->iconColor = $iconColor;
 
         return $this;
     }

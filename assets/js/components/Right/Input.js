@@ -19,9 +19,11 @@ class Input extends React.Component {
 
   sendMessage(event) {
     event.preventDefault();
-    this.props.addMessage(this.state.content, this.props.id).then(() => {
-      this.setState({ content: "" });
-    });
+    if (this.state.content !== "") {
+      this.props.addMessage(this.state.content, this.props.id).then(() => {
+        this.setState({ content: "" });
+      });
+    }
   }
 
   handleChange(event) {

@@ -1,7 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Avatar from "antd/es/avatar/avatar";
 
 class Conversation extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.getUserMedia = this.getUserMedia.bind(this);
+  }
+
+  getUserMedia(username, iconColor) {
+    const capitalLetter = username.charAt(0).toUpperCase();
+
+    return (
+      <Avatar style={{ backgroundColor: "#" + iconColor }}>
+        {capitalLetter}
+      </Avatar>
+    );
+  }
+
   render() {
     return (
       <Link
@@ -9,12 +26,10 @@ class Conversation extends React.Component {
         className="list-group-item list-group-item-action rounded-0"
       >
         <div className="media">
-          <img
-            src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg"
-            alt="user"
-            width="50"
-            className="rounded-circle"
-          />
+          {this.getUserMedia(
+            this.props.conversation.username,
+            this.props.conversation.iconColor
+          )}
           <div className="media-body ml-4">
             <div className="d-flex align-items-center justify-content-between mb-1">
               <h6 className="mb-0">{this.props.conversation.username}</h6>

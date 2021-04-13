@@ -26,7 +26,7 @@ use Throwable;
  */
 class MessageController extends AbstractController
 {
-    private const ATTRIBUTES_TO_SERIALIZE = ['id', 'content', 'createdAt', 'recipientUser' => ['username']];
+    private const ATTRIBUTES_TO_SERIALIZE = ['id', 'content', 'createdAt', 'recipientUser' => ['username', 'iconColor']];
 
     private MessageService $messageService;
     private UserRepository $userRepository;

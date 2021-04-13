@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -17,14 +18,10 @@ class SchoolArea
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string", length=255) */
     private $areaTitle;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string", length=255) */
     private $areaMenuLink;
 
     public function getId(): ?int

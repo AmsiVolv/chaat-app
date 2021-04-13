@@ -18,6 +18,7 @@ class UserFactory
             $userDto->getUsername(),
             $userDto->getEmail(),
             $userDto->getPassword(),
+            $userDto->getIconColor()
         );
     }
 }

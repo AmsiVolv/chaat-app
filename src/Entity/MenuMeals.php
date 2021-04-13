@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -19,19 +20,13 @@ class MenuMeals
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string", length=255) */
     private string $mealName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string", length=255) */
     private string $mealContent;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Menu::class, inversedBy="mealContent")
-     */
+    /** @ORM\ManyToOne(targetEntity=Menu::class, inversedBy="mealContent") */
     private Menu $menu;
 
     public function __construct(string $mealName, string $mealContent, Menu $menu)

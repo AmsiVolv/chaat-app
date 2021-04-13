@@ -31,7 +31,18 @@ class UserDtoAssembler
         return (new UserDto())
             ->setEmail($request[RegistrationFormType::EMAIL_FIELD])
             ->setUsername($request[RegistrationFormType::USERNAME_FIELD])
-            ->setPassword($this->encodePassword($request[RegistrationFormType::PLAIN_PASSWORD_FIELD]));
+            ->setPassword($this->encodePassword($request[RegistrationFormType::PLAIN_PASSWORD_FIELD]))
+            ->setIconColor($this->getRandomColor());
+    }
+
+    private function getRandomColorPart(): string
+    {
+        return str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+    }
+
+    private function getRandomColor(): string
+    {
+        return sprintf('%s%s%s', $this->getRandomColorPart(), $this->getRandomColorPart(), $this->getRandomColorPart());
     }
 
     private function encodePassword(string $plainPassword): string

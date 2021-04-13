@@ -14,6 +14,7 @@ class UserDto implements UserInterface
     private string $username;
     private string $email;
     private string $password;
+    private string $iconColor;
     private string $salt = 'neco';
     private bool $isVerified;
     private array $roles = [];
@@ -81,6 +82,18 @@ class UserDto implements UserInterface
     public function getSalt(): string
     {
         return $this->salt;
+    }
+
+    public function getIconColor(): string
+    {
+        return $this->iconColor;
+    }
+
+    public function setIconColor(string $iconColor): self
+    {
+        $this->iconColor = $iconColor;
+
+        return $this;
     }
 
     public function eraseCredentials()
