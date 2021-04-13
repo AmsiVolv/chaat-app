@@ -11,10 +11,20 @@ import {
   SET_SEARCH_USERNAME,
   ADD_SEARCH_USERNAME,
   SET_CONVERSATION_ID,
+  RECIEVE_GROUP_CONVERSATIONS,
+  SET_LAST_GROUP_MESSAGE,
+  GET_GROUP_CONVERSATIONS,
+  GET_GROUP_MESSAGES,
+  RECIEVE_GROUP_MESSAGES,
+  ADD_GROUP_MESSAGE,
 } from "../constants/actionTypes";
 
 export const requestConversations = () => ({
   type: GET_CONVERSATIONS,
+});
+
+export const requestGroupConversations = () => ({
+  type: GET_GROUP_CONVERSATIONS,
 });
 
 export const receiveConversations = (json) => {
@@ -24,9 +34,21 @@ export const receiveConversations = (json) => {
   };
 };
 
+export const receiveGroupConversations = (json) => {
+  return {
+    type: RECIEVE_GROUP_CONVERSATIONS,
+    groupConversations: json,
+  };
+};
+
 export const requestMessages = (id) => ({
   type: GET_MESSAGES,
   conversationId: id,
+});
+
+export const requestGroupMessages = (id) => ({
+  type: GET_GROUP_MESSAGES,
+  groupId: id,
 });
 
 export const receiveMessages = (json, id) => {
@@ -34,6 +56,14 @@ export const receiveMessages = (json, id) => {
     type: RECIEVE_MESSAGES,
     messages: json,
     conversationId: id,
+  };
+};
+
+export const receiveGroupMessages = (json, id) => {
+  return {
+    type: RECIEVE_GROUP_MESSAGES,
+    groupMessages: json,
+    groupId: id,
   };
 };
 
@@ -45,11 +75,27 @@ export const postMessage = (json, id) => {
   };
 };
 
+export const postGroupMessage = (json, id) => {
+  return {
+    type: ADD_GROUP_MESSAGE,
+    message: json,
+    conversationId: id,
+  };
+};
+
 export const setLastMessage = (message, conversationId) => {
   return {
     type: SET_LAST_MESSAGE,
     message,
     conversationId,
+  };
+};
+
+export const setLastGroupMessage = (message, groupConversationId) => {
+  return {
+    type: SET_LAST_GROUP_MESSAGE,
+    message,
+    groupConversationId,
   };
 };
 
@@ -104,12 +150,36 @@ export const fetchConversations = () => (dispatch) => {
     });
 };
 
+export const fetchGroupConversations = () => (dispatch) => {
+  dispatch(requestGroupConversations());
+  return fetch(`/groupConversations/`)
+    .then((response) => {
+      const hubUrl = response.headers
+        .get("Link")
+        .match(/<([^>]+)>;\s+rel=(?:mercure|"[^"]*mercure[^"]*")/)[1];
+      dispatch(setHuburl(hubUrl));
+      return response.json();
+    })
+    .then((json) => {
+      return dispatch(receiveGroupConversations(json));
+    });
+};
+
 export const fetchMessages = (id) => (dispatch) => {
   dispatch(requestMessages(id));
   return fetch(`/messages/${id}`)
     .then((response) => response.json())
     .then((json) => {
       return dispatch(receiveMessages(json, id));
+    });
+};
+
+export const fetchGroupMessages = (id) => (dispatch) => {
+  dispatch(requestGroupMessages(id));
+  return fetch(`/groupMessages/${id}`)
+    .then((response) => response.json())
+    .then((json) => {
+      return dispatch(receiveGroupMessages(json, id));
     });
 };
 
@@ -124,6 +194,22 @@ export const addMessage = (content, conversationId) => (dispatch) => {
     .then((json) => {
       dispatch(setLastMessage(json, conversationId));
       return dispatch(postMessage(json, conversationId));
+    });
+};
+
+export const addMessageToGroupConversation = (content, conversationId) => (
+  dispatch
+) => {
+  let formData = new FormData();
+  formData.append("content", content);
+  return fetch(`/groupMessages/${conversationId}`, {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      dispatch(setLastGroupMessage(json, conversationId));
+      return dispatch(postGroupMessage(json, conversationId));
     });
 };
 

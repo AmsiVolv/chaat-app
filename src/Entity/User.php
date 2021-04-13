@@ -65,6 +65,9 @@ class User implements UserInterface
     /** @ORM\Column(type="string", length=255) */
     private string $iconColor;
 
+    /** @ORM\ManyToMany(targetEntity=GroupConversation::class, mappedBy="user") */
+    private $groupConversations;
+
     use Timestamp;
 
     public function __construct(
@@ -82,6 +85,7 @@ class User implements UserInterface
         $this->participants = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->createdAt = new DateTime();
+        $this->groupConversations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -237,6 +241,33 @@ class User implements UserInterface
     public function setIconColor(string $iconColor): self
     {
         $this->iconColor = $iconColor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GroupConversation[]
+     */
+    public function getGroupConversations(): Collection
+    {
+        return $this->groupConversations;
+    }
+
+    public function addGroupConversation(GroupConversation $groupConversation): self
+    {
+        if (!$this->groupConversations->contains($groupConversation)) {
+            $this->groupConversations[] = $groupConversation;
+            $groupConversation->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupConversation(GroupConversation $groupConversation): self
+    {
+        if ($this->groupConversations->removeElement($groupConversation)) {
+            $groupConversation->removeUser($this);
+        }
 
         return $this;
     }

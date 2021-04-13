@@ -3,6 +3,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 
 import Left from "./Left/Left";
 import Right from "./Right/Right";
+import RightGroupConversation from "./Right/RightGroupConversation";
 import Blank from "./Right/Blank";
 import NavbarPage from "./Header/NavbarPage";
 import Bot from "./Bot/Bot";
@@ -38,6 +39,15 @@ class App extends React.Component {
               path="/conversation/:id"
               render={(props) => (
                 <Right {...props} key={props.match.params.id} />
+              )}
+            />
+            <Route
+              path="/groupConversation/:id"
+              render={(props) => (
+                <RightGroupConversation
+                  {...props}
+                  key={props.match.params.id}
+                />
               )}
             />
             <Route path="/" component={Bot} />

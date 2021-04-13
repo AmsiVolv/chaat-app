@@ -45,6 +45,11 @@ services:
         arguments:
             $mercureDefaultHub: '%mercure.default_hub%'
 
+    App\Controller\GroupConversationController:
+        class: App\Controller\GroupConversationController
+        arguments:
+            $mercureDefaultHub: '%mercure.default_hub%'
+
     App\Controller\IndexController:
         class: App\Controller\IndexController
         arguments:

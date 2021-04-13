@@ -21,7 +21,6 @@ use Throwable;
  */
 class VseDownloadFacultyCommand extends Command
 {
-
     /** @var string */
     protected static $defaultName = 'vse:download:faculty';
     private const DESCRIPTION = 'Download info from INSIS';

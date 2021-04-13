@@ -46,7 +46,7 @@ class Search extends React.Component {
     return (
       <Select
         showSearch
-        style={{ width: "90%", margin: "5%" }}
+        style={{ width: "90%", margin: "5%", marginBottom: "unset" }}
         placeholder="Search for new person..."
         optionFilterProp="children"
         onChange={this.createConversation}

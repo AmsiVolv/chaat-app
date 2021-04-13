@@ -1,8 +1,10 @@
 import React from "react";
 import Conversation from "./Conversation";
+import GroupConversation from "./GroupConversation";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
 import Search from "./Search";
+import { Switch } from "antd";
 
 const mapStateToProps = (state) => {
   return state;
@@ -11,9 +13,39 @@ const mapStateToProps = (state) => {
 class Left extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showPrivateMessage: true,
+      fetchGroupMessage: true,
+    };
+
+    this.handleSwitch = this.handleSwitch.bind(this);
   }
 
-  componentWillMount() {
+  componentDidUpdate(prevProps) {
+    if (!this.state.showPrivateMessage && this.state.fetchGroupMessage) {
+      this.setState({ fetchGroupMessage: false });
+
+      const _t = this;
+      this.props.fetchGroupConversations().then(() => {
+        let url = new URL(this.props.hubUrl);
+        url.searchParams.append(
+          "topic",
+          `/groupConversations/${this.props.username}`
+        );
+        const eventSource = new EventSource(url, {
+          withCredentials: true,
+        });
+        eventSource.onmessage = function (event) {
+          console.log(data);
+          const data = JSON.parse(event.data);
+          _t.props.setLastGroupMessage(data, data.groupId);
+        };
+      });
+    }
+  }
+
+  componentDidMount() {
     const _t = this;
     this.props.fetchConversations().then(() => {
       let url = new URL(this.props.hubUrl);
@@ -29,6 +61,10 @@ class Left extends React.Component {
     });
   }
 
+  handleSwitch = () => {
+    this.setState({ showPrivateMessage: !this.state.showPrivateMessage });
+  };
+
   render() {
     return (
       <div className="col-5 g-0 main-box" id="left-side">
@@ -40,19 +76,50 @@ class Left extends React.Component {
             <div>
               <Search />
             </div>
-            <div className="list-group rounded-0">
-              {this.props.items != undefined
-                ? this.props.items
-                    .sort((a, b) => {
-                      return a.createdAt < b.createdAt;
-                    })
-                    .map((conversation, index) => {
-                      return (
-                        <Conversation conversation={conversation} key={index} />
-                      );
-                    })
-                : ""}
+            <div className="d-flex justify-content-center pt-2 pb-2">
+              <Switch
+                onClick={this.handleSwitch}
+                checkedChildren="Show private messages"
+                unCheckedChildren="Show group messages"
+                checked={this.state.showPrivateMessage}
+              />
             </div>
+            {this.state.showPrivateMessage && (
+              <div className="list-group rounded-0">
+                {this.props.items != undefined
+                  ? this.props.items
+                      .sort((a, b) => {
+                        return a.createdAt < b.createdAt;
+                      })
+                      .map((conversation, index) => {
+                        return (
+                          <Conversation
+                            conversation={conversation}
+                            key={index}
+                          />
+                        );
+                      })
+                  : ""}
+              </div>
+            )}
+            {!this.state.showPrivateMessage && (
+              <div className="list-group rounded-0">
+                {this.props.groupConversations != undefined
+                  ? this.props.groupConversations
+                      .sort((a, b) => {
+                        return a.createdAt < b.createdAt;
+                      })
+                      .map((groupConversation, index) => {
+                        return (
+                          <GroupConversation
+                            groupConversation={groupConversation}
+                            key={index}
+                          />
+                        );
+                      })
+                  : ""}
+              </div>
+            )}
           </div>
         </div>
       </div>

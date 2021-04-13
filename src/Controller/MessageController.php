@@ -63,8 +63,6 @@ class MessageController extends AbstractController
      */
     public function index(Request $request, Conversation $conversation): Response
     {
-//        $this->denyAccessUnlessGranted('view', $conversation);
-
         $messages = $this->messageService->findMessageByConversationId(
             $conversation->getId()
         );
