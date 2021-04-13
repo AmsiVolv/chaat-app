@@ -20,7 +20,7 @@ use Throwable;
 class MakeGroupConversationsCommand extends Command
 {
     /** @var string */
-    protected static $defaultName = 'make:conversations:groups';
+    protected static $defaultName = 'vse:conversations:groups';
     private const DESCRIPTION = 'Make group conversations from courses';
     private const SUCCESS_MESSAGE = 'Were created [%d] conversations';
     private const DEFAULT_MAX_CAPACITY = 30;
