@@ -33,10 +33,10 @@ class UserService
 
     /**
      * @param string $email
-     * @return User
+     * @return User|null
      * @throws Throwable
      */
-    public function findByEmail(string $email): User
+    public function findByEmail(string $email): ?User
     {
         return $this->userRepository->getUserByEmail($email);
     }
