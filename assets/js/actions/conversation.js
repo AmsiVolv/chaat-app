@@ -4,7 +4,7 @@ import {
   GET_MESSAGES,
   RECIEVE_MESSAGES,
   ADD_MESSAGE,
-  POST_MESSAGE,
+  SET_GROUP_CONVERSATION_ID,
   SET_HUBURL,
   SET_USERNAME,
   SET_LAST_MESSAGE,
@@ -17,6 +17,8 @@ import {
   GET_GROUP_MESSAGES,
   RECIEVE_GROUP_MESSAGES,
   ADD_GROUP_MESSAGE,
+  SET_SEARCH_GROUP,
+  ADD_SEARCH_GROUP_NAME,
 } from "../constants/actionTypes";
 
 export const requestConversations = () => ({
@@ -106,10 +108,24 @@ export const setSearchUsername = (username) => {
   };
 };
 
+export const setSearchGroupConversation = (groupConversationGroupName) => {
+  return {
+    type: SET_SEARCH_GROUP,
+    groupConversationGroupName,
+  };
+};
+
 export const postUsernameFromSearch = (json) => {
   return {
     type: ADD_SEARCH_USERNAME,
     user: json,
+  };
+};
+
+export const postGroupConversationFromSearch = (json) => {
+  return {
+    type: ADD_SEARCH_GROUP_NAME,
+    groupConversationsNames: json,
   };
 };
 
@@ -131,6 +147,13 @@ export const setConversationId = (conversationId) => {
   return {
     type: SET_CONVERSATION_ID,
     conversationId,
+  };
+};
+
+export const setGroupConversationId = (groupConversationId) => {
+  return {
+    type: SET_GROUP_CONVERSATION_ID,
+    groupConversationId,
   };
 };
 
@@ -252,4 +275,36 @@ export const deleteConversation = (conversationId) => (dispatch) => {
     method: "POST",
     body: JSON.stringify({ conversationId: conversationId }),
   });
+};
+
+export const leaveGroupConversation = (groupConversationId) => () => {
+  fetch("/groupConversations/leave", {
+    method: "POST",
+    body: JSON.stringify({ groupConversationId: groupConversationId }),
+  });
+};
+
+export const enterGroupConversation = (groupConversationId) => (dispatch) => {
+  return fetch("/groupConversations/enter", {
+    method: "POST",
+    body: JSON.stringify({ groupConversationId: groupConversationId }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      return dispatch(setGroupConversationId(json.id));
+    });
+};
+
+export const groupSearch = (groupConversationGroupName) => (dispatch) => {
+  return fetch("/groupConversations/find", {
+    method: "POST",
+    body: JSON.stringify({
+      groupConversationGroupName: groupConversationGroupName,
+    }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      dispatch(setSearchGroupConversation(json));
+      return dispatch(postGroupConversationFromSearch(json));
+    });
 };

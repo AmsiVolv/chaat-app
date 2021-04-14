@@ -102,4 +102,44 @@ class GroupConversationRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getByUserIdAndConversationId(int $userId, int $groupConversationId): array
+    {
+        $qb = $this->createQueryBuilder('gc');
+
+        $qb->join('gc.user', 'u')
+            ->where($qb->expr()->eq('gc.id', ':groupId'))
+            ->andWhere($qb->expr()->eq('u.id', ':userId'))
+            ->setParameter('groupId', $groupConversationId)
+            ->setParameter('userId', $userId);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param int $groupConversationId
+     * @return GroupConversation|null
+     * @throws Throwable
+     */
+    public function getById(int $groupConversationId): ?GroupConversation
+    {
+        $qb = $this->createQueryBuilder('gc');
+
+        $qb->where($qb->expr()->eq('gc.id', ':groupId'))
+            ->setParameter('groupId', $groupConversationId);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findGroupConversationByName(string $groupConversationGroupName, int $userId): array
+    {
+        $qb = $this->createQueryBuilder('gc');
+
+        $qb->select('gc.id, gc.groupName')
+            ->where($qb->expr()->like('gc.groupName', ':groupName'))
+            ->setParameter('groupName', sprintf('%%%s%%', $groupConversationGroupName))
+            ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
+    }
 }

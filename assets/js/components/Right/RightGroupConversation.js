@@ -4,6 +4,8 @@ import * as actionCreators from "../../actions/conversation";
 
 import GroupMessageInput from "./GroupMessageInput";
 import GroupMessage from "./GroupMessage";
+import RightGroupConversationMessageHelper from "./RightGroupConversationMessageHelper";
+import RightMessageHelper from "./RightMessageHelper";
 
 const mapStateToProps = (state) => {
   return state;
@@ -56,10 +58,7 @@ class RightGroupConversation extends React.Component {
         this.scrollDown();
         if (this.state.eventSource === null) {
           let url = new URL(this.props.hubUrl);
-          url.searchParams.append(
-            "topic",
-            `/groupConversations/${id}`
-          );
+          url.searchParams.append("topic", `/groupConversations/${id}`);
           this.eventSource = new EventSource(url, {
             withCredentials: true,
           });
@@ -86,17 +85,30 @@ class RightGroupConversation extends React.Component {
   }
 
   render() {
-    const nonEmptyGroupMessages = this.state._groupConversationIndex != -1 && this.props.groupConversations != undefined &&
-        this.props.groupConversations[this.state._groupConversationIndex]
-            .groupMessages != undefined
+    const nonEmptyGroupMessages =
+      this.state._groupConversationIndex != -1 &&
+      this.props.groupConversations != undefined &&
+      this.props.groupConversations[this.state._groupConversationIndex]
+        .groupMessages != undefined;
 
-    const groupMessages = nonEmptyGroupMessages ? this.props.groupConversations[
-        this.state._groupConversationIndex
-        ].groupMessages : [];
+    const groupMessages = nonEmptyGroupMessages
+      ? this.props.groupConversations[this.state._groupConversationIndex]
+          .groupMessages
+      : [];
 
     return (
       <div className="col-7 g-0 main-box">
         <div className="px-4 bg-white d-flex flex-column">
+          <div className="row sticky-top">
+            <RightGroupConversationMessageHelper
+              history={this.props.history}
+              group={
+                this.props.groupConversations[
+                  this.state._groupConversationIndex
+                ]
+              }
+            />
+          </div>
           <div className="overflow-scroll grow-1 scroll-box" ref={this.bodyRef}>
             {nonEmptyGroupMessages
               ? groupMessages.map((groupMessage, index) => {

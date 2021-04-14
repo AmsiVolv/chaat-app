@@ -4,6 +4,7 @@ import GroupConversation from "./GroupConversation";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
 import Search from "./Search";
+import GroupSearch from "./GroupSearch";
 import { Switch } from "antd";
 
 const mapStateToProps = (state) => {
@@ -74,7 +75,8 @@ class Left extends React.Component {
           </div>
           <div className="messages-box">
             <div>
-              <Search />
+              {this.state.showPrivateMessage && <Search />}
+              {!this.state.showPrivateMessage && <GroupSearch />}
             </div>
             <div className="d-flex justify-content-center pt-2 pb-2">
               <Switch

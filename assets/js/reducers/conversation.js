@@ -3,7 +3,7 @@ import {
   RECIEVE_CONVERSATIONS,
   GET_MESSAGES,
   RECIEVE_MESSAGES,
-  POST_MESSAGE,
+  SET_GROUP_CONVERSATION_ID,
   ADD_MESSAGE,
   SET_HUBURL,
   SET_USERNAME,
@@ -15,6 +15,7 @@ import {
   GET_GROUP_MESSAGES,
   RECIEVE_GROUP_MESSAGES,
   ADD_GROUP_MESSAGE,
+  ADD_SEARCH_GROUP_NAME,
 } from "../constants/actionTypes";
 
 export default (
@@ -113,10 +114,7 @@ export default (
       const _newItemsFinal4 = state.groupConversations.map((item) => {
         return item.groupId === action.groupId
           ? Object.assign({}, item, {
-              groupMessages: [
-                ...item.groupMessages,
-                action.groupMessage,
-              ],
+              groupMessages: [...item.groupMessages, action.groupMessage],
             })
           : Object.assign({}, item);
       });
@@ -170,6 +168,11 @@ export default (
       return {
         ...state,
         showMSearchResults: false,
+      };
+    case SET_GROUP_CONVERSATION_ID:
+      return {
+        ...state,
+        showGroupSearchResults: false,
       };
     default:
       return state;
