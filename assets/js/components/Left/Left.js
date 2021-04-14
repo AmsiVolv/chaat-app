@@ -37,8 +37,8 @@ class Left extends React.Component {
           withCredentials: true,
         });
         eventSource.onmessage = function (event) {
-          console.log(data);
           const data = JSON.parse(event.data);
+
           _t.props.setLastGroupMessage(data, data.groupId);
         };
       });

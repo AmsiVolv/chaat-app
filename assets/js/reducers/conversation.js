@@ -111,11 +111,11 @@ export default (
       };
     case ADD_GROUP_MESSAGE:
       const _newItemsFinal4 = state.groupConversations.map((item) => {
-        return item.groupId == action.groupId
+        return item.groupId === action.groupId
           ? Object.assign({}, item, {
-              groupConversations: [
-                ...item.groupConversations,
-                action.groupMessages,
+              groupMessages: [
+                ...item.groupMessages,
+                action.groupMessage,
               ],
             })
           : Object.assign({}, item);
@@ -129,8 +129,8 @@ export default (
     case SET_LAST_MESSAGE:
       const _newItemsFinal2 = state.items.map((item) => {
         return item.conversationId == action.conversationId
-          ? ((item.content = action.groupMessages.content),
-            (item.createdAt = action.groupMessages.createdAt),
+          ? ((item.content = action.message.content),
+            (item.createdAt = action.message.createdAt),
             Object.assign({}, item))
           : Object.assign({}, item);
       });
@@ -143,8 +143,8 @@ export default (
     case SET_LAST_GROUP_MESSAGE:
       const _newItemsFinal3 = state.groupConversations.map((item) => {
         return item.groupId == action.groupId
-          ? ((item.content = action.message.content),
-            (item.createdAt = action.message.createdAt),
+          ? ((item.content = action.groupMessage.content),
+            (item.createdAt = action.groupMessage.createdAt),
             Object.assign({}, item))
           : Object.assign({}, item);
       });

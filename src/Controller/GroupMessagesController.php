@@ -85,7 +85,6 @@ class GroupMessagesController extends AbstractController
             $groupMembers = $this->groupConversationService->getMembersByGroupId($messageDto->getGroupId());
             $updates = [
                 sprintf("/groupConversations/%s", $messageDto->getGroupId()),
-                sprintf("/groupConversations/%s", $messageDto->getGroupName()),
             ];
 
             foreach ($groupMembers as $groupMember) {

@@ -78,7 +78,7 @@ export const postMessage = (json, id) => {
 export const postGroupMessage = (json, id) => {
   return {
     type: ADD_GROUP_MESSAGE,
-    message: json,
+    groupMessage: json,
     conversationId: id,
   };
 };
@@ -91,10 +91,10 @@ export const setLastMessage = (message, conversationId) => {
   };
 };
 
-export const setLastGroupMessage = (message, groupConversationId) => {
+export const setLastGroupMessage = (groupMessage, groupConversationId) => {
   return {
     type: SET_LAST_GROUP_MESSAGE,
-    message,
+    groupMessage,
     groupConversationId,
   };
 };
