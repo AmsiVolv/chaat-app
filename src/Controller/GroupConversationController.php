@@ -52,6 +52,27 @@ class GroupConversationController extends AbstractController
     }
 
     /**
+     * @Route("/getCourseInfo", name="get-course-info", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getCourseInfo(Request $request): JsonResponse
+    {
+        $courseInfo = [];
+        $data = $this->checkData(['groupConversationId'], [], $request);
+
+        try {
+            $courseInfo = $this->groupConversationService->getCourseInfo($data->groupConversationId);
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Error'], Response::HTTP_BAD_REQUEST);
+        }
+
+        return new JsonResponse($courseInfo, Response::HTTP_OK);
+    }
+
+    /**
      * @Route("/leave", name="leave-group-conversation", methods={"POST"})
      * @param Request $request
      * @return JsonResponse

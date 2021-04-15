@@ -19,6 +19,7 @@ import {
   ADD_GROUP_MESSAGE,
   SET_SEARCH_GROUP,
   ADD_SEARCH_GROUP_NAME,
+  GET_COURSE_INFO,
 } from "../constants/actionTypes";
 
 export const requestConversations = () => ({
@@ -126,6 +127,13 @@ export const postGroupConversationFromSearch = (json) => {
   return {
     type: ADD_SEARCH_GROUP_NAME,
     groupConversationsNames: json,
+  };
+};
+
+export const getCourseInfo = (json) => {
+  return {
+    type: GET_COURSE_INFO,
+    courseInfo: json,
   };
 };
 
@@ -306,5 +314,16 @@ export const groupSearch = (groupConversationGroupName) => (dispatch) => {
     .then((json) => {
       dispatch(setSearchGroupConversation(json));
       return dispatch(postGroupConversationFromSearch(json));
+    });
+};
+
+export const fetchGroupInfo = (groupConversationId) => (dispatch) => {
+  fetch("/groupConversations/getCourseInfo", {
+    method: "POST",
+    body: JSON.stringify({ groupConversationId: groupConversationId }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      return dispatch(getCourseInfo(json));
     });
 };

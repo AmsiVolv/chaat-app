@@ -30,9 +30,9 @@ class RightGroupConversation extends React.Component {
   componentDidUpdate(prevProps) {
     if (
       this.state._groupConversationIndex != -1 &&
-      this.props.groupConversations[this.state._groupConversationIndex]
+      this.props.groupConversation[this.state._groupConversationIndex]
         .groupMessages?.length &&
-      prevProps.groupConversations[this.state._groupConversationIndex]
+      prevProps.groupConversation[this.state._groupConversationIndex]
         .groupMessages?.length
     ) {
       this.scrollDown();
@@ -42,7 +42,7 @@ class RightGroupConversation extends React.Component {
   componentDidMount() {
     const _t = this;
     const id = this.props.match.params.id;
-    const _groupConversationIndex = this.props.groupConversations.findIndex(
+    const _groupConversationIndex = this.props.groupConversation.findIndex(
       (groupConversation) => {
         return groupConversation.id == id;
       }
@@ -51,7 +51,7 @@ class RightGroupConversation extends React.Component {
       _groupConversationIndex: _groupConversationIndex,
     });
     if (
-      this.props.groupConversations[_groupConversationIndex].groupMessages ==
+      this.props.groupConversation[_groupConversationIndex].groupMessages ==
       undefined
     ) {
       this.props.fetchGroupMessages(id).then(() => {
@@ -87,12 +87,12 @@ class RightGroupConversation extends React.Component {
   render() {
     const nonEmptyGroupMessages =
       this.state._groupConversationIndex != -1 &&
-      this.props.groupConversations != undefined &&
-      this.props.groupConversations[this.state._groupConversationIndex]
+      this.props.groupConversation != undefined &&
+      this.props.groupConversation[this.state._groupConversationIndex]
         .groupMessages != undefined;
 
     const groupMessages = nonEmptyGroupMessages
-      ? this.props.groupConversations[this.state._groupConversationIndex]
+      ? this.props.groupConversation[this.state._groupConversationIndex]
           .groupMessages
       : [];
 
@@ -103,9 +103,7 @@ class RightGroupConversation extends React.Component {
             <RightGroupConversationMessageHelper
               history={this.props.history}
               group={
-                this.props.groupConversations[
-                  this.state._groupConversationIndex
-                ]
+                this.props.groupConversation[this.state._groupConversationIndex]
               }
             />
           </div>

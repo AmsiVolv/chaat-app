@@ -16,6 +16,7 @@ import {
   RECIEVE_GROUP_MESSAGES,
   ADD_GROUP_MESSAGE,
   ADD_SEARCH_GROUP_NAME,
+  GET_COURSE_INFO,
 } from "../constants/actionTypes";
 
 export default (
@@ -53,7 +54,7 @@ export default (
         ...state,
         isFetching: false,
         didInvalidate: false,
-        groupConversations: action.groupConversations,
+        groupConversation: action.groupConversations,
       };
     case GET_MESSAGES:
       return {
@@ -80,7 +81,7 @@ export default (
         didInvalidate: false,
       };
     case RECIEVE_GROUP_MESSAGES:
-      const _newGropConversations = state.groupConversations.map(
+      const _newGropConversations = state.groupConversation.map(
         (groupConversation) => {
           return groupConversation.id == action.groupId
             ? Object.assign({}, groupConversation, {
@@ -93,7 +94,7 @@ export default (
         ...state,
         isFetching: false,
         didInvalidate: false,
-        groupConversations: [..._newGropConversations],
+        groupConversation: [..._newGropConversations],
       };
 
     case ADD_MESSAGE:
@@ -111,7 +112,7 @@ export default (
         items: [..._newItemsFinal],
       };
     case ADD_GROUP_MESSAGE:
-      const _newItemsFinal4 = state.groupConversations.map((item) => {
+      const _newItemsFinal4 = state.groupConversation.map((item) => {
         return item.id === action.groupConversationId
           ? Object.assign({}, item, {
               groupMessages: [...item.groupMessages, action.groupMessage],
@@ -122,7 +123,7 @@ export default (
         ...state,
         isFetching: false,
         didInvalidate: false,
-        groupConversations: [..._newItemsFinal4],
+        groupConversation: [..._newItemsFinal4],
       };
     case SET_LAST_MESSAGE:
       const _newItemsFinal2 = state.items.map((item) => {
@@ -139,7 +140,7 @@ export default (
         items: [..._newItemsFinal2],
       };
     case SET_LAST_GROUP_MESSAGE:
-      const _newItemsFinal3 = state.groupConversations.map((item) => {
+      const _newItemsFinal3 = state.groupConversation.map((item) => {
         return item.id === action.groupConversationId
           ? ((item.content = action.groupMessage.content),
             (item.createdAt = action.groupMessage.createdAt),
@@ -151,6 +152,19 @@ export default (
         isFetching: false,
         didInvalidate: false,
         groupConversation: [..._newItemsFinal3],
+      };
+    case GET_COURSE_INFO:
+      const _newItemsFinal5 = state.groupConversation.map((item) => {
+        return item.id == action.courseInfo.groupId
+          ? ((item.courseInfo = action.courseInfo.courseInfo),
+            Object.assign({}, item))
+          : Object.assign({}, item);
+      });
+      return {
+        ...state,
+        isFetching: false,
+        didInvalidate: false,
+        groupConversation: [..._newItemsFinal5],
       };
     case SET_HUBURL:
       return {
