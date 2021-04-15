@@ -13,7 +13,10 @@ class GroupConversation extends React.Component {
     const capitalLetter = username.slice(1).toUpperCase();
 
     return (
-      <Avatar size="large" style={{ backgroundColor: iconColor }}>
+      <Avatar
+        size={{ xs: 24, sm: 32, md: 40 }}
+        style={{ backgroundColor: iconColor }}
+      >
         {capitalLetter}
       </Avatar>
     );

@@ -106,8 +106,8 @@ class Left extends React.Component {
             )}
             {!this.state.showPrivateMessage && (
               <div className="list-group rounded-0">
-                {this.props.groupConversations != undefined
-                  ? this.props.groupConversations
+                {this.props.groupConversation != undefined
+                  ? this.props.groupConversation
                       .sort((a, b) => {
                         return a.createdAt < b.createdAt;
                       })

@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
-import { Button, message } from "antd";
-import { ClearOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Nav, Navbar } from "react-bootstrap";
+import { Button, message, PageHeader } from "antd";
+import Avatar from "antd/es/avatar/avatar";
 
 const mapStateToProps = (state) => {
   return state;
@@ -18,6 +17,7 @@ class RightMessageHelper extends React.Component {
 
     this.clearConversation = this.clearConversation.bind(this);
     this.deleteConversation = this.deleteConversation.bind(this);
+    this.getRecipientUsername = this.getRecipientUsername.bind(this);
   }
 
   clearConversation = () => {
@@ -33,43 +33,45 @@ class RightMessageHelper extends React.Component {
     this.props.fetchConversations();
   };
 
-  getRecepientUsername = () => {
+  getRecipientUsername = () => {
     if (typeof this.props.recepientUser !== "undefined") {
       return this.props.recepientUser.username;
     }
   };
 
+  getRecipientAvatar = () => {
+    if (typeof this.props.recepientUser !== "undefined") {
+      const capitalLetter = this.props.recepientUser.username
+        .charAt(0)
+        .toUpperCase();
+
+      return (
+        <Avatar
+          size={{ xs: 24, sm: 32, md: 40 }}
+          style={{ backgroundColor: "#" + this.props.recepientUser.iconColor }}
+        >
+          {capitalLetter}
+        </Avatar>
+      );
+    }
+  };
+
   render() {
     return (
-      <>
-        <Navbar bg="white" variant="light">
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <p>{this.getRecepientUsername()}</p>
-            </Nav>
-          </Navbar.Collapse>
-          <Navbar.Collapse className="justify-content-end">
-            <Button
-              title="Clear"
-              size="large"
-              shape="round"
-              onClick={this.clearConversation}
-            >
-              <ClearOutlined />
-            </Button>
-            <Button
-              title="Delete"
-              size="large"
-              shape="round"
-              type="primary"
-              danger
-              onClick={this.deleteConversation}
-            >
-              <DeleteOutlined />
-            </Button>
-          </Navbar.Collapse>
-        </Navbar>
-      </>
+      <PageHeader
+        ghost={false}
+        onBack={() => this.props.history.push("/")}
+        title={this.getRecipientAvatar()}
+        subTitle={this.getRecipientUsername()}
+        extra={[
+          <Button key="2" onClick={this.deleteConversation}>
+            Leave conversation
+          </Button>,
+          <Button key="1" onClick={this.clearConversation} type="primary">
+            Clear conversation
+          </Button>,
+        ]}
+      />
     );
   }
 }

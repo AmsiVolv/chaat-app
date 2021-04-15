@@ -1,11 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
-import { Button } from "antd";
-import { CloseCircleOutlined } from "@ant-design/icons";
-import { Nav, Navbar } from "react-bootstrap";
 import Avatar from "antd/es/avatar/avatar";
-import { message } from "antd";
+import { message, Drawer, Button, PageHeader, Tooltip } from "antd";
+import { prepareData } from "../helpers/courseInfoRender";
 
 const mapStateToProps = (state) => {
   return state;
@@ -14,9 +12,14 @@ const mapStateToProps = (state) => {
 class RightGroupConversationMessageHelper extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { visible: false };
 
     this.leaveConversation = this.leaveConversation.bind(this);
     this.renderGroupAvatar = this.renderGroupAvatar.bind(this);
+    this.renderGroupTitle = this.renderGroupTitle.bind(this);
+    this.showDrawer = this.showDrawer.bind(this);
+    this.renderDrawerContent = this.renderDrawerContent.bind(this);
+    this.onClose = this.onClose.bind(this);
   }
 
   leaveConversation = () => {
@@ -32,7 +35,7 @@ class RightGroupConversationMessageHelper extends React.Component {
     if (typeof this.props.group !== "undefined") {
       return (
         <Avatar
-          size={"large"}
+          size={{ xs: 24, sm: 32, md: 40 }}
           style={{ backgroundColor: this.props.group.groupColor }}
         >
           {this.props.group.groupName.slice(1).toUpperCase()}
@@ -41,26 +44,90 @@ class RightGroupConversationMessageHelper extends React.Component {
     }
   };
 
+  renderDrawerContent = () => {
+    if (this.state.visible && this.props.group.courseInfo !== undefined) {
+      return (
+        <div className="col-md-12">
+          <Avatar.Group maxCount={5}>
+            {this.props.group.participants.map((participant) => {
+              const capitalLetter = participant.username
+                .charAt(0)
+                .toUpperCase();
+
+              return (
+                <Tooltip
+                  key={participant.id}
+                  title={participant.username}
+                  placement="top"
+                >
+                  <Avatar
+                    key={participant.id}
+                    size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+                    style={{ backgroundColor: "#" + participant.iconColor }}
+                  >
+                    {capitalLetter}
+                  </Avatar>
+                </Tooltip>
+              );
+            })}
+          </Avatar.Group>
+          {Object.entries(
+            this.props.group.courseInfo
+          ).map(([infoKey, infoValue]) => prepareData(infoKey, infoValue))}
+        </div>
+      );
+    }
+  };
+
+  renderGroupTitle = () => {
+    if (typeof this.props.group !== "undefined") {
+      return this.props.group.groupName.slice(1).toUpperCase();
+    }
+  };
+
+  showDrawer = () => {
+    if (this.props.group.courseInfo === undefined) {
+      this.props.fetchGroupInfo(this.props.group.id);
+    }
+    this.setState({
+      visible: true,
+    });
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
   render() {
     return (
       <>
-        <Navbar bg="white" variant="light">
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">{this.renderGroupAvatar()}</Nav>
-          </Navbar.Collapse>
-          <Navbar.Collapse className="justify-content-end">
-            <Button
-              title="Leave conversation"
-              size="large"
-              shape="round"
-              type="primary"
-              danger
-              onClick={this.leaveConversation}
-            >
-              <CloseCircleOutlined />
-            </Button>
-          </Navbar.Collapse>
-        </Navbar>
+        <PageHeader
+          ghost={false}
+          onBack={() => this.props.history.push("/")}
+          title={this.renderGroupAvatar()}
+          subTitle={this.renderGroupTitle()}
+          extra={[
+            <Button key="2" onClick={this.leaveConversation}>
+              Leave conversation
+            </Button>,
+            <Button key="1" onClick={this.showDrawer} type="primary">
+              Info
+            </Button>,
+          ]}
+        ></PageHeader>
+        <Drawer
+          width="50%"
+          title={`Informace o předmětu ${this.renderGroupTitle()}`}
+          placement="right"
+          getContainer={false}
+          closable={true}
+          onClose={this.onClose}
+          visible={this.state.visible}
+        >
+          {this.renderDrawerContent()}
+        </Drawer>
       </>
     );
   }

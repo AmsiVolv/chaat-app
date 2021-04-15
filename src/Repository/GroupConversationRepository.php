@@ -148,7 +148,7 @@ class GroupConversationRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('gc');
 
-        $qb->select('u.id, u.username')
+        $qb->select('u.id, u.username, u.iconColor')
             ->join('gc.user', 'u')
             ->where($qb->expr()->eq('gc.id', ':groupId'))
             ->setParameter('groupId', $groupId);

@@ -241,4 +241,19 @@ class CourseService
     {
         return $this->courseRepository->getCourseByRequest($data->course);
     }
+
+    public function getCourseInfoByCourseId(?int $courseId): array
+    {
+        $data = [];
+        $courseId = (string) $courseId;
+
+        if ($courseId) {
+            $data[CourseRepository::COURSE] = $this->courseRepository->getAllByCourseId($courseId);
+            $data[CourseRepository::READING] = $this->readingRepository->getAllByCourseId($courseId);
+            $data[CourseRepository::COURSE_SCHEDULING] = $this->courseSchedulingRepository->getAllByCourseId($courseId);
+            $data[CourseRepository::TEACHER] = $this->teacherRepository->getAllByCourseId($courseId);
+        }
+
+        return $data;
+    }
 }

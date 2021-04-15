@@ -4,8 +4,12 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Entity\GroupConversation;
+use App\Repository\CourseRepository;
+use App\Repository\CourseShedulingRepository;
 use App\Repository\GroupConversationRepository;
 use App\Repository\GroupMessageRepository;
+use App\Repository\ReadingRepository;
+use App\Repository\TeacherRepository;
 use App\Repository\UserRepository;
 use Throwable;
 
@@ -17,11 +21,16 @@ class GroupConversationService
 {
     private GroupConversationRepository $groupConversationRepository;
     private UserRepository $userRepository;
+    private CourseService $courseService;
 
-    public function __construct(GroupConversationRepository $groupConversationRepository, UserRepository $userRepository)
-    {
+    public function __construct(
+        GroupConversationRepository $groupConversationRepository,
+        UserRepository $userRepository,
+        CourseService $courseService
+    ) {
         $this->groupConversationRepository = $groupConversationRepository;
         $this->userRepository = $userRepository;
+        $this->courseService = $courseService;
     }
 
     public function getByUserId(int $userId): array
@@ -91,5 +100,23 @@ class GroupConversationService
     public function findGroupConversation(string $groupConversationGroupName, int $userId): array
     {
         return $this->groupConversationRepository->findGroupConversationByName($groupConversationGroupName, $userId);
+    }
+
+    /**
+     * @param int $groupConversationId
+     * @return array
+     * @throws Throwable
+     */
+    public function getCourseInfo(int $groupConversationId): array
+    {
+        $data = ['groupId' => $groupConversationId];
+        $groupConversation = $this->groupConversationRepository->getById($groupConversationId);
+
+        if ($groupConversation) {
+            $courseId = $groupConversation->getCourse()->getId();
+            $data['courseInfo'] = $this->courseService->getCourseInfoByCourseId($courseId);
+        }
+
+        return $data;
     }
 }
