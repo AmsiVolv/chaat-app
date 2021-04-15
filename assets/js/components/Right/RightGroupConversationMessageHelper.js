@@ -5,6 +5,7 @@ import { Button } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Nav, Navbar } from "react-bootstrap";
 import Avatar from "antd/es/avatar/avatar";
+import { message } from "antd";
 
 const mapStateToProps = (state) => {
   return state;
@@ -19,6 +20,9 @@ class RightGroupConversationMessageHelper extends React.Component {
   }
 
   leaveConversation = () => {
+    message.success(
+      `Jste úspěšně opustili skupinu ${this.props.group.groupName}`
+    );
     this.props.leaveGroupConversation(this.props.group.id);
     this.props.history.push("/");
     this.props.fetchGroupConversations();

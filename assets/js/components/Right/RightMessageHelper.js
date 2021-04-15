@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { ClearOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Nav, Navbar } from "react-bootstrap";
 
 const mapStateToProps = (state) => {
   return state;
@@ -22,11 +21,13 @@ class RightMessageHelper extends React.Component {
   }
 
   clearConversation = () => {
+    message.success("Jste úspěšně smazali všechny zprávy");
     this.props.clearConversation(this.props.conversationId);
     this.props.fetchConversations();
   };
 
   deleteConversation = () => {
+    message.success("Chat byl odstraněn");
     this.props.deleteConversation(this.props.conversationId);
     this.props.history.push("/");
     this.props.fetchConversations();

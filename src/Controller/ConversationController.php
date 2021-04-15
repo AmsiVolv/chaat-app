@@ -8,6 +8,7 @@ use App\Entity\Participant;
 use App\Repository\ConversationRepository;
 use App\Repository\UserRepository;
 use App\Services\ConversationService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations\Route;
 use Psr\Log\LoggerInterface;
@@ -91,7 +92,9 @@ class ConversationController extends AbstractController
         );
 
         if (count($conversation)) {
-            throw new \Exception("The conversation already exists");
+            return $this->json([
+                'error' => 'This conversation already exists',
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         $conversation = new Conversation();
@@ -121,6 +124,7 @@ class ConversationController extends AbstractController
 
         return $this->json([
             'id' => $conversation->getId(),
+            'username' => $otherUser->getUsername(),
         ], Response::HTTP_CREATED, [], []);
     }
 
@@ -130,9 +134,15 @@ class ConversationController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getConvs(Request $request): JsonResponse
+    public function getConversations(Request $request): JsonResponse
     {
         $conversations = $this->conversationRepository->findConversationsByUser($this->getUser()->getId());
+
+        foreach ($conversations as &$conversation) {
+            if (!$conversation['createdAt']) {
+                $conversation['createdAt'] = new DateTime();
+            }
+        }
 
         $this->addLink($request, new Link('mercure', $this->mercureDefaultHub));
 

@@ -81,8 +81,8 @@ class Left extends React.Component {
             <div className="d-flex justify-content-center pt-2 pb-2">
               <Switch
                 onClick={this.handleSwitch}
-                checkedChildren="Show private messages"
-                unCheckedChildren="Show group messages"
+                checkedChildren="Show group messages"
+                unCheckedChildren="Show private messages"
                 checked={this.state.showPrivateMessage}
               />
             </div>

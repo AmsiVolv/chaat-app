@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
-import { Select } from "antd";
+import { message, Select } from "antd";
 
 const mapStateToProps = (state) => {
   return state;
@@ -37,7 +37,15 @@ class Search extends React.Component {
   }
 
   createConversation = (val) => {
-    this.props.createConversation(val).then(() => {
+    this.props.createConversation(val).then((json) => {
+      if ("conversationId" in json) {
+        if ("error" in json.conversationId) {
+          message.error(json.conversationId.error);
+        } else {
+          message.success("Chat byl úspěšně vytvořen!");
+        }
+      }
+
       this.props.fetchConversations();
     });
   };

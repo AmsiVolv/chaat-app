@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
 import { Select } from "antd";
+import { message } from "antd";
 
 const mapStateToProps = (state) => {
   return state;
@@ -36,7 +37,15 @@ class GroupSearch extends React.Component {
   }
 
   enterGroupConversation = (val) => {
-    this.props.enterGroupConversation(val).then(() => {
+    this.props.enterGroupConversation(val).then((json) => {
+      if ("id" in json.groupConversation) {
+        message.success(
+          `Jste úspěšně se připojili ke skupině ${json.groupConversation.groupName}`
+        );
+      } else {
+        message.error("Při zpracování požadavku došlo k chybě.");
+      }
+
       this.props.fetchGroupConversations();
     });
   };

@@ -48,11 +48,11 @@ class GroupConversation
     /** @ORM\Column(type="integer") */
     private int $maxMemberCount;
 
-    /** @ORM\Column(type="integer", nullable=true) */
-    private int $lastMessageId;
-
     /** @ORM\Column(type="datetime") */
     private DateTime $updatedAt;
+
+    /** @ORM\OneToOne(targetEntity=GroupMessage::class, cascade={"persist", "remove"}) */
+    private ?GroupMessage $lastMessage;
 
     public function __construct(
         string $groupName,
@@ -178,26 +178,26 @@ class GroupConversation
         return $this;
     }
 
-    public function getLastMessageId(): ?int
-    {
-        return $this->lastMessageId;
-    }
-
-    public function setLastMessageId(?int $lastMessageId): self
-    {
-        $this->lastMessageId = $lastMessageId;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getLastMessage(): ?GroupMessage
+    {
+        return $this->lastMessage;
+    }
+
+    public function setLastMessage(?GroupMessage $lastMessage): self
+    {
+        $this->lastMessage = $lastMessage;
 
         return $this;
     }

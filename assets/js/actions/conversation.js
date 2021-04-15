@@ -150,10 +150,10 @@ export const setConversationId = (conversationId) => {
   };
 };
 
-export const setGroupConversationId = (groupConversationId) => {
+export const setGroupConversationId = (groupConversation) => {
   return {
     type: SET_GROUP_CONVERSATION_ID,
-    groupConversationId,
+    groupConversation,
   };
 };
 
@@ -259,7 +259,7 @@ export const createConversation = (userId) => (dispatch) => {
   })
     .then((response) => response.json())
     .then((json) => {
-      return dispatch(setConversationId(json.id));
+      return dispatch(setConversationId(json));
     });
 };
 
@@ -291,7 +291,7 @@ export const enterGroupConversation = (groupConversationId) => (dispatch) => {
   })
     .then((response) => response.json())
     .then((json) => {
-      return dispatch(setGroupConversationId(json.id));
+      return dispatch(setGroupConversationId(json));
     });
 };
 

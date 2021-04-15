@@ -9,6 +9,7 @@ use App\Entity\GroupMessage;
 use App\Repository\GroupConversationRepository;
 use App\Repository\GroupMessageRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
 
@@ -67,6 +68,8 @@ class GroupMessagesService
         );
 
         $groupMessage = $this->groupMessageRepository->store($groupMessage);
+        $conversation->setLastMessage($groupMessage)->setUpdatedAt(new DateTime());
+        $this->groupConversationRepository->store($conversation);
 
         return $this->groupMessageAssembler->toDto($groupMessage);
     }

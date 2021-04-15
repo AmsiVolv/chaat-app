@@ -68,8 +68,9 @@ class GroupConversationRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('gc');
 
-        $qb->select('gc.id, gc.groupName, gc.groupColor, gc.updatedAt, gc.createdAt')
+        $qb->select('gc.id, gc.groupName, gc.groupColor, gc.updatedAt, gc.createdAt, gm.messageContent as content')
             ->join('gc.user', 'u')
+            ->leftJoin('gc.lastMessage', 'gm')
             ->where($qb->expr()->eq('u.id', ':userId'))
             ->setParameter('userId', $userId);
 
@@ -139,6 +140,18 @@ class GroupConversationRepository extends ServiceEntityRepository
             ->where($qb->expr()->like('gc.groupName', ':groupName'))
             ->setParameter('groupName', sprintf('%%%s%%', $groupConversationGroupName))
             ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getParticipantsByGroupId(int $groupId): array
+    {
+        $qb = $this->createQueryBuilder('gc');
+
+        $qb->select('u.id, u.username')
+            ->join('gc.user', 'u')
+            ->where($qb->expr()->eq('gc.id', ':groupId'))
+            ->setParameter('groupId', $groupId);
 
         return $qb->getQuery()->getResult();
     }

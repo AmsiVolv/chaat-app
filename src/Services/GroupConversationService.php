@@ -26,7 +26,15 @@ class GroupConversationService
 
     public function getByUserId(int $userId): array
     {
-        return $this->groupConversationRepository->getByUserId($userId);
+        $groupConversations = $this->groupConversationRepository->getByUserId($userId);
+
+        foreach ($groupConversations as &$groupConversation) {
+            $participants = $this->groupConversationRepository->getParticipantsByGroupId($groupConversation['id']);
+
+            $groupConversation['participants'] = $participants;
+        }
+
+        return $groupConversations;
     }
 
     public function getMembersByGroupId(int $getGroupId): array

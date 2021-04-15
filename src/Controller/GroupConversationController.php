@@ -86,7 +86,7 @@ class GroupConversationController extends AbstractController
         try {
             $groupConversation = $this->groupConversationService->enterUserToConversation($userId, $data->groupConversationId);
             if ($groupConversation) {
-                $response = ['id' => $groupConversation->getId()];
+                $response = ['id' => $groupConversation->getId(), 'groupName' => $groupConversation->getGroupName()];
             }
         } catch (Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());

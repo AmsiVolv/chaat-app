@@ -25,23 +25,25 @@ class GroupConversation extends React.Component {
         to={"/groupConversation/" + this.props.groupConversation.id}
         className="list-group-item list-group-item-action rounded-0"
       >
-        <div className="media">
-          {this.getUserMedia(
-            this.props.groupConversation.groupName,
-            this.props.groupConversation.groupColor
-          )}
-          <div className="media-body ml-4">
-            <div className="d-flex align-items-center justify-content-between mb-1">
-              <h6 className="mb-0">{this.props.groupConversation.groupName}</h6>
-              <small className="small font-weight-bold">
-                {new Date(
-                  this.props.groupConversation.createdAt
-                ).toLocaleDateString()}
-              </small>
-            </div>
+        <div className="d-inline-flex justify-content-between align-items-center w-100">
+          <div>
+            {this.getUserMedia(
+              this.props.groupConversation.groupName,
+              this.props.groupConversation.groupColor
+            )}
+          </div>
+          <div className="p-2 flex-grow-1 d-inline-flex flex-column">
+            <h6 className="mb-0">{this.props.groupConversation.groupName}</h6>
             <p className="font-italic mb-0 text-small">
               {this.props.groupConversation.content}
             </p>
+          </div>
+          <div className="p-2 flex-end align-self-end mt-auto">
+            <small className="small font-weight-bold">
+              {new Date(
+                this.props.groupConversation.createdAt
+              ).toLocaleDateString()}
+            </small>
           </div>
         </div>
       </Link>
