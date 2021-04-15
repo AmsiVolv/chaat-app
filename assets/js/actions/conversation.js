@@ -81,7 +81,7 @@ export const postGroupMessage = (json, id) => {
   return {
     type: ADD_GROUP_MESSAGE,
     groupMessage: json,
-    conversationId: id,
+    groupConversationId: id,
   };
 };
 

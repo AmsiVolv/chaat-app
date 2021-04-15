@@ -112,7 +112,7 @@ export default (
       };
     case ADD_GROUP_MESSAGE:
       const _newItemsFinal4 = state.groupConversations.map((item) => {
-        return item.groupId === action.groupId
+        return item.id === action.groupConversationId
           ? Object.assign({}, item, {
               groupMessages: [...item.groupMessages, action.groupMessage],
             })
@@ -140,7 +140,7 @@ export default (
       };
     case SET_LAST_GROUP_MESSAGE:
       const _newItemsFinal3 = state.groupConversations.map((item) => {
-        return item.groupId == action.groupId
+        return item.id === action.groupConversationId
           ? ((item.content = action.groupMessage.content),
             (item.createdAt = action.groupMessage.createdAt),
             Object.assign({}, item))
@@ -150,7 +150,7 @@ export default (
         ...state,
         isFetching: false,
         didInvalidate: false,
-        groupConversations: [..._newItemsFinal3],
+        groupConversation: [..._newItemsFinal3],
       };
     case SET_HUBURL:
       return {
