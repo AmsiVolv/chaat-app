@@ -90,7 +90,7 @@ class Right extends React.Component {
               recepientUser={this.props.items[this.state._conversationIndex]}
             />
           </div>
-          <div className="overflow-scroll grow-1 scroll-box" ref={this.bodyRef}>
+          <div className="overflow-auto grow-1 scroll-box" ref={this.bodyRef}>
             {this.state._conversationIndex != -1 &&
             this.props.items != undefined &&
             this.props.items[this.state._conversationIndex].messages !=
