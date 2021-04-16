@@ -23,7 +23,7 @@ use Symfony\Component\WebLink\Link;
 use Throwable;
 
 /**
- * @Route("/conversations", name="conversations.")
+ * @Route("/conversations", name="conversations")
  * Class ConversationController
  * @package App\Controller
  */

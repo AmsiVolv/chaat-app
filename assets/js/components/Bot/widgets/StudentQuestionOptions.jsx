@@ -1,4 +1,5 @@
 import React from "react";
+import translate from "../../helpers/translate";
 
 const StudentQuestionOptions = (props) => {
   const options = [
@@ -7,10 +8,18 @@ const StudentQuestionOptions = (props) => {
       handler: props.actionProvider.handleCourseList,
       id: 1,
     },
-    { text: "Teacher info", handler: () => {}, id: 2 },
+    {
+      text: "Teacher info",
+      handler: props.actionProvider.handleTeacherChoice,
+      id: 2,
+    },
     { text: "Faculty info", handler: () => {}, id: 3 },
     { text: "Stravování", handler: props.actionProvider.mealHandler, id: 4 },
-    { text: "Zpět", handler: props.actionProvider.handleInitlist, id: 5 },
+    {
+      text: translate("back"),
+      handler: props.actionProvider.handleInitlist,
+      id: 5,
+    },
   ];
 
   const optionsMarkup = options.map((option) => (

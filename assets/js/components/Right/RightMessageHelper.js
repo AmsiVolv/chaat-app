@@ -59,6 +59,7 @@ class RightMessageHelper extends React.Component {
   render() {
     return (
       <PageHeader
+        size={"small"}
         ghost={false}
         onBack={() => this.props.history.push("/")}
         title={this.getRecipientAvatar()}

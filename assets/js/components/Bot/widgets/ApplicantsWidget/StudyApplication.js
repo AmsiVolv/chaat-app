@@ -1,4 +1,5 @@
 import React from "react";
+import translate from "../../../helpers/translate";
 
 const StudyApplication = (props) => {
   const options = [
@@ -13,7 +14,7 @@ const StudyApplication = (props) => {
       id: 2,
     },
     {
-      text: "Zpět",
+      text: translate("back"),
       handler: props.actionProvider.handleApplicantsList,
       id: 3,
     },

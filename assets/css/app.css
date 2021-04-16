@@ -10,6 +10,12 @@ body {
 }
 
 .scroll-box {
-    height: 68vh;
+    height: 68.7vh;
     max-height: 100%;
+}
+
+@media (max-width:1256px) {
+    .scroll-box {
+        height: 64.7vh;
+    }
 }

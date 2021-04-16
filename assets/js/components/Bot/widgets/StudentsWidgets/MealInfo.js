@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
-import { Col, Descriptions, Divider, Row, Table } from "antd";
-import reqwest from "reqwest";
-import { openDaysColumns } from "../../../helpers/columns";
+import React from "react";
+import { Col, Descriptions, Divider, Row } from "antd";
 import Title from "antd/es/typography/Title";
 import translate from "../../../helpers/translate";
 
@@ -78,7 +76,7 @@ class MealInfo extends React.Component {
             className="learning-option-button"
             onClick={this.props.actionProvider.handleStudentQuestionOptions}
           >
-            Zpět
+            {translate("back")}
           </button>
         </div>
       );

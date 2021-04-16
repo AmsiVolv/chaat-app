@@ -48,6 +48,23 @@ class ActionProvider {
     this.updateChatbotState(message);
   };
 
+  handleTeacherChoice = () => {
+    const message = this.createChatBotMessage(
+      "Vyberte učitele, o kterém chcete dostát informace",
+      {
+        withAvatar: true,
+        widget: "teacherChoice",
+      }
+    );
+
+    const messageClient = this.createClientMessage(
+      "Zajímají mě informace o profesoréch"
+    );
+
+    this.updateChatbotState(messageClient);
+    this.updateChatbotState(message);
+  };
+
   mealHandler = () => {
     const message = this.createChatBotMessage("Kam půjdeme na jídlo?", {
       withAvatar: true,

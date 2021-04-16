@@ -67,6 +67,7 @@ export const readingColumns = [
         className="ant-anchor-link text-left"
         target="_blank"
         href={data.libraryLink}
+        rel="noreferrer"
       >
         {text}
       </a>
@@ -85,6 +86,7 @@ export const readingColumns = [
           className="ant-anchor-link text-left"
           target="_blank"
           href={getCitationUrl(data.libraryLink)}
+          rel="noreferrer"
         >
           Citace
         </a>
@@ -102,6 +104,7 @@ export const preparatoryCourseColumns = [
         className="ant-anchor-link text-left"
         target="_blank"
         href={data.subjectLink}
+        rel="noreferrer"
       >
         {text}
       </a>
@@ -146,7 +149,12 @@ export const openDaysColumns = [
     title: translate("link"),
     dataIndex: "link",
     render: (text, data) => (
-      <a className="ant-anchor-link text-left" target="_blank" href={data.link}>
+      <a
+        className="ant-anchor-link text-left"
+        target="_blank"
+        href={data.link}
+        rel="noreferrer"
+      >
         Odkáz na událost
       </a>
     ),
@@ -163,6 +171,7 @@ export const studyProgramsColumns = [
         className="ant-anchor-link text-center"
         target="_blank"
         href={data.link}
+        rel="noreferrer"
       >
         {text}
       </a>
@@ -197,6 +206,7 @@ export const studyProgramsColumns = [
         className="ant-anchor-link text-center"
         target="_blank"
         href={data.webLink}
+        rel="noreferrer"
       >
         {text}
       </a>
@@ -238,6 +248,7 @@ export const studyAdmissions = [
         className="ant-anchor-link text-center"
         target="_blank"
         href={data.webLink}
+        rel="noreferrer"
       >
         {text}
       </a>
@@ -252,6 +263,7 @@ export const studyAdmissions = [
         className="ant-anchor-link text-center"
         target="_blank"
         href={text}
+        rel="noreferrer"
       >
         <Button
           key={text}
@@ -289,6 +301,7 @@ export const trialTestsColumns = [
         className="ant-anchor-link text-center"
         target="_blank"
         href={text}
+        rel="noreferrer"
       >
         <Button
           key={text}
@@ -296,6 +309,43 @@ export const trialTestsColumns = [
           shape="round"
           icon={<DownloadOutlined />}
         />
+      </a>
+    ),
+  },
+];
+
+export const coursesColumns = [
+  {
+    title: translate("id"),
+    dataIndex: "id",
+  },
+  {
+    title: translate("subjectCode"),
+    dataIndex: "subjectCode",
+  },
+  {
+    title: translate("courseTitle"),
+    dataIndex: "courseTitle",
+  },
+  {
+    title: translate("courseLevelAndYearOfStudy"),
+    dataIndex: "courseLevelAndYearOfStudy",
+  },
+  {
+    title: translate("courseRecommendation"),
+    dataIndex: "courseRecommendation",
+  },
+  {
+    title: translate("courseUrl"),
+    dataIndex: "courseUrl",
+    render: (text, data) => (
+      <a
+        className="ant-anchor-link text-center"
+        target="_blank"
+        href={data.courseUrl}
+        rel="noreferrer"
+      >
+        {translate("link")}
       </a>
     ),
   },

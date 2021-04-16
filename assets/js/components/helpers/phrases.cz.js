@@ -54,4 +54,11 @@ export const phrases = {
   teacherUri: "Odkáz",
   time: "Čas",
   title: "Název",
+  teacherChoiceSelectButton: "Potvrdit",
+  loading: "Načítání",
+  infoAbout: "Informace o ",
+  findOutINSIS: "Více najdete na InSis",
+  writeAEmail: "Napište e-mail",
+  teacherCourses: "Předměty učitele",
+  back: "Zpět",
 };
