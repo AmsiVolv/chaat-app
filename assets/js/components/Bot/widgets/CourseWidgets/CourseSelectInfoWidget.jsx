@@ -1,4 +1,5 @@
 import React from "react";
+import {routes} from "../../../helpers/routes";
 
 const CourseSelectInfoWidget = (props) => {
   const { setState, actionProvider } = props;
@@ -22,8 +23,8 @@ const CourseSelectInfoWidget = (props) => {
   ];
 
   function fetchCourseInfo() {
-    fetch("/course/get", {
-      method: "POST",
+    fetch(routes.course.get.route, {
+      method: routes.course.get.method,
       body: JSON.stringify({ course: props.course }),
     })
       .then((r) => r.json())

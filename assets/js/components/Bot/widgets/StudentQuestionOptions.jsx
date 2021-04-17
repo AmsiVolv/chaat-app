@@ -13,7 +13,11 @@ const StudentQuestionOptions = (props) => {
       handler: props.actionProvider.handleTeacherChoice,
       id: 2,
     },
-    { text: "Faculty info", handler: () => {}, id: 3 },
+    {
+      text: "Faculty info",
+      handler: props.actionProvider.handleFacultyChoice,
+      id: 3,
+    },
     { text: "Stravování", handler: props.actionProvider.mealHandler, id: 4 },
     {
       text: translate("back"),

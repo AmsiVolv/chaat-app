@@ -61,4 +61,7 @@ export const phrases = {
   writeAEmail: "Napište e-mail",
   teacherCourses: "Předměty učitele",
   back: "Zpět",
+  webLink: "Odkáz na web",
+  abbreviation: "Zkratka",
+  facultyInfo: "Informace o fakulte",
 };

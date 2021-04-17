@@ -1,6 +1,7 @@
 import React from "react";
-import { Button, Descriptions, Divider, Select, Table, Popover } from "antd";
+import { Button, Descriptions, Divider, Select, Table } from "antd";
 import translate from "../../../helpers/translate";
+import {routes} from "../../../helpers/routes";
 import { coursesColumns } from "../../../helpers/columns";
 
 class TeacherChoice extends React.Component {
@@ -22,8 +23,8 @@ class TeacherChoice extends React.Component {
   }
 
   onChange = (value) => {
-    fetch("/teachers/getTeacherInfoById", {
-      method: "POST",
+    fetch(routes.teachers.getTeacherInfoById.route, {
+      method: routes.teachers.getTeacherInfoById.method,
       body: JSON.stringify({ teacher: value }),
     })
       .then((r) => r.json())
@@ -33,8 +34,8 @@ class TeacherChoice extends React.Component {
   };
 
   onSearch = (value) => {
-    fetch("/teachers/getTeacherByName", {
-      method: "POST",
+    fetch(routes.teachers.getTeacherInfoByName.route, {
+      method: routes.teachers.getTeacherInfoByName.method,
       body: JSON.stringify({ teacher: value }),
     })
       .then((r) => r.json())

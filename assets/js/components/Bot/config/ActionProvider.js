@@ -79,6 +79,20 @@ class ActionProvider {
     this.updateChatbotState(message);
   };
 
+  handleFacultyChoice = () => {
+    const message = this.createChatBotMessage("Vtěčínku prosím", {
+      withAvatar: true,
+      widget: "facultyChoice",
+    });
+
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace o facultách"
+    );
+
+    this.updateChatbotState(messageClient);
+    this.updateChatbotState(message);
+  };
+
   handleApplicantsList = () => {
     const message = this.createChatBotMessage(
       "Vyberte pro vás zajímavou sekci",

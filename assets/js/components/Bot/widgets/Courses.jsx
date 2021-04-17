@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Select } from "antd";
 import translate from "../../helpers/translate";
+import {routes} from "../../helpers/routes";
 
 const Courses = (props) => {
   const { setState, actionProvider } = props;
@@ -19,8 +20,8 @@ const Courses = (props) => {
   }
 
   function fetchCourse(course) {
-    fetch("/course/getCourseByName", {
-      method: "POST",
+    fetch(routes.course.getCourseByName.route, {
+      method: routes.course.getCourseByName.method,
       body: JSON.stringify({ course: course }),
     })
       .then((r) => r.json())
@@ -30,7 +31,6 @@ const Courses = (props) => {
   }
 
   function renderButton() {
-    console.log(props);
     return (
       <Button
         onClick={() => {

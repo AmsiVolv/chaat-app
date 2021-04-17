@@ -16,6 +16,7 @@ import TrialTests from "../widgets/ApplicantsWidget/TrialTests";
 import StudentQuestionOptions from "../widgets/StudentQuestionOptions";
 import MealInfo from "../widgets/StudentsWidgets/MealInfo";
 import TeacherChoice from "../widgets/StudentsWidgets/TeacherChoice";
+import FacultyChoice from "../widgets/StudentsWidgets/FacultyChoice";
 
 const config = {
   botName: "In-VSE Bot",
@@ -55,6 +56,7 @@ const config = {
     teacherInfo: [],
     teachers: [],
     isFetchingCourseSelectOptions: true,
+    faculties: [],
   },
   widgets: [
     {
@@ -76,6 +78,11 @@ const config = {
       widgetName: "applicantsChoise",
       widgetFunc: (props) => <ApplicantsChoiceList {...props} />,
       mapStateToProps: ["applicantsChoice"],
+    },
+    {
+      widgetName: "facultyChoice",
+      widgetFunc: (props) => <FacultyChoice {...props} />,
+      mapStateToProps: ["faculties"],
     },
     {
       widgetName: "studyPrograms",

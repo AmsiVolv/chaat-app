@@ -239,6 +239,47 @@ export const studyProgramsColumns = [
   },
 ];
 
+export const expandStudyProgramsColumns = [
+  {
+    title: translate("studyProgramTitle"),
+    dataIndex: "studyProgramTitle",
+    render: (text, data) => (
+        <a
+            className="ant-anchor-link text-center"
+            target="_blank"
+            href={data.link}
+            rel="noreferrer"
+        >
+          {text}
+        </a>
+    ),
+  },
+  {
+    title: translate("studyProgramCapacity"),
+    dataIndex: "studyProgramCapacity",
+    sorter: (a, b) => a.studyProgramCapacity - b.studyProgramCapacity,
+  },
+  {
+    title: translate("language"),
+    dataIndex: "studyProgramLanguage",
+    filters: [
+      { text: "čeština", value: "čeština" },
+      { text: "angličtina", value: "angličtina" },
+      { text: "ruština", value: "ruština" },
+    ],
+    onFilter: (value, data) => data.language.indexOf(value) === 0,
+  },
+  {
+    title: translate("form"),
+    dataIndex: "studyProgramForm",
+    filters: [
+      { text: "prezenční", value: "prezenční" },
+      { text: "kombinovaná", value: "kombinovaná" },
+    ],
+    onFilter: (value, data) => data.form.indexOf(value) === 0,
+  },
+];
+
 export const studyAdmissions = [
   {
     title: translate("facultyName"),
@@ -343,6 +384,35 @@ export const coursesColumns = [
         className="ant-anchor-link text-center"
         target="_blank"
         href={data.courseUrl}
+        rel="noreferrer"
+      >
+        {translate("link")}
+      </a>
+    ),
+  },
+];
+
+export const facultyColumns = [
+  {
+    title: translate("id"),
+    dataIndex: "id",
+  },
+  {
+    title: translate("abbreviation"),
+    dataIndex: "abbreviation",
+  },
+  {
+    title: translate("facultyName"),
+    dataIndex: "facultyName",
+  },
+  {
+    title: translate("webLink"),
+    dataIndex: "webLink",
+    render: (text, data) => (
+      <a
+        className="ant-anchor-link text-center"
+        target="_blank"
+        href={data.webLink}
         rel="noreferrer"
       >
         {translate("link")}
