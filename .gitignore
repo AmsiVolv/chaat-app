@@ -36,3 +36,5 @@ web/uploads/frontend/*
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+/bin/Caddyfile.dev
+/bin/mercure.db
