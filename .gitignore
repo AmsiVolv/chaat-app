@@ -1,3 +1,5 @@
+./bin/mercure.db
+./bin/Caddyfile.dev
 /app/config/parameters.yml
 /build/
 /var/*
