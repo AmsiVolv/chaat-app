@@ -31,6 +31,26 @@ class FacultyController extends AbstractController
     }
 
     /**
+     * @Route("/getAll", name="get-all", methods={"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getAllFaculties(Request $request): Response
+    {
+        $data = [];
+
+        try {
+            $data = $this->facultyService->getAll();
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+
+            return new JsonResponse(['status' => 'Response error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->json($data);
+    }
+
+    /**
      * @Route("/get", name="get-faculty", methods={"POST"})
      * @param Request $request
      * @return JsonResponse

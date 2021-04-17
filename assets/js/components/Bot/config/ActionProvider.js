@@ -48,6 +48,23 @@ class ActionProvider {
     this.updateChatbotState(message);
   };
 
+  handleTeacherChoice = () => {
+    const message = this.createChatBotMessage(
+      "Vyberte učitele, o kterém chcete dostát informace",
+      {
+        withAvatar: true,
+        widget: "teacherChoice",
+      }
+    );
+
+    const messageClient = this.createClientMessage(
+      "Zajímají mě informace o profesoréch"
+    );
+
+    this.updateChatbotState(messageClient);
+    this.updateChatbotState(message);
+  };
+
   mealHandler = () => {
     const message = this.createChatBotMessage("Kam půjdeme na jídlo?", {
       withAvatar: true,
@@ -56,6 +73,20 @@ class ActionProvider {
 
     const messageClient = this.createClientMessage(
       "Chtěl bych se najíst ve škole =)"
+    );
+
+    this.updateChatbotState(messageClient);
+    this.updateChatbotState(message);
+  };
+
+  handleFacultyChoice = () => {
+    const message = this.createChatBotMessage("Vtěčínku prosím", {
+      withAvatar: true,
+      widget: "facultyChoice",
+    });
+
+    const messageClient = this.createClientMessage(
+      "Mě zajímá informace o facultách"
     );
 
     this.updateChatbotState(messageClient);

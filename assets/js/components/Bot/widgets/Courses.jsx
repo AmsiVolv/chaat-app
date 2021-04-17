@@ -1,13 +1,18 @@
 import React from "react";
-import { Select } from "antd";
+import { Button, Select } from "antd";
+import translate from "../../helpers/translate";
+import {routes} from "../../helpers/routes";
 
 const Courses = (props) => {
   const { setState, actionProvider } = props;
   const { Option } = Select;
 
   function onChange(value) {
-    setState((state) => ({ ...state, course: value }));
-    actionProvider.handleCourseSelect(value);
+    setState((state) => ({
+      ...state,
+      course: value,
+      isFetchingCourseSelectOptions: false,
+    }));
   }
 
   function onSearch(val) {
@@ -15,14 +20,31 @@ const Courses = (props) => {
   }
 
   function fetchCourse(course) {
-    fetch("/course/getCourseByName", {
-      method: "POST",
+    fetch(routes.course.getCourseByName.route, {
+      method: routes.course.getCourseByName.method,
       body: JSON.stringify({ course: course }),
     })
       .then((r) => r.json())
       .then((data) => {
         setState((state) => ({ ...state, courses: data }));
       });
+  }
+
+  function renderButton() {
+    return (
+      <Button
+        onClick={() => {
+          actionProvider.handleCourseSelect(props.course);
+        }}
+        style={{ marginLeft: 10, marginTop: 5 }}
+        type="primary"
+        loading={props.isFetchingCourseSelectOptions}
+      >
+        {props.isFetchingCourseSelectOptions
+          ? translate("loading")
+          : translate("teacherChoiceSelectButton")}
+      </Button>
+    );
   }
 
   if (typeof props.courses !== "undefined" && props.courses.length === 0) {
@@ -57,6 +79,7 @@ const Courses = (props) => {
       >
         {createCourseOptions()}
       </Select>
+      {renderButton()}
     </div>
   );
 };

@@ -18,9 +18,11 @@ class Left extends React.Component {
     this.state = {
       showPrivateMessage: true,
       fetchGroupMessage: true,
+      selectedConversationId: "",
     };
 
     this.handleSwitch = this.handleSwitch.bind(this);
+    this.handleConversationSelect = this.handleConversationSelect.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -66,12 +68,22 @@ class Left extends React.Component {
     this.setState({ showPrivateMessage: !this.state.showPrivateMessage });
   };
 
+  handleConversationSelect = (e) => {
+    e.preventDefault();
+
+    this.setState({
+      selectedConversationId: parseInt(
+        e.currentTarget.attributes.getNamedItem("data").value
+      ),
+    });
+  };
+
   render() {
     return (
       <div className="col-5 g-0 main-box" id="left-side">
         <div className="bg-white" id="page-wrap">
           <div className="bg-gray px-4 py-2 bg-light">
-            <p className="h5 mb-0 py-1  text-center">Recent</p>
+            <p className="h5 mb-0 py-1 text-center">Recent</p>
           </div>
           <div className="messages-box">
             <div>
@@ -95,10 +107,19 @@ class Left extends React.Component {
                       })
                       .map((conversation, index) => {
                         return (
-                          <Conversation
-                            conversation={conversation}
+                          <div
                             key={index}
-                          />
+                            onClick={this.handleConversationSelect}
+                            data={conversation.conversationId}
+                            // style={{
+                            //   backgroundColor: conversation.conversationId === this.state.selectedConversationId ? '#69c0ff' : 'white',
+                            // }}
+                          >
+                            <Conversation
+                              conversation={conversation}
+                              key={index}
+                            />
+                          </div>
                         );
                       })
                   : ""}

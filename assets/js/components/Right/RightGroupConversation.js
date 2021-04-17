@@ -107,7 +107,7 @@ class RightGroupConversation extends React.Component {
               }
             />
           </div>
-          <div className="overflow-scroll grow-1 scroll-box" ref={this.bodyRef}>
+          <div className="overflow-auto grow-1 scroll-box" ref={this.bodyRef}>
             {nonEmptyGroupMessages
               ? groupMessages.map((groupMessage, index) => {
                   return <GroupMessage meessage={groupMessage} key={index} />;

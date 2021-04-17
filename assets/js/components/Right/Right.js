@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
 
 import Input from "./Input";
 import Message from "./Message";
 import RightMessageHelper from "./RightMessageHelper";
+import { Affix } from "antd";
 
 const mapStateToProps = (state) => {
   return state;
@@ -81,7 +82,7 @@ class Right extends React.Component {
   render() {
     return (
       <div className="col-7 g-0 main-box">
-        <div className="px-4 bg-white d-flex flex-column">
+        <div className="px-4 bg-white">
           <div className="row sticky-top">
             <RightMessageHelper
               conversationId={this.props.match.params.id}
@@ -89,7 +90,7 @@ class Right extends React.Component {
               recepientUser={this.props.items[this.state._conversationIndex]}
             />
           </div>
-          <div className="overflow-scroll grow-1 scroll-box" ref={this.bodyRef}>
+          <div className="overflow-auto grow-1 scroll-box" ref={this.bodyRef}>
             {this.state._conversationIndex != -1 &&
             this.props.items != undefined &&
             this.props.items[this.state._conversationIndex].messages !=
@@ -102,9 +103,9 @@ class Right extends React.Component {
               : ""}
           </div>
         </div>
-        <div className="row g-0">
+        <Affix target={() => this.state.bodyRef}>
           <Input id={this.props.match.params.id} />
-        </div>
+        </Affix>
       </div>
     );
   }

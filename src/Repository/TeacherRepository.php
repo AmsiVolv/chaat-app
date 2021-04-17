@@ -116,4 +116,31 @@ class TeacherRepository extends ServiceEntityRepository
 
         return str_replace('  ', ', ', trim($selectString));
     }
+
+    public function getByName(?string $teacherName): array
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb->select('t.name, t.id')
+            ->where($qb->expr()->like('t.name', ':name'))
+            ->setParameter('name', sprintf('%%%s%%', $teacherName))
+            ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param int $teacherId
+     * @return Teacher|null
+     * @throws Throwable
+     */
+    public function getById(int $teacherId): ?Teacher
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb->where($qb->expr()->like('t.id', ':id'))
+            ->setParameter('id', $teacherId);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

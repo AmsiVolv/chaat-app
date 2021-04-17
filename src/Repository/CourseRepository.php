@@ -350,4 +350,15 @@ class CourseRepository extends ServiceEntityRepository
 
         return str_replace('  ', ', ', trim($selectString));
     }
+
+    public function getAllCourseByTeacherId(int $teacherId): array
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->join('c.teacher', 'r')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $teacherId);
+
+        return $qb->getQuery()->getResult();
+    }
 }

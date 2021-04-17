@@ -1,4 +1,5 @@
 import React from "react";
+import translate from "../../../helpers/translate";
 
 const ApplicantsChoiceList = (props) => {
   const options = [
@@ -22,7 +23,11 @@ const ApplicantsChoiceList = (props) => {
       handler: props.actionProvider.handlePreparatoryCourses,
       id: 4,
     },
-    { text: "Zpět", handler: props.actionProvider.handleInitlist, id: 5 },
+    {
+      text: translate("back"),
+      handler: props.actionProvider.handleInitlist,
+      id: 5,
+    },
   ];
 
   const optionsMarkup = options.map((option) => (

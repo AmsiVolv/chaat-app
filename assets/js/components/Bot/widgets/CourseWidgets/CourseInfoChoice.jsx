@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Select, Tooltip, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import translate from "../../../helpers/translate";
+import {routes} from '../../../helpers/routes'
 
 const CourseInfoChoice = (props) => {
   const { setState, actionProvider } = props;
@@ -11,8 +12,8 @@ const CourseInfoChoice = (props) => {
       useEffect(() => {
         setState((state) => ({ ...state, isFetchingCourseSelect: false }));
       });
-      fetch("/course/getFilterParams", {
-        method: "POST",
+      fetch(routes.course.getFilterParams.route, {
+        method: routes.course.getFilterParams.method,
         body: JSON.stringify({ course: props.course }),
       })
         .then((r) => r.json())
@@ -75,8 +76,8 @@ const CourseInfoChoice = (props) => {
       Object.keys(filterParams).length !== 0 &&
       filterParams.constructor === Object
     ) {
-      fetch("/course/get", {
-        method: "POST",
+      fetch(routes.course.get.route, {
+        method: routes.course.get.method,
         body: JSON.stringify({ course: props.course, filterParams }),
       })
         .then((r) => r.json())

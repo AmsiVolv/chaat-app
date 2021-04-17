@@ -21,6 +21,7 @@ import {
   ADD_SEARCH_GROUP_NAME,
   GET_COURSE_INFO,
 } from "../constants/actionTypes";
+import { routes } from "../components/helpers/routes";
 
 export const requestConversations = () => ({
   type: GET_CONVERSATIONS,
@@ -167,7 +168,7 @@ export const setGroupConversationId = (groupConversation) => {
 
 export const fetchConversations = () => (dispatch) => {
   dispatch(requestConversations());
-  return fetch(`/conversations/`)
+  return fetch(routes.conversation.route)
     .then((response) => {
       // TODO: set the HUB URL right here
       const hubUrl = response.headers
@@ -183,7 +184,7 @@ export const fetchConversations = () => (dispatch) => {
 
 export const fetchGroupConversations = () => (dispatch) => {
   dispatch(requestGroupConversations());
-  return fetch(`/groupConversations/`)
+  return fetch(routes.groupConversations.route)
     .then((response) => {
       const hubUrl = response.headers
         .get("Link")
@@ -198,7 +199,7 @@ export const fetchGroupConversations = () => (dispatch) => {
 
 export const fetchMessages = (id) => (dispatch) => {
   dispatch(requestMessages(id));
-  return fetch(`/messages/${id}`)
+  return fetch(routes.message.route + id)
     .then((response) => response.json())
     .then((json) => {
       return dispatch(receiveMessages(json, id));
@@ -207,7 +208,7 @@ export const fetchMessages = (id) => (dispatch) => {
 
 export const fetchGroupMessages = (id) => (dispatch) => {
   dispatch(requestGroupMessages(id));
-  return fetch(`/groupMessages/${id}`)
+  return fetch(routes.groupMessages.route + id)
     .then((response) => response.json())
     .then((json) => {
       return dispatch(receiveGroupMessages(json, id));
@@ -217,8 +218,8 @@ export const fetchGroupMessages = (id) => (dispatch) => {
 export const addMessage = (content, conversationId) => (dispatch) => {
   let formData = new FormData();
   formData.append("content", content);
-  return fetch(`/messages/${conversationId}`, {
-    method: "POST",
+  return fetch(routes.message.addMessage.route + conversationId, {
+    method: routes.message.addMessage.method,
     body: formData,
   })
     .then((response) => response.json())
@@ -233,8 +234,8 @@ export const addMessageToGroupConversation = (content, conversationId) => (
 ) => {
   let formData = new FormData();
   formData.append("content", content);
-  return fetch(`/groupMessages/${conversationId}`, {
-    method: "POST",
+  return fetch(routes.groupMessages.addMessage.route + conversationId, {
+    method: routes.groupMessages.addMessage.method,
     body: formData,
   })
     .then((response) => response.json())
@@ -247,8 +248,8 @@ export const addMessageToGroupConversation = (content, conversationId) => (
 export const userSearch = (username) => (dispatch) => {
   let formData = new FormData();
   formData.append("username", username);
-  return fetch("/api/users", {
-    method: "POST",
+  return fetch(routes.users.route, {
+    method: routes.users.method,
     body: formData,
   })
     .then((response) => response.json())
@@ -261,8 +262,8 @@ export const userSearch = (username) => (dispatch) => {
 export const createConversation = (userId) => (dispatch) => {
   let formData = new FormData();
   formData.append("userId", userId);
-  return fetch("/conversations/create", {
-    method: "POST",
+  return fetch(routes.conversation.create.route, {
+    method: routes.conversation.create.method,
     body: formData,
   })
     .then((response) => response.json())
@@ -272,29 +273,29 @@ export const createConversation = (userId) => (dispatch) => {
 };
 
 export const clearConversation = (conversationId) => (dispatch) => {
-  fetch("/conversations/clear", {
-    method: "POST",
+  fetch(routes.conversation.clear.route, {
+    method: routes.conversation.clear.method,
     body: JSON.stringify({ conversationId: conversationId }),
   });
 };
 
 export const deleteConversation = (conversationId) => (dispatch) => {
-  fetch("/conversations/delete", {
-    method: "POST",
+  fetch(routes.conversation.delete.route, {
+    method: routes.conversation.delete.method,
     body: JSON.stringify({ conversationId: conversationId }),
   });
 };
 
 export const leaveGroupConversation = (groupConversationId) => () => {
-  fetch("/groupConversations/leave", {
-    method: "POST",
+  fetch(routes.groupConversations.leave.route, {
+    method: routes.groupConversations.leave.method,
     body: JSON.stringify({ groupConversationId: groupConversationId }),
   });
 };
 
 export const enterGroupConversation = (groupConversationId) => (dispatch) => {
-  return fetch("/groupConversations/enter", {
-    method: "POST",
+  return fetch(routes.groupConversations.enter.route, {
+    method: routes.groupConversations.enter.method,
     body: JSON.stringify({ groupConversationId: groupConversationId }),
   })
     .then((response) => response.json())
@@ -304,8 +305,8 @@ export const enterGroupConversation = (groupConversationId) => (dispatch) => {
 };
 
 export const groupSearch = (groupConversationGroupName) => (dispatch) => {
-  return fetch("/groupConversations/find", {
-    method: "POST",
+  return fetch(routes.groupConversations.find.route, {
+    method: routes.groupConversations.find.method,
     body: JSON.stringify({
       groupConversationGroupName: groupConversationGroupName,
     }),
@@ -318,8 +319,8 @@ export const groupSearch = (groupConversationGroupName) => (dispatch) => {
 };
 
 export const fetchGroupInfo = (groupConversationId) => (dispatch) => {
-  fetch("/groupConversations/getCourseInfo", {
-    method: "POST",
+  fetch(routes.groupConversations.getCourseInfo.route, {
+    method: routes.groupConversations.getCourseInfo.method,
     body: JSON.stringify({ groupConversationId: groupConversationId }),
   })
     .then((response) => response.json())
