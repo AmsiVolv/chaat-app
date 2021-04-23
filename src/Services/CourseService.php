@@ -64,7 +64,7 @@ class CourseService
 
                 foreach ($request->filterParams as $key => $filter) {
                     if ($filter !== []) {
-                        $dataToReturn[$key] = $data;
+                        $dataToReturn[$key][] = $data;
                     }
                 }
 
@@ -162,15 +162,15 @@ class CourseService
                     break;
                 case property_exists(Reading::class, $key):
                     $item = $this->checkLengthAndReturnPropertyValue($item);
-                    $returnData[CourseRepository::READING][$key][] = $item;
+                    $returnData[CourseRepository::READING][$key] = $item;
                     break;
                 case property_exists(CourseSheduling::class, $key):
                     $item = $this->checkLengthAndReturnPropertyValue($item);
-                    $returnData[CourseRepository::COURSE_SCHEDULING][$key][] = $item;
+                    $returnData[CourseRepository::COURSE_SCHEDULING][$key] = $item;
                     break;
                 case property_exists(Teacher::class, $key):
                     $item = $this->checkLengthAndReturnPropertyValue($item);
-                    $returnData[CourseRepository::TEACHER][$key][] = $item;
+                    $returnData[CourseRepository::TEACHER][$key] = $item;
                     break;
             }
         }
@@ -178,7 +178,7 @@ class CourseService
         return array_merge($returnData, $this->sortResultArray($returnData));
     }
 
-    private function checkLengthAndReturnPropertyValue(int|string|array $itemForCheck): string|array
+    private function checkLengthAndReturnPropertyValue(int|string|array|null $itemForCheck): string|array
     {
         if (!is_array($itemForCheck)) {
             $itemForCheck = (string) $itemForCheck;

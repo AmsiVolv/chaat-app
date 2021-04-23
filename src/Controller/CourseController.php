@@ -47,6 +47,7 @@ class CourseController extends AbstractController
 
             return new JsonResponse(['status' => 'Bad request'], Response::HTTP_BAD_REQUEST);
         } catch (Throwable $e) {
+            dd($e);
             $this->logger->error($e->getMessage(), $e->getTrace());
 
             return new JsonResponse(['status' => 'Response error'], Response::HTTP_INTERNAL_SERVER_ERROR);
