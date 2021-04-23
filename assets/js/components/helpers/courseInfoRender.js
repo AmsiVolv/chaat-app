@@ -80,6 +80,8 @@ export const prepareData = (key, value) => {
         </div>
       );
     }
+  } else {
+        console.log(key, value)
   }
 };
 
