@@ -361,4 +361,19 @@ class CourseRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param string $ident
+     * @return Course|null
+     * @throws Throwable
+     */
+    public function getCourseByIdent(string $ident): ?Course
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->where($qb->expr()->eq('c.subjectCode', ':subjectCode'))
+            ->setParameter('subjectCode', $ident);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

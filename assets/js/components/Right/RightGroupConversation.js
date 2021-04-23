@@ -1,11 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
-
 import GroupMessageInput from "./GroupMessageInput";
 import GroupMessage from "./GroupMessage";
 import RightGroupConversationMessageHelper from "./RightGroupConversationMessageHelper";
-import RightMessageHelper from "./RightMessageHelper";
 
 const mapStateToProps = (state) => {
   return state;
@@ -97,7 +95,7 @@ class RightGroupConversation extends React.Component {
       : [];
 
     return (
-      <div className="col-7 g-0 main-box">
+        <div className="g-0 main-box col-md-7 col-12">
         <div className="px-4 bg-white d-flex flex-column">
           <div className="row sticky-top">
             <RightGroupConversationMessageHelper

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Select, Tooltip, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import translate from "../../../helpers/translate";
-import {routes} from '../../../helpers/routes'
+import { routes } from "../../../helpers/routes";
 
 const CourseInfoChoice = (props) => {
   const { setState, actionProvider } = props;

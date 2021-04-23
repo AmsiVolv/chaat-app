@@ -118,7 +118,7 @@ class RightGroupConversationMessageHelper extends React.Component {
           ]}
         ></PageHeader>
         <Drawer
-          width="50%"
+          width={window.innerWidth <= 768 ? '100%' : '75%'}
           title={`Informace o předmětu ${this.renderGroupTitle()}`}
           placement="right"
           getContainer={false}

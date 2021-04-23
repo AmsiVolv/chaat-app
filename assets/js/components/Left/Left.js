@@ -79,8 +79,14 @@ class Left extends React.Component {
   };
 
   render() {
+    let className = 'col-md-5 g-0 main-box col-sm-12 col-xs-12';
+
+    if (!this.props.showConversation) {
+      className = 'col-md-5 g-0 main-box d-md-block d-none'
+    }
+
     return (
-      <div className="col-5 g-0 main-box" id="left-side">
+      <div className={className} id="left-side">
         <div className="bg-white" id="page-wrap">
           <div className="bg-gray px-4 py-2 bg-light">
             <p className="h5 mb-0 py-1 text-center">Recent</p>
@@ -111,9 +117,6 @@ class Left extends React.Component {
                             key={index}
                             onClick={this.handleConversationSelect}
                             data={conversation.conversationId}
-                            // style={{
-                            //   backgroundColor: conversation.conversationId === this.state.selectedConversationId ? '#69c0ff' : 'white',
-                            // }}
                           >
                             <Conversation
                               conversation={conversation}

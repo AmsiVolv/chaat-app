@@ -64,4 +64,20 @@ export const phrases = {
   webLink: "Odkáz na web",
   abbreviation: "Zkratka",
   facultyInfo: "Informace o fakulte",
+  about: {
+    title: "O aplikaci",
+    firstParagraph:
+      "in-vse.cz - aplikace, která byla vytvořena studentem pro studenty především pro vzdělávací účely.",
+    secondParagraph: "Celá aplikace se skládá ze dvou částí:",
+    thirdParagraph:
+      "Hlavní zdroje dat, který byli použiti pro této aplikaci jsou InSIS a oficiální stránky VŠE.",
+    lists: {
+      firstTitle: "Messanger",
+      secondTitle: "Chat Bot",
+      firstContent:
+        "Tato součást aplikace představuje real-time messenger, který měl by sloužit hlavně pro studijní účely. V messengeru dá se využívat dvě hlavní funkce - privátní i skupinové konverzace S tím, že pro každý dostupný předmět na škole byla vytvořená vlastní skupina.",
+      secondContent:
+        "Chat bot - táto součást aplikace byla vytvořená za účelem pomoci studentům a uchazečům o studium na Vysoké škole Ekonomické. Obsahuje velké množství různých funkci, který by měli ulehčit život uživatelům.",
+    },
+  },
 };

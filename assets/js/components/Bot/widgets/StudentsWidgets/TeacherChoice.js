@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Descriptions, Divider, Select, Table } from "antd";
 import translate from "../../../helpers/translate";
-import {routes} from "../../../helpers/routes";
+import { routes } from "../../../helpers/routes";
 import { coursesColumns } from "../../../helpers/columns";
 
 class TeacherChoice extends React.Component {
