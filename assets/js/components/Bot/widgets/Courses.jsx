@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Select } from "antd";
 import translate from "../../helpers/translate";
-import {routes} from "../../helpers/routes";
+import { routes } from "../../helpers/routes";
 
 const Courses = (props) => {
   const { setState, actionProvider } = props;

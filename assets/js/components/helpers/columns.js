@@ -244,14 +244,14 @@ export const expandStudyProgramsColumns = [
     title: translate("studyProgramTitle"),
     dataIndex: "studyProgramTitle",
     render: (text, data) => (
-        <a
-            className="ant-anchor-link text-center"
-            target="_blank"
-            href={data.link}
-            rel="noreferrer"
-        >
-          {text}
-        </a>
+      <a
+        className="ant-anchor-link text-center"
+        target="_blank"
+        href={data.link}
+        rel="noreferrer"
+      >
+        {text}
+      </a>
     ),
   },
   {

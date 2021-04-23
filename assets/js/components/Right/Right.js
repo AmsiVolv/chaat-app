@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
 
 import Input from "./Input";
 import Message from "./Message";
 import RightMessageHelper from "./RightMessageHelper";
-import { Affix } from "antd";
 
 const mapStateToProps = (state) => {
   return state;
@@ -81,7 +80,7 @@ class Right extends React.Component {
 
   render() {
     return (
-      <div className="col-7 g-0 main-box">
+      <div className="g-0 main-box col-md-7 col-12">
         <div className="px-4 bg-white">
           <div className="row sticky-top">
             <RightMessageHelper
@@ -90,22 +89,20 @@ class Right extends React.Component {
               recepientUser={this.props.items[this.state._conversationIndex]}
             />
           </div>
-          <div className="overflow-auto grow-1 scroll-box" ref={this.bodyRef}>
-            {this.state._conversationIndex != -1 &&
-            this.props.items != undefined &&
-            this.props.items[this.state._conversationIndex].messages !=
+            <div className="overflow-auto grow-1 scroll-box" ref={this.bodyRef}>
+              {this.state._conversationIndex != -1 &&
+              this.props.items != undefined &&
+              this.props.items[this.state._conversationIndex].messages !=
               undefined
-              ? this.props.items[this.state._conversationIndex].messages.map(
-                  (message, index) => {
-                    return <Message message={message} key={index} />;
-                  }
-                )
-              : ""}
-          </div>
+                  ? this.props.items[this.state._conversationIndex].messages.map(
+                      (message, index) => {
+                        return <Message message={message} key={index} />;
+                      }
+                  )
+                  : ""}
+            </div>
+            <Input id={this.props.match.params.id} />
         </div>
-        <Affix target={() => this.state.bodyRef}>
-          <Input id={this.props.match.params.id} />
-        </Affix>
       </div>
     );
   }

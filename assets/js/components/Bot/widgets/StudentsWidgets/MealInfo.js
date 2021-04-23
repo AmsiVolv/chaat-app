@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Descriptions, Divider, Row } from "antd";
 import Title from "antd/es/typography/Title";
 import translate from "../../../helpers/translate";
-import {routes} from "../../../helpers/routes";
+import { routes } from "../../../helpers/routes";
 
 const options = [
   {

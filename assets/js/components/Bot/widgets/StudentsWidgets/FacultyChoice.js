@@ -1,8 +1,11 @@
 import React from "react";
 import { Divider, Table } from "antd";
-import { facultyColumns, expandStudyProgramsColumns } from "../../../helpers/columns";
+import {
+  facultyColumns,
+  expandStudyProgramsColumns,
+} from "../../../helpers/columns";
 import translate from "../../../helpers/translate";
-import {routes} from '../../../helpers/routes'
+import { routes } from "../../../helpers/routes";
 
 class FacultyChoice extends React.Component {
   constructor(props) {
@@ -31,17 +34,17 @@ class FacultyChoice extends React.Component {
 
   expandedRowRender = (studyPrograms) => {
     return (
-        <Table
-            columns={expandStudyProgramsColumns}
-            rowKey={(data) => data.id}
-            dataSource={studyPrograms}
-            pagination={{
-                pageSize: 5,
-                total: studyPrograms.length,
-                hideOnSinglePage: true,
-            }}
-            loading={this.state.loading}
-        />
+      <Table
+        columns={expandStudyProgramsColumns}
+        rowKey={(data) => data.id}
+        dataSource={studyPrograms}
+        pagination={{
+          pageSize: 5,
+          total: studyPrograms.length,
+          hideOnSinglePage: true,
+        }}
+        loading={this.state.loading}
+      />
     );
   };
 
@@ -53,8 +56,9 @@ class FacultyChoice extends React.Component {
           columns={facultyColumns}
           rowKey={(data) => data.id}
           expandable={{
-              expandedRowRender: data => this.expandedRowRender(data.studyPrograms),
-              rowExpandable: (data) => data.studyPrograms.length > 0,
+            expandedRowRender: (data) =>
+              this.expandedRowRender(data.studyPrograms),
+            rowExpandable: (data) => data.studyPrograms.length > 0,
           }}
           dataSource={this.state.faculties}
           pagination={{

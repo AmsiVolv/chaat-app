@@ -1,5 +1,5 @@
 import React from "react";
-import {routes} from "../../../helpers/routes";
+import { routes } from "../../../helpers/routes";
 
 const CourseSelectInfoWidget = (props) => {
   const { setState, actionProvider } = props;
