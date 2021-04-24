@@ -43,6 +43,7 @@
         "prettier": "^2.2.1",
         "prop-types": "^15.7.2",
         "react": "^16.13.1",
+        "react-app-polyfill": "^2.0.0",
         "react-bootstrap": "^1.5.2",
         "react-burger-menu": "^3.0.4",
         "react-chatbot-kit": "^1.1.20",
@@ -56,5 +57,18 @@
         "reqwest": "^2.0.5",
         "select2": "^4.1.0-rc.0",
         "styled-components": "^5.2.1"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "ie 11",
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     }
 }
