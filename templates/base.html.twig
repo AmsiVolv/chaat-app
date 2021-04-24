@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
     <head>
         <meta charset="UTF-8">
-        <title>In-VSE</title>
+        <meta name="description" content="Chatbot pro VŠE">
+        <meta name="keywords" content="VŠE, in-vse.cz, VŠE BOT, chatbot, vsebot, studenty, Vysoká Škola Ekonomická">
+        <meta name="author" content="Vyacheslav Voloshyn">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %} - in-VSE</title>
         {% block stylesheets %}
             <link rel="shortcut icon" type="image/png" href="{{ asset('build/icons/logo.png') }}"/>
             {{ encore_entry_link_tags('css') }}
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% endblock %}
     </head>
     <body>
