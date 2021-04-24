@@ -17,19 +17,17 @@ import StudentQuestionOptions from "../widgets/StudentQuestionOptions";
 import MealInfo from "../widgets/StudentsWidgets/MealInfo";
 import TeacherChoice from "../widgets/StudentsWidgets/TeacherChoice";
 import FacultyChoice from "../widgets/StudentsWidgets/FacultyChoice";
+import translate from "../../helpers/translate";
 
 const config = {
   botName: "In-VSE Bot",
   initialMessages: [
-    createChatBotMessage("I'm here to help. What do you want to find?"),
-    createChatBotMessage(
-      "Here's a quick overview over what I need to function. ask me about the different parts to dive deeper.",
-      {
-        withAvatar: true,
-        delay: 500,
-        widget: "QuestionOptions",
-      }
-    ),
+    createChatBotMessage(translate("chatbot.greeting")),
+    createChatBotMessage(translate("chatbot.greetingSecond"), {
+      withAvatar: true,
+      delay: 500,
+      widget: "QuestionOptions",
+    }),
   ],
   customStyles: {
     botMessageBox: {

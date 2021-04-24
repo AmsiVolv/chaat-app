@@ -35,7 +35,7 @@ class PreparatoryCourseController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getOpenDays(Request $request): Response
+    public function getPreparatoryCourses(Request $request): Response
     {
         try {
             $preparatoryCourses = $this->preparatoryCourseService->getAll();

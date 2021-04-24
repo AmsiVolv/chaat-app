@@ -6,6 +6,7 @@ import * as actionCreators from "../../actions/conversation";
 import Search from "./Search";
 import GroupSearch from "./GroupSearch";
 import { Switch } from "antd";
+import translate from "../helpers/translate";
 
 const mapStateToProps = (state) => {
   return state;
@@ -79,17 +80,21 @@ class Left extends React.Component {
   };
 
   render() {
-    let className = 'col-md-5 g-0 main-box col-sm-12 col-xs-12';
+    let className = "col-md-5 g-0 main-box col-sm-12 col-xs-12";
 
     if (!this.props.showConversation) {
-      className = 'col-md-5 g-0 main-box d-md-block d-none'
+      className = "col-md-5 g-0 main-box d-md-block d-none";
     }
 
     return (
       <div className={className} id="left-side">
         <div className="bg-white" id="page-wrap">
           <div className="bg-gray px-4 py-2 bg-light">
-            <p className="h5 mb-0 py-1 text-center">Recent</p>
+            <h1>
+              <p className="h5 mb-0 py-1 text-center">
+                {translate("recentMessages")}
+              </p>
+            </h1>
           </div>
           <div className="messages-box">
             <div>
@@ -99,8 +104,8 @@ class Left extends React.Component {
             <div className="d-flex justify-content-center pt-2 pb-2">
               <Switch
                 onClick={this.handleSwitch}
-                checkedChildren="Show group messages"
-                unCheckedChildren="Show private messages"
+                checkedChildren={translate("showGroupMessage")}
+                unCheckedChildren={translate("showPrivatMessage")}
                 checked={this.state.showPrivateMessage}
               />
             </div>

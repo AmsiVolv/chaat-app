@@ -89,19 +89,19 @@ class Right extends React.Component {
               recepientUser={this.props.items[this.state._conversationIndex]}
             />
           </div>
-            <div className="overflow-auto grow-1 scroll-box" ref={this.bodyRef}>
-              {this.state._conversationIndex != -1 &&
-              this.props.items != undefined &&
-              this.props.items[this.state._conversationIndex].messages !=
+          <div className="overflow-auto grow-1 scroll-box" ref={this.bodyRef}>
+            {this.state._conversationIndex != -1 &&
+            this.props.items != undefined &&
+            this.props.items[this.state._conversationIndex].messages !=
               undefined
-                  ? this.props.items[this.state._conversationIndex].messages.map(
-                      (message, index) => {
-                        return <Message message={message} key={index} />;
-                      }
-                  )
-                  : ""}
-            </div>
-            <Input id={this.props.match.params.id} />
+              ? this.props.items[this.state._conversationIndex].messages.map(
+                  (message, index) => {
+                    return <Message message={message} key={index} />;
+                  }
+                )
+              : ""}
+          </div>
+          <Input id={this.props.match.params.id} />
         </div>
       </div>
     );

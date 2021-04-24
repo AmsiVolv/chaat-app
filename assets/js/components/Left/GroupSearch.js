@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
 import { Select } from "antd";
 import { message } from "antd";
+import translate from "../helpers/translate";
 
 const mapStateToProps = (state) => {
   return state;
@@ -55,7 +56,7 @@ class GroupSearch extends React.Component {
       <Select
         showSearch
         style={{ width: "90%", margin: "5%", marginBottom: "unset" }}
-        placeholder="Search for group..."
+        placeholder={translate("groupSearch")}
         optionFilterProp="children"
         onChange={this.enterGroupConversation}
         onSearch={this.handleChange}

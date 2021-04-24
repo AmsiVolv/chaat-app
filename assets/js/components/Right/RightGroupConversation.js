@@ -95,7 +95,7 @@ class RightGroupConversation extends React.Component {
       : [];
 
     return (
-        <div className="g-0 main-box col-md-7 col-12">
+      <div className="g-0 main-box col-md-7 col-12">
         <div className="px-4 bg-white d-flex flex-column">
           <div className="row sticky-top">
             <RightGroupConversationMessageHelper

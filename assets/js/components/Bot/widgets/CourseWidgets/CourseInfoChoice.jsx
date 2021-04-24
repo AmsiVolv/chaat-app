@@ -98,7 +98,7 @@ const CourseInfoChoice = (props) => {
         mode="multiple"
         allowClear
         style={{ width: "50%", marginTop: 5 }}
-        placeholder="Select a filter params"
+        placeholder={translate("chatbot.selectFilter")}
         optionFilterProp="children"
         onChange={onChange}
         filterOption={(input, option) => {
