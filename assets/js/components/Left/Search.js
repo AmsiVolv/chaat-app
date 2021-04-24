@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../actions/conversation";
 import { message, Select } from "antd";
+import translate from "../helpers/translate";
 
 const mapStateToProps = (state) => {
   return state;
@@ -55,7 +56,7 @@ class Search extends React.Component {
       <Select
         showSearch
         style={{ width: "90%", margin: "5%", marginBottom: "unset" }}
-        placeholder="Search for new person..."
+        placeholder={translate("personSearch")}
         optionFilterProp="children"
         onChange={this.createConversation}
         onSearch={this.handleChange}

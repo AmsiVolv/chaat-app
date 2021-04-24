@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import translate from "../helpers/translate";
 
 class NavbarPage extends Component {
   render() {
@@ -19,7 +20,7 @@ class NavbarPage extends Component {
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            <a href="/logout">Log out</a>
+            <a href="/logout">{translate("logout")}</a>
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>

@@ -1,3 +1,5 @@
+import translate from "../../helpers/translate";
+
 class ActionProvider {
   constructor(createChatBotMessage, setStateFunc, createClientMessage) {
     this.createChatBotMessage = createChatBotMessage;
@@ -6,22 +8,27 @@ class ActionProvider {
   }
 
   greet() {
-    const greetingMessage = this.createChatBotMessage("Hi, friend.");
+    const greetingMessage = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.greeting")
+    );
     this.updateChatbotState(greetingMessage);
   }
 
   handleInitlist = () => {
-    const message = this.createChatBotMessage("Kam půjdeme?", {
-      withAvatar: true,
-      widget: "QuestionOptions",
-    });
+    const message = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.selectDistination"),
+      {
+        withAvatar: true,
+        widget: "QuestionOptions",
+      }
+    );
 
     this.updateChatbotState(message);
   };
 
   handleStudentQuestionOptions = () => {
     const message = this.createChatBotMessage(
-      "Vyberte pro vás zajímavou sekci",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         withAvatar: true,
         widget: "studentQuestionOptions",
@@ -33,7 +40,7 @@ class ActionProvider {
 
   handleCourseList = () => {
     const message = this.createChatBotMessage(
-      "Please can you provide some information about course?",
+      translate("chatbot.actionProvider.bot.subjectInfoProvide"),
       {
         withAvatar: true,
         widget: "courseChoice",
@@ -41,7 +48,7 @@ class ActionProvider {
     );
 
     const messageClient = this.createClientMessage(
-      "Please can you provide me info about course?"
+      translate("chatbot.actionProvider.user.subjectInfoProvide")
     );
 
     this.updateChatbotState(messageClient);
@@ -50,7 +57,7 @@ class ActionProvider {
 
   handleTeacherChoice = () => {
     const message = this.createChatBotMessage(
-      "Vyberte učitele, o kterém chcete dostát informace",
+      translate("chatbot.actionProvider.bot.teacherShow"),
       {
         withAvatar: true,
         widget: "teacherChoice",
@@ -58,7 +65,7 @@ class ActionProvider {
     );
 
     const messageClient = this.createClientMessage(
-      "Zajímají mě informace o profesoréch"
+      translate("chatbot.actionProvider.user.teacherShow")
     );
 
     this.updateChatbotState(messageClient);
@@ -66,13 +73,16 @@ class ActionProvider {
   };
 
   mealHandler = () => {
-    const message = this.createChatBotMessage("Kam půjdeme na jídlo?", {
-      withAvatar: true,
-      widget: "mealInfo",
-    });
+    const message = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.selectMealDistination"),
+      {
+        withAvatar: true,
+        widget: "mealInfo",
+      }
+    );
 
     const messageClient = this.createClientMessage(
-      "Chtěl bych se najíst ve škole =)"
+      translate("chatbot.actionProvider.user.selectMealDistination")
     );
 
     this.updateChatbotState(messageClient);
@@ -80,13 +90,16 @@ class ActionProvider {
   };
 
   handleFacultyChoice = () => {
-    const message = this.createChatBotMessage("Vtěčínku prosím", {
-      withAvatar: true,
-      widget: "facultyChoice",
-    });
+    const message = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.oneSecond"),
+      {
+        withAvatar: true,
+        widget: "facultyChoice",
+      }
+    );
 
     const messageClient = this.createClientMessage(
-      "Mě zajímá informace o facultách"
+      translate("chatbot.actionProvider.user.faculty")
     );
 
     this.updateChatbotState(messageClient);
@@ -95,7 +108,7 @@ class ActionProvider {
 
   handleApplicantsList = () => {
     const message = this.createChatBotMessage(
-      "Vyberte pro vás zajímavou sekci",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         withAvatar: true,
         widget: "applicantsChoise",
@@ -103,7 +116,7 @@ class ActionProvider {
     );
 
     const messageClient = this.createClientMessage(
-      "Mě zajímá informace pro uchazeče"
+      translate("chatbot.actionProvider.user.applicantsInfo")
     );
 
     this.updateChatbotState(messageClient);
@@ -112,7 +125,7 @@ class ActionProvider {
 
   handleStudyApplication = () => {
     const message = this.createChatBotMessage(
-      "Vyberte pro vás zajímavou sekci",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         withAvatar: true,
         widget: "studyApplication",
@@ -120,7 +133,7 @@ class ActionProvider {
     );
 
     const messageClient = this.createClientMessage(
-      "Mě zajímá informace pro přijímací řízení a přihláška ke studiu"
+      translate("chatbot.actionProvider.user.applicationInfo")
     );
 
     this.updateChatbotState(messageClient);
@@ -129,7 +142,7 @@ class ActionProvider {
 
   handleStudyPrograms = () => {
     const message = this.createChatBotMessage(
-      "Vyberte pro vás zajímavou sekci",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         withAvatar: true,
         widget: "studyPrograms",
@@ -137,11 +150,11 @@ class ActionProvider {
     );
 
     const messageClient = this.createClientMessage(
-      "Mě zajímá informace pro studijní programy"
+      translate("chatbot.actionProvider.user.studyProgramsInfo")
     );
 
     const secondBotMessage = this.createChatBotMessage(
-      "Možná vás zajímá něco jiného?",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         delay: 500,
         withAvatar: true,
@@ -156,7 +169,7 @@ class ActionProvider {
 
   handlePreparatoryCourses = () => {
     const message = this.createChatBotMessage(
-      "Vyberte pro vás zajímavou sekci",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         withAvatar: true,
         widget: "preparatoryCourses",
@@ -164,11 +177,11 @@ class ActionProvider {
     );
 
     const messageClient = this.createClientMessage(
-      "Mě zajímá informace pro přípravné kurzy"
+      translate("chatbot.actionProvider.user.preparatoryCoursesInfo")
     );
 
     const secondBotMessage = this.createChatBotMessage(
-      "Možná vás zajímá něco jiného?",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         delay: 500,
         withAvatar: true,
@@ -183,7 +196,7 @@ class ActionProvider {
 
   handleOpenDays = () => {
     const message = this.createChatBotMessage(
-      "Vyberte pro vás zajímavou sekci",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         withAvatar: true,
         widget: "openDays",
@@ -191,11 +204,11 @@ class ActionProvider {
     );
 
     const messageClient = this.createClientMessage(
-      "Mě zajímá informace pro dny otevřených dveří"
+      translate("chatbot.actionProvider.user.openDaysInfo")
     );
 
     const secondBotMessage = this.createChatBotMessage(
-      "Možná vás zajímá něco jiného?",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         delay: 500,
         withAvatar: true,
@@ -213,7 +226,9 @@ class ActionProvider {
       "Mě zajímá informace o přimacím řizení"
     );
 
-    const botMessage = this.createChatBotMessage("Už na tom pracují");
+    const botMessage = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.workingOnIt")
+    );
 
     const secondBotMessage = this.createChatBotMessage(
       "Vyberte fakultu, o kterou máte zájem",
@@ -225,7 +240,7 @@ class ActionProvider {
     );
 
     const thirdBotMessage = this.createChatBotMessage(
-      "Možná vás zajímá něco jiného?",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         delay: 1000,
         withAvatar: true,
@@ -241,13 +256,15 @@ class ActionProvider {
 
   handleTrialTests = () => {
     const messageClient = this.createClientMessage(
-      "Mě zajímá informace o vzorových testech"
+      translate("chatbot.actionProvider.user.trialTest")
     );
 
-    const botMessage = this.createChatBotMessage("Už na tom pracují");
+    const botMessage = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.workingOnIt")
+    );
 
     const secondBotMessage = this.createChatBotMessage(
-      "Našel jsem tuto informaci:",
+      translate("chatbot.actionProvider.bot.foundThis"),
       {
         delay: 500,
         withAvatar: true,
@@ -256,7 +273,7 @@ class ActionProvider {
     );
 
     const thirdBotMessage = this.createChatBotMessage(
-      "Možná vás zajímá něco jiného?",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         delay: 1000,
         withAvatar: true,
@@ -272,7 +289,7 @@ class ActionProvider {
 
   handleFilterCourseInfo = () => {
     const message = this.createChatBotMessage(
-      "Please select information, for print",
+      translate("chatbot.actionProvider.bot.infoForPrint"),
       {
         withAvatar: true,
         widget: "courseInfoChoice",
@@ -284,11 +301,13 @@ class ActionProvider {
 
   handleCourseSelect = (val) => {
     const messageClient = this.createClientMessage(
-      "Show me info about course: " + val
+      translate("chatbot.actionProvider.user.showMe") + val
     );
 
     const messageBot = this.createChatBotMessage(
-      "Select a info about course, " + val + " which i should to find",
+      translate("chatbot.actionProvider.bot.selectPartOne") +
+        val +
+        translate("chatbot.actionProvider.bot.selectPartTwo"),
       {
         withAvatar: true,
         widget: "CourseSelectInfoWidget",
@@ -301,17 +320,20 @@ class ActionProvider {
 
   handleGetAllCourseInfo = () => {
     const messageClient = this.createClientMessage(
-      "I want to get this information about this course"
+      translate("chatbot.actionProvider.user.courseGetThis")
     );
     this.updateChatbotState(messageClient);
 
-    const messageBot = this.createChatBotMessage("I found this information:", {
-      withAvatar: true,
-      widget: "CourseShowInfoWidget",
-    });
+    const messageBot = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.foundThis"),
+      {
+        withAvatar: true,
+        widget: "CourseShowInfoWidget",
+      }
+    );
 
     const secondMessageBot = this.createChatBotMessage(
-      "Do you need some additional help?",
+      translate("chatbot.actionProvider.bot.interestingSection"),
       {
         withAvatar: true,
         delay: 1000,

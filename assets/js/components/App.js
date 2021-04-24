@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Switch, withRouter} from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import Left from "./Left/Left";
 import Right from "./Right/Right";
@@ -36,7 +36,9 @@ class App extends React.Component {
           <NavbarPage />
         </div>
         <div className="row overflow-hidden mt-4 mx-auto rounded">
-          {location !== "/bot" && location !== "/about" && <Left showConversation = {location === '/'} />}
+          {location !== "/bot" && location !== "/about" && (
+            <Left showConversation={location === "/"} />
+          )}
           <Switch>
             <Route path="/" component={Blank} exact />
             <Route

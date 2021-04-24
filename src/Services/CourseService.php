@@ -178,7 +178,7 @@ class CourseService
         return array_merge($returnData, $this->sortResultArray($returnData));
     }
 
-    private function checkLengthAndReturnPropertyValue(int|string|array|null $itemForCheck): string|array
+    private function checkLengthAndReturnPropertyValue(int|string|array |null $itemForCheck): string|array
     {
         if (!is_array($itemForCheck)) {
             $itemForCheck = (string) $itemForCheck;

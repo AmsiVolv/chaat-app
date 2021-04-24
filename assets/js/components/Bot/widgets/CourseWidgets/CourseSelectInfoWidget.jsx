@@ -1,22 +1,23 @@
 import React from "react";
 import { routes } from "../../../helpers/routes";
+import translate from "../../../helpers/translate";
 
 const CourseSelectInfoWidget = (props) => {
   const { setState, actionProvider } = props;
 
   const options = [
     {
-      text: "Select another curse",
+      text: translate("chatbot.selectAnotherCourse"),
       handler: props.actionProvider.handleCourseList,
       id: 1,
     },
     {
-      text: "Get only information interesting for you",
+      text: translate("chatbot.selectInteresting"),
       handler: props.actionProvider.handleFilterCourseInfo,
       id: 2,
     },
     {
-      text: "All information",
+      text: translate("chatbot.selectAll"),
       handler: fetchCourseInfo,
       id: 3,
     },

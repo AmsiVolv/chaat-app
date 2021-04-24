@@ -171,7 +171,7 @@ class TeacherChoice extends React.Component {
           <Select
             showSearch
             style={{ width: 350, marginTop: 5 }}
-            placeholder="Select a course"
+            placeholder={translate("chatbot.selectTeacher")}
             optionFilterProp="children"
             onChange={this.onChange}
             onSearch={this.onSearch}

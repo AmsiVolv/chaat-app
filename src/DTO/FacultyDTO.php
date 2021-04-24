@@ -139,6 +139,4 @@ class FacultyDTO
 
         return $this;
     }
-
-
 }

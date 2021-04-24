@@ -69,7 +69,7 @@ const Courses = (props) => {
       <Select
         showSearch
         style={{ width: 350, marginTop: 5 }}
-        placeholder="Select a course"
+        placeholder={translate("chatbot.selectCourse")}
         optionFilterProp="children"
         onChange={onChange}
         onSearch={onSearch}
