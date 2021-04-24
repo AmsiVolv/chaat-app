@@ -3,7 +3,9 @@ import React from "react";
 import store from "./store";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import * as actionCreators from "./actions/conversation";
 
 import App from "./components/App";
