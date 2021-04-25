@@ -70,7 +70,13 @@ const config = {
     {
       widgetName: "courseChoice",
       widgetFunc: (props) => <Courses {...props} />,
-      mapStateToProps: ["courses", "course", "isFetchingCourseSelectOptions"],
+      mapStateToProps: [
+        "courses",
+        "course",
+        "isFetchingCourseSelectOptions",
+        "courseFilterOptions",
+        "isFetchingCourseSelect",
+      ],
     },
     {
       widgetName: "applicantsChoise",

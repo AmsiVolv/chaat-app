@@ -12,6 +12,8 @@ const Courses = (props) => {
       ...state,
       course: value,
       isFetchingCourseSelectOptions: false,
+      courseFilterOptions: [],
+      isFetchingCourseSelect: true,
     }));
   }
 

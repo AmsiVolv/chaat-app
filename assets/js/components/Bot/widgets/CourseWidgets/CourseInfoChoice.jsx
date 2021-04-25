@@ -82,7 +82,11 @@ const CourseInfoChoice = (props) => {
       })
         .then((r) => r.json())
         .then((data) => {
-          setState((state) => ({ ...state, courseInfo: data }));
+          setState((state) => ({
+            ...state,
+            courseInfo: data,
+            courseSelectedFilters: [],
+          }));
         });
       props.actionProvider.handleGetAllCourseInfo(props.course);
     }
@@ -120,8 +124,12 @@ const CourseInfoChoice = (props) => {
           size={"large"}
           style={{ marginLeft: 5 }}
           type="primary"
-          icon={<SearchOutlined />}
-        />
+          loading={props.courseSelectedFilters.length === 0}
+        >
+          {props.courseSelectedFilters.length === 0
+            ? translate("loading")
+            : translate("teacherChoiceSelectButton")}
+        </Button>
       </Tooltip>
     </div>
   );
