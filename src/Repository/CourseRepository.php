@@ -35,14 +35,14 @@ class CourseRepository extends ServiceEntityRepository
     public const COURSE_SCHEDULING_ALIAS = 'cs';
     public const READING_ALIAS = 'r';
 
-    private const PROPERTY_ARRAY = [
+    public const PROPERTY_ARRAY = [
         self::COURSE => self::COURSE_ALIAS,
         self::TEACHER => self::TEACHER_ALIAS,
         self::COURSE_SCHEDULING => self::COURSE_SCHEDULING_ALIAS,
         self::READING => self::READING_ALIAS,
     ];
 
-    private const OBJECT_PROPERTY_ARRAY = [
+    public const OBJECT_PROPERTY_ARRAY = [
         self::COURSE => Course::class,
         self::TEACHER => Teacher::class,
         self::COURSE_SCHEDULING => CourseSheduling::class,
@@ -135,14 +135,12 @@ class CourseRepository extends ServiceEntityRepository
 
     /**
      * @param stdClass $request
+     * @param string $select
      * @return Course|null
-     * @throws Throwable
      */
-    public function getCourseInfoWithParams(stdClass $request): ?array
+    public function getCourseInfoWithParams(stdClass $request, string $select): ?array
     {
         $qb = $this->createQueryBuilder('c');
-
-        $select = $this->prepareSelectString($request);
 
         $qb->leftJoin('c.readings', 'r')
             ->leftJoin('c.courseScheduling', 'cs')
@@ -164,45 +162,6 @@ class CourseRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()->getResult();
-    }
-
-    private function prepareSelectString(stdClass $request): string
-    {
-        $selectQuery = '';
-
-        foreach ($request->filterParams as $key => $filter) {
-            if ($this->checkKeyInArray($key)) {
-                foreach ($filter as $item) {
-                    if ($this->checkProperty($key, $item)) {
-                        if (end($filter) === $item) {
-                            if ($selectQuery) {
-                                $selectQuery .= sprintf(', %s.%s', self::PROPERTY_ARRAY[$key], $item);
-                            } else {
-                                $selectQuery .= sprintf('%s.%s', self::PROPERTY_ARRAY[$key], $item);
-                            }
-                        } else {
-                            if ($selectQuery) {
-                                $selectQuery .= sprintf(', %s.%s', self::PROPERTY_ARRAY[$key], $item);
-                            } else {
-                                $selectQuery .= sprintf('%s.%s', self::PROPERTY_ARRAY[$key], $item);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return $selectQuery;
-    }
-
-    #[Pure] private function checkKeyInArray(string $key): bool
-    {
-        return array_key_exists($key, self::PROPERTY_ARRAY);
-    }
-
-    private function checkProperty(string $key, string $item): bool
-    {
-        return property_exists(self::OBJECT_PROPERTY_ARRAY[$key], $item);
     }
 
     public function getAllCursesCodes(): array
@@ -375,5 +334,22 @@ class CourseRepository extends ServiceEntityRepository
             ->setParameter('subjectCode', $ident);
 
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function getWithString(string $prepareSelectString, stdClass $request): array
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->select($prepareSelectString)
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('c.subjectCode', ':subjectCode'),
+                    $qb->expr()->eq('c.courseTitle', ':courseTitle'),
+                )
+            )
+            ->setParameter('subjectCode', $request->course)
+            ->setParameter('courseTitle', $request->course);
+
+        return $qb->getQuery()->getResult();
     }
 }
