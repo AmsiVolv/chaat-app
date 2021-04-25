@@ -7,7 +7,7 @@ import MessageParser from "./config/MessageParser";
 class Bot extends React.Component {
   render() {
     return (
-      <div className="col-md-12 d-flex justify-content-center align-content-center">
+      <div className="col-md-12 col-sm-12 d-flex justify-content-center align-content-center g-0">
         <Chatbot
           config={config}
           actionProvider={ActionProvider}
