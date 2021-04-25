@@ -114,6 +114,8 @@ export const phrases = {
         infoForPrint: "Vyberte prosím informace pro výpis",
         workingOnIt: "Už na tom pracují",
         greeting: "Ahoj!",
+        unknown: "Je mi líto, ale nerozuměl jsem vám",
+        unknownTwo: "Možná najdete svůj dotaz v mých sekcích?",
       },
       user: {
         subjectInfoProvide: "Můžete mi prosím poskytnout informace o předmětu?",
@@ -134,7 +136,7 @@ export const phrases = {
     messages: {
       back: "zpět",
       main: "úvod",
-      student: "student",
+      student: "stude",
       course: "předmět",
       teacher: "profesor",
       teacherTwo: "učitel",

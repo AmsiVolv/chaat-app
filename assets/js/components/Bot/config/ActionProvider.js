@@ -14,6 +14,23 @@ class ActionProvider {
     this.updateChatbotState(greetingMessage);
   }
 
+  handleUnknown = () => {
+    const message = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.unknown")
+    );
+    const messageTwo = this.createChatBotMessage(
+      translate("chatbot.actionProvider.bot.unknownTwo"),
+      {
+        delay: 500,
+        withAvatar: true,
+        widget: "QuestionOptions",
+      }
+    );
+
+    this.updateChatbotState(message);
+    this.updateChatbotState(messageTwo);
+  };
+
   handleInitlist = () => {
     const message = this.createChatBotMessage(
       translate("chatbot.actionProvider.bot.selectDistination"),
