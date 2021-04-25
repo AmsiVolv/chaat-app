@@ -11,6 +11,7 @@ use App\Repository\CourseRepository;
 use App\Repository\CourseShedulingRepository;
 use App\Repository\ReadingRepository;
 use App\Repository\TeacherRepository;
+use JetBrains\PhpStorm\Pure;
 use stdClass;
 use Throwable;
 
@@ -20,7 +21,6 @@ use Throwable;
  */
 class CourseService
 {
-
     public const IS_GET_ALL = 'isGetAll';
     public const IS_GET_BY = 'isGetBy';
     public const SEARCHED_PARAMS = 'searchedParams';
@@ -52,34 +52,40 @@ class CourseService
         $data = [];
 
         if (property_exists($request, 'filterParams') && $request->filterParams) {
-            $results = $this->courseRepository->getCourseInfoWithParams($request);
+            $filterParams = $request->filterParams;
 
-            foreach ($results as $result) {
-                $data = array_merge_recursive($data, $result);
-            }
+            foreach ($filterParams as $key => $filter) {
+                if ($filter === []) {
+                    unset($filterParams[$key]);
+                } else {
+                    $filter[] = 'id';
 
-            // Check if only one filter if yes return data
-            if (count($request->filterParams) === 1 || count($data) === 1) {
-                $dataToReturn = [];
-
-                foreach ($request->filterParams as $key => $filter) {
-                    if ($filter !== []) {
-                        $dataToReturn[$key][] = $data;
+                    if ($key === CourseRepository::COURSE) {
+                        $data[CourseRepository::COURSE] = $this->courseRepository->getWithString(
+                            $this->prepareSelectString([$key => $filter]),
+                            $request
+                        );
+                    }
+                    if ($key === CourseRepository::TEACHER) {
+                        $data[CourseRepository::TEACHER] = $this->teacherRepository->getWithString(
+                            $this->prepareSelectString([$key => $filter]),
+                            $request
+                        );
+                    }
+                    if ($key === CourseRepository::COURSE_SCHEDULING) {
+                        $data[CourseRepository::COURSE_SCHEDULING] = $this->courseSchedulingRepository->getWithString(
+                            $this->prepareSelectString([$key => $filter]),
+                            $request
+                        );
+                    }
+                    if ($key === CourseRepository::READING) {
+                        $data[CourseRepository::READING] = $this->readingRepository->getWithString(
+                            $this->prepareSelectString([$key => $filter]),
+                            $request
+                        );
                     }
                 }
-
-                return $dataToReturn;
             }
-
-            foreach ($data as $key => $item) {
-                if (is_array($item)) {
-                    $data[$key] = array_values(array_unique($item));
-                } else {
-                    $data[$key] = $item;
-                }
-            }
-
-            $data = $this->checkProperty($data);
         } else {
             $courseId = $this->courseRepository->getCourseIdByCourseName($request->course);
 
@@ -150,60 +156,6 @@ class CourseService
         return $returnData;
     }
 
-    private function checkProperty(array $data): array
-    {
-        $returnData = [];
-
-        foreach ($data as $key => $item) {
-            switch ($key) {
-                case property_exists(Course::class, $key):
-                    $item = $this->checkLengthAndReturnPropertyValue($item);
-                    $returnData[CourseRepository::COURSE][$key][] = $item;
-                    break;
-                case property_exists(Reading::class, $key):
-                    $item = $this->checkLengthAndReturnPropertyValue($item);
-                    $returnData[CourseRepository::READING][$key] = $item;
-                    break;
-                case property_exists(CourseSheduling::class, $key):
-                    $item = $this->checkLengthAndReturnPropertyValue($item);
-                    $returnData[CourseRepository::COURSE_SCHEDULING][$key] = $item;
-                    break;
-                case property_exists(Teacher::class, $key):
-                    $item = $this->checkLengthAndReturnPropertyValue($item);
-                    $returnData[CourseRepository::TEACHER][$key] = $item;
-                    break;
-            }
-        }
-
-        return array_merge($returnData, $this->sortResultArray($returnData));
-    }
-
-    private function checkLengthAndReturnPropertyValue(int|string|array |null $itemForCheck): string|array
-    {
-        if (!is_array($itemForCheck)) {
-            $itemForCheck = (string) $itemForCheck;
-        }
-
-        return $itemForCheck;
-    }
-
-    private function sortResultArray(array $inputData): array
-    {
-        $dataTorReturn = [];
-
-        foreach ($inputData as $mainNodeKey => $mainNodeValue) {
-            foreach ($mainNodeValue as $childNodeKey => $childNodeValue) {
-                if (is_array($childNodeValue)) {
-                    foreach ($childNodeValue as $valueKey => $valueVal) {
-                        $dataTorReturn[$mainNodeKey][$valueKey][$childNodeKey] = $valueVal;
-                    }
-                }
-            }
-        }
-
-        return $dataTorReturn;
-    }
-
     public function getAllCursesCodes(): array
     {
         return $this->courseRepository->getAllCursesCodes();
@@ -257,5 +209,36 @@ class CourseService
         }
 
         return $data;
+    }
+
+    private function prepareSelectString(array $filterParams): string
+    {
+        $selectQuery = '';
+
+        foreach ($filterParams as $key => $filter) {
+            if ($this->checkKeyInArray($key)) {
+                foreach ($filter as $item) {
+                    if ($this->checkPropertyFromRequest($key, $item)) {
+                        if ($selectQuery) {
+                            $selectQuery .= sprintf(', %s.%s', CourseRepository::PROPERTY_ARRAY[$key], $item);
+                        } else {
+                            $selectQuery .= sprintf('%s.%s', CourseRepository::PROPERTY_ARRAY[$key], $item);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $selectQuery;
+    }
+
+    #[Pure] private function checkKeyInArray(string $key): bool
+    {
+        return array_key_exists($key, CourseRepository::PROPERTY_ARRAY);
+    }
+
+    private function checkPropertyFromRequest(string $key, string $item): bool
+    {
+        return property_exists(CourseRepository::OBJECT_PROPERTY_ARRAY[$key], $item);
     }
 }

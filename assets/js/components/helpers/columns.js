@@ -32,10 +32,7 @@ export const teacherColumns = [
     title: translate("name"),
     dataIndex: "name",
     render: (text, data) => (
-      <a
-        className="ant-anchor-link text-left"
-        href={`mailto: ${data.teacherUri}`}
-      >
+      <a className="ant-anchor-link text-left" href={`mailto: ${data.email}`}>
         {text}
       </a>
     ),

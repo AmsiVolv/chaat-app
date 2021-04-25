@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\Reading;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use stdClass;
 use Throwable;
 use function Doctrine\ORM\QueryBuilder;
 
@@ -102,5 +103,23 @@ class ReadingRepository extends ServiceEntityRepository
         }
 
         return str_replace('  ', ', ', trim($selectString));
+    }
+
+    public function getWithString(string $prepareSelectString, stdClass $request): array
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->select($prepareSelectString)
+            ->innerJoin('r.course', 'c')
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('c.subjectCode', ':subjectCode'),
+                    $qb->expr()->eq('c.courseTitle', ':courseTitle'),
+                )
+            )
+            ->setParameter('subjectCode', $request->course)
+            ->setParameter('courseTitle', $request->course);
+
+        return $qb->getQuery()->getResult();
     }
 }

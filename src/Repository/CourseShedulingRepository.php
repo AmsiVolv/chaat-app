@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\CourseSheduling;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use stdClass;
 use Throwable;
 
 /**
@@ -86,5 +87,23 @@ class CourseShedulingRepository extends ServiceEntityRepository
         }
 
         return str_replace('  ', ', ', trim($selectString));
+    }
+
+    public function getWithString(string $prepareSelectString, stdClass $request): array
+    {
+        $qb = $this->createQueryBuilder('cs');
+
+        $qb->select($prepareSelectString)
+            ->innerJoin('cs.course', 'c')
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('c.subjectCode', ':subjectCode'),
+                    $qb->expr()->eq('c.courseTitle', ':courseTitle'),
+                )
+            )
+            ->setParameter('subjectCode', $request->course)
+            ->setParameter('courseTitle', $request->course);
+
+        return $qb->getQuery()->getResult();
     }
 }
