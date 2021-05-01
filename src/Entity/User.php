@@ -68,6 +68,11 @@ class User implements UserInterface
     /** @ORM\ManyToMany(targetEntity=GroupConversation::class, mappedBy="user") */
     private $groupConversations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ChatbotMessages::class, mappedBy="user")
+     */
+    private $chatbotMessages;
+
     use Timestamp;
 
     public function __construct(
@@ -86,6 +91,7 @@ class User implements UserInterface
         $this->messages = new ArrayCollection();
         $this->createdAt = new DateTime();
         $this->groupConversations = new ArrayCollection();
+        $this->chatbotMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -267,6 +273,36 @@ class User implements UserInterface
     {
         if ($this->groupConversations->removeElement($groupConversation)) {
             $groupConversation->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChatbotMessages[]
+     */
+    public function getChatbotMessages(): Collection
+    {
+        return $this->chatbotMessages;
+    }
+
+    public function addChatbotMessage(ChatbotMessages $chatbotMessage): self
+    {
+        if (!$this->chatbotMessages->contains($chatbotMessage)) {
+            $this->chatbotMessages[] = $chatbotMessage;
+            $chatbotMessage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChatbotMessage(ChatbotMessages $chatbotMessage): self
+    {
+        if ($this->chatbotMessages->removeElement($chatbotMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($chatbotMessage->getUser() === $this) {
+                $chatbotMessage->setUser(null);
+            }
         }
 
         return $this;
