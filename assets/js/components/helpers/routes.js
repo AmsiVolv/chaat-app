@@ -87,4 +87,10 @@ export const routes = {
       method: "POST",
     },
   },
+  chatbot: {
+    saveMessages: {
+      route: "/chatbot/saveMessages",
+      method: "POST",
+    }
+  }
 };
