@@ -18,6 +18,9 @@ class NavbarPage extends Component {
             <Nav.Link as={Link} to="/about">
               O aplikaci
             </Nav.Link>
+            <Nav.Link as={Link} to="/feedback">
+              {translate("feedback.title")}
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">

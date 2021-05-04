@@ -71,6 +71,21 @@ input::placeholder {
     bottom: 0;
 }
 
+.ant-layout {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: auto;
+    flex: auto;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-height: 0;
+    background: white;
+}
+
 @media (max-width:1256px) {
     .scroll-box {
         height: 64.7vh;

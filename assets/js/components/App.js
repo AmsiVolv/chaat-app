@@ -8,6 +8,7 @@ import Blank from "./Right/Blank";
 import NavbarPage from "./Header/NavbarPage";
 import Bot from "./Bot/Bot";
 import About from "./About/About";
+import Feedback from "./Feedback/Feedback";
 
 class App extends React.Component {
   constructor(props) {
@@ -36,9 +37,11 @@ class App extends React.Component {
           <NavbarPage />
         </div>
         <div className="row overflow-hidden mt-4 mx-auto rounded">
-          {location !== "/bot" && location !== "/about" && (
-            <Left showConversation={location === "/"} />
-          )}
+          {location !== "/bot" &&
+            location !== "/about" &&
+            location !== "/feedback" && (
+              <Left showConversation={location === "/"} />
+            )}
           <Switch>
             <Route path="/" component={Blank} exact />
             <Route
@@ -58,6 +61,7 @@ class App extends React.Component {
             />
             <Route path="/bot" component={Bot} />
             <Route path="/about" component={About} />
+            <Route path="/feedback" component={Feedback} />
           </Switch>
         </div>
       </>

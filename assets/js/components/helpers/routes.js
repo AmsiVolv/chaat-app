@@ -93,4 +93,10 @@ export const routes = {
       method: "POST",
     },
   },
+  feedback: {
+    send: {
+      route: "/feedback/save",
+      method: "POST",
+    },
+  },
 };

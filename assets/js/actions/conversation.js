@@ -20,6 +20,7 @@ import {
   SET_SEARCH_GROUP,
   ADD_SEARCH_GROUP_NAME,
   GET_COURSE_INFO,
+  SAVE_FEEDBACK,
 } from "../constants/actionTypes";
 import { routes } from "../components/helpers/routes";
 
@@ -135,6 +136,13 @@ export const getCourseInfo = (json) => {
   return {
     type: GET_COURSE_INFO,
     courseInfo: json,
+  };
+};
+
+export const saveFeedback = (json) => {
+  return {
+    type: SAVE_FEEDBACK,
+    feedback: json,
   };
 };
 
@@ -326,5 +334,16 @@ export const fetchGroupInfo = (groupConversationId) => (dispatch) => {
     .then((response) => response.json())
     .then((json) => {
       return dispatch(getCourseInfo(json));
+    });
+};
+
+export const sendFeedback = (feedback) => (dispatch) => {
+  fetch(routes.feedback.send.route, {
+    method: routes.feedback.send.method,
+    body: JSON.stringify({ feedback: feedback }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      return dispatch(saveFeedback(json));
     });
 };

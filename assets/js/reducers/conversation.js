@@ -17,6 +17,7 @@ import {
   ADD_GROUP_MESSAGE,
   ADD_SEARCH_GROUP_NAME,
   GET_COURSE_INFO,
+  SAVE_FEEDBACK,
 } from "../constants/actionTypes";
 
 export default (
@@ -187,6 +188,11 @@ export default (
       return {
         ...state,
         showGroupSearchResults: false,
+      };
+    case SAVE_FEEDBACK:
+      return {
+        ...state,
+        feedback: "success",
       };
     default:
       return state;

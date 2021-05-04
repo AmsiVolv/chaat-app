@@ -70,6 +70,15 @@ export const phrases = {
   showGroupMessage: "Skupinové konverzace",
   showPrivatMessage: "Privatní konverzace",
   logout: "Odhlásit se",
+  feedback: {
+    title: "Zpětná vazba",
+    success: "Vaše zpětná vazba byla úspěšně přijata",
+    label: {
+      comment: "Poznámka",
+      rate: "Hodnocení",
+      send: "Poslat",
+    },
+  },
   about: {
     title: "O aplikaci",
     firstParagraph:
