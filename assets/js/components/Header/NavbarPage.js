@@ -9,7 +9,9 @@ class NavbarPage extends Component {
       <Navbar bg="light" variant="light">
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">Messenger</Nav.Link>
+            <Nav.Link as={Link} to="/">
+              Messenger
+            </Nav.Link>
             <Nav.Link as={Link} to="/bot">
               Bot
             </Nav.Link>

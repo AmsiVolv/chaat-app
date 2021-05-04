@@ -87,6 +87,8 @@ export const phrases = {
     },
   },
   chatbot: {
+    header: "Converzace s in-VŠEBotem",
+    downloadPDF: "Stahnout PDF",
     greeting: "Jsem tu, abych tě pomohl. Co chceš najít?",
     greetingSecond:
       "Zde je rychlý přehled toho, co potřebuji k fungování. Zeptejte se mě na různé části, abych se ponořil hlouběji.",

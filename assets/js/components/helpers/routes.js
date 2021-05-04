@@ -91,6 +91,6 @@ export const routes = {
     saveMessages: {
       route: "/chatbot/saveMessages",
       method: "POST",
-    }
-  }
+    },
+  },
 };
