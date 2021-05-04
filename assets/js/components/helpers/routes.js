@@ -91,6 +91,12 @@ export const routes = {
     saveMessages: {
       route: "/chatbot/saveMessages",
       method: "POST",
-    }
-  }
+    },
+  },
+  feedback: {
+    send: {
+      route: "/feedback/save",
+      method: "POST",
+    },
+  },
 };

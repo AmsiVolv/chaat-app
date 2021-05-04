@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -17,24 +18,16 @@ class ChatbotMessages
      */
     private int $id;
 
-    /**
-     * @ORM\Column(type="bigint")
-     */
+    /** @ORM\Column(type="bigint") */
     private int $externalId;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    /** @ORM\Column(type="text") */
     private string $content;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="chatbotMessages")
-     */
+    /** @ORM\ManyToOne(targetEntity=User::class, inversedBy="chatbotMessages") */
     private User $user;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string", length=255) */
     private string $type;
 
     public function __construct(int $externalId, string $content, string $type, User $user)

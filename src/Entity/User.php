@@ -68,9 +68,7 @@ class User implements UserInterface
     /** @ORM\ManyToMany(targetEntity=GroupConversation::class, mappedBy="user") */
     private $groupConversations;
 
-    /**
-     * @ORM\OneToMany(targetEntity=ChatbotMessages::class, mappedBy="user")
-     */
+    /** @ORM\OneToMany(targetEntity=ChatbotMessages::class, mappedBy="user") */
     private $chatbotMessages;
 
     use Timestamp;
