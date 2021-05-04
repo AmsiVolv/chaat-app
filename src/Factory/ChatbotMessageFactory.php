@@ -15,7 +15,7 @@ class ChatbotMessageFactory
 {
     #[Pure] public static function create(array $message, User $user): ChatbotMessages
     {
-        return new ChatbotMessages (
+        return new ChatbotMessages(
             $message['id'],
             $message['message'],
             $message['type'],

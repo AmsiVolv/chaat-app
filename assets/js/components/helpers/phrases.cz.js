@@ -70,6 +70,15 @@ export const phrases = {
   showGroupMessage: "Skupinové konverzace",
   showPrivatMessage: "Privatní konverzace",
   logout: "Odhlásit se",
+  feedback: {
+    title: "Zpětná vazba",
+    success: "Vaše zpětná vazba byla úspěšně přijata",
+    label: {
+      comment: "Poznámka",
+      rate: "Hodnocení",
+      send: "Poslat",
+    },
+  },
   about: {
     title: "O aplikaci",
     firstParagraph:
@@ -87,6 +96,8 @@ export const phrases = {
     },
   },
   chatbot: {
+    header: "Converzace s in-VŠEBotem",
+    downloadPDF: "Stahnout PDF",
     greeting: "Jsem tu, abych tě pomohl. Co chceš najít?",
     greetingSecond:
       "Zde je rychlý přehled toho, co potřebuji k fungování. Zeptejte se mě na různé části, abych se ponořil hlouběji.",

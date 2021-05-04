@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Services\ChatbotMessagesService;
-use App\Services\FacultyService;
+use App\Services\FeedbackService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,41 +13,42 @@ use Symfony\Component\Routing\Annotation\Route;
 use Throwable;
 
 /**
- * @Route("/chatbot", name="chatbot")
- * Class ChatbotController
+ * @Route("/feedback", name="feedback")
+ * Class FeedbackController
  * @package App\Controller
  */
-class ChatbotController extends AbstractController
+class FeedbackController extends AbstractController
 {
     use CheckRequestDataTrait;
 
-    private ChatbotMessagesService $chatbotMessagesService;
     private LoggerInterface $logger;
+    private FeedbackService $feedbackService;
 
-    public function __construct(ChatbotMessagesService $chatbotMessagesService, LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, FeedbackService $feedbackService)
     {
-        $this->chatbotMessagesService = $chatbotMessagesService;
         $this->logger = $logger;
+        $this->feedbackService = $feedbackService;
     }
 
     /**
-     * @Route("/saveMessages", name="save-messages", methods={"POST"})
+     * @Route("/save", name="save-feedback", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
      */
-    public function saveMessages(Request $request): Response
+    public function saveMessages(Request $request): JsonResponse
     {
-        $data = $this->checkData(['chatbotMessages'], [], $request);
         $userId = $this->getUser()->getId();
+        $data = $this->checkData(['feedback'], [], $request);
 
         try {
-            $this->chatbotMessagesService->saveFromRequest($data, $userId);
+            $feedback = $this->feedbackService->saveFeedbackFromRequest($data, $userId);
         } catch (Throwable $e) {
+            dd($e);
             $this->logger->error($e->getMessage(), $e->getTrace());
 
             return $this->json(['status' => 'error']);
         }
 
-        return $this->json(['status' => 'ok']);
+        return $this->json(['status' => 'success']);
     }
 }
